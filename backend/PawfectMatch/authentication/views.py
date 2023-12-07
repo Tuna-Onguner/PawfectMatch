@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
-from authentication.models import User
+from .models import User
 from django.db import connection
 
 class CustomToken(RefreshToken):

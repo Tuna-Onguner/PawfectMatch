@@ -1,0 +1,57 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto; /* adjust the height to fit the content */
+  margin: 0 auto; /* center the form */
+  background-color: var(--form-background-color);
+  font-family: Arial, sans-serif;
+  font-size: large;
+  flex-direction: column;
+  border: 2px solid #3f51b5; /* add border */
+  padding: 20px; /* add padding */
+  width: 50%;
+}
+
+h1 {
+  color: #3f51b5; /* Indigo color from the Indigo/Pink theme */;
+}
+form {
+  display: flex;
+  width: 300px; /* reduced from 300px */
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px var(--shadow-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin-right: 20px; /* add right margin */
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 10px; /* reduced from 10px */
+  background-color: #3f51b5; /* Indigo color from the Indigo/Pink theme */
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1a237e; /* Darker indigo color for hover effect */
+}

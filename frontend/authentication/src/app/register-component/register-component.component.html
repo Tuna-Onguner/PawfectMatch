@@ -1,0 +1,44 @@
+<p>
+  <mat-toolbar color = "primary" >
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+  </mat-toolbar>
+</p>
+<div class="form-container">
+  <h1>Be Part of Our Community</h1>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput type="tel" formControlName="phone">
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" type="submit">Register</button>
+    </div>
+     <div>
+      <button mat-raised-button color="warn" routerLink="/register-organization">Register as Organization</button>
+    </div>
+
+</form>
+</div>
+
+
