@@ -10,4 +10,5 @@ urlpatterns = [
     path('pets/', views.PetsView.as_view(), name='pets'),
     path('breeds/', views.BreedsView.as_view(), name='breeds'),
     path('pets/<int:pk>/', views.PetView.as_view(), name='pet'),
+    path('breeds/<int:pk>/', views.BreedView.as_view(), name='breed'),
 ]
