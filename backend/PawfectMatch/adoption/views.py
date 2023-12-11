@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import connection
 
 from .serializers import AdoptionApplicationSerializer
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .serializers import AdoptionApplicationSerializer, PetSerializer, BreedSerializer
+from PawfectMatch.utils import dictfetchall
 
 import pdb
 
@@ -18,11 +17,7 @@ import pdb
 @api_view(['POST', 'GET'])
 def adoption_applications(request):
     # Get the user id from the JWT token from the request's parameters
-    pdb.set_trace()
-    ##Get the user_id from the request data 
-    user_id = request.data.get('user_id')
-    ##Remove the user_id from the request data
-    request.data.pop('user_id')    
+    pdb.set_trace() 
 
     if request.method == 'POST':
         ##Add the current date to the request data
@@ -33,7 +28,7 @@ def adoption_applications(request):
             pdb.set_trace()
             if not serializer.is_valid():
                 return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
-            
+            user_id = request.data['adopter_id']
             cursor = connection.cursor()
             # Check if the user is an adopter
             cursor.execute("SELECT * FROM Adopter WHERE adopter_id = %s", [user_id])
@@ -50,13 +45,16 @@ def adoption_applications(request):
                 return Response({'detail': 'Pet is already adopted'}, status=status.HTTP_400_BAD_REQUEST)
                 
             # Check if the pet is already applied from the same adopter
-            cursor.execute("SELECT * FROM adoption_application WHERE pet_id = %s AND adopter_id = %s", [request.data['pet_id'], user_id])
+            cursor.execute("SELECT * FROM AdoptionApp WHERE pet_id = %s AND adopter_id = %s", [request.data['pet_id'], user_id])
             row = cursor.fetchone()
             if row is not None:
                 return Response({'detail': 'Pet is already applied'}, status=status.HTTP_400_BAD_REQUEST) 
             
             # Now we can create the adoption application if the pet exists and is not adopted
-            serializer.save()
+            cursor.execute("INSERT INTO AdoptionApp (adopter_id, aapp_date, pet_id, aapp_file, aapp_status, aapp_response_date,"
+                           + "amotivation_text) VALUES (%s, %s, %s, %s, %s, %s, %s)",[request.data['adopter_id'], 
+                           request.data['aapp_date'], request.data['pet_id'], request.data['aapp_file'], request.data['aapp_status'],
+                           request.data['aapp_response_date'], request.data['amotivation_text']])
             return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
 
         except Exception as e:
@@ -70,18 +68,7 @@ def adoption_applications(request):
         # Then return all the adoption applications for the adoption organization
         if row is not None:
             cursor.execute("SELECT * FROM adoption_application WHERE pet_id IN (SELECT pet_id FROM pet WHERE adoption_organization_id = %s)", [row[0]])
-            rows = cursor.fetchall()
-            applications = []
-            for row in rows:
-                applications.append({
-                    'adopter_id': row[1],
-                    'aapp_date': row[2],
-                    'pet_id': row[3],
-                    'aapp_file': row[4],
-                    'aapp_status': row[5],
-                    'aapp_response_date': row[6],
-                    'amotivation_text': row[7]
-                })
+            applications = dictfetchall(cursor)
             return Response(applications, status=status.HTTP_200_OK)
 
         # Check if the user is an adopter
@@ -91,18 +78,8 @@ def adoption_applications(request):
         # Then return all the adoption applications for the adopter
         if row is not None:
             cursor.execute("SELECT * FROM adoption_application WHERE adopter_id = %s", [row[0]])
-            rows = cursor.fetchall()
-            applications = []
-            for row in rows:
-                applications.append({
-                    'adopter_id': row[1],
-                    'aapp_date': row[2],
-                    'pet_id': row[3],
-                    'aapp_file': row[4],
-                    'aapp_status': row[5],
-                    'aapp_response_date': row[6],
-                    'amotivation_text': row[7]
-                })
+            applications = dictfetchall(cursor)
+            
             return Response(applications, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'User is not an adopter or adoption organization'}, status=status.HTTP_400_BAD_REQUEST)
@@ -124,18 +101,9 @@ def adoption_application(request, pk):
         
         # Then return the adoption application for the adoption organization
         if row is not None:
-            cursor.execute("SELECT * FROM adoption_application WHERE pet_id IN (SELECT pet_id FROM pet WHERE adoption_organization_id = %s) AND adopter_id = %s", [row[0], pk])
-            row = cursor.fetchone()
-            if row is not None:
-                application = {
-                    'adopter_id': row[1],
-                    'aapp_date': row[2],
-                    'pet_id': row[3],
-                    'aapp_file': row[4],
-                    'aapp_status': row[5],
-                    'aapp_response_date': row[6],
-                    'amotivation_text': row[7]
-                }
+            cursor.execute("SELECT * FROM AdoptionApp WHERE pet_id IN (SELECT pet_id FROM pet WHERE adoption_organization_id = %s) AND adopter_id = %s", [row[0], pk])
+            application = dictfetchall(cursor)
+            if application is not None:
                 return Response(application, status=status.HTTP_200_OK)
             else:
                 return Response({'detail': 'Adoption application does not exist'}, status=status.HTTP_400_BAD_REQUEST)
@@ -147,17 +115,8 @@ def adoption_application(request, pk):
         # Then return the adoption application for the adopter
         if row is not None:
             cursor.execute("SELECT * FROM adoption_application WHERE adopter_id = %s AND aap = %s", [row[0], pk])
-            row = cursor.fetchone()
-            if row is not None:
-                application = {
-                    'adopter_id': row[1],
-                    'aapp_date': row[2],
-                    'pet_id': row[3],
-                    'aapp_file': row[4],
-                    'aapp_status': row[5],
-                    'aapp_response_date': row[6],
-                    'amotivation_text': row[7]
-                }
+            application = dictfetchall(cursor)
+            if application is not None:
                 return Response(application, status=status.HTTP_200_OK)
             else:
                 return Response({'detail': 'Adoption application does not exist'}, status=status.HTTP_400_BAD_REQUEST)
@@ -173,20 +132,7 @@ class PetsView(APIView):
         ## Get all the pets from the database using raw SQL
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Pet")
-        rows = cursor.fetchall()
-        pets = []
-        for row in rows:
-            pets.append({
-                'pet_id': row[0],
-                'pet_name': row[1],
-                'pet_size': row[2],
-                'pet_image': row[3],
-                'pet_color': row[4],
-                'is_adopted': row[5],
-                'adopter_id': row[6],
-                'adoption_organization_id': row[7],
-                'breed_id': row[8]
-            })
+        pets = dictfetchall(cursor)
         return Response(pets, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -213,19 +159,7 @@ class PetsView(APIView):
 
         ## now return the pet
         cursor.execute("SELECT * FROM Pet WHERE pet_name = %s", [request.data['pet_name']])
-        row = cursor.fetchone()
-        pdb.set_trace()
-        pet = {
-            'pet_id': row[0],
-            'pet_name': row[1],
-            'pet_size': row[2],
-            'pet_image': row[3],
-            'pet_color': row[4],
-            'is_adopted': row[5],
-            'adopter_id': row[6],
-            'adoption_organization_id': row[7],
-            'breed_id': row[8]
-        }
+        pet = dictfetchall(cursor)
         return Response(pet, status=status.HTTP_201_CREATED)
 
 class BreedsView(APIView):
@@ -234,15 +168,7 @@ class BreedsView(APIView):
         ## Get all the breeds from the database using raw SQL
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Breed")
-        rows = cursor.fetchall()
-        breeds = []
-        for row in rows:
-            breeds.append({
-                'breed_id': row[0],
-                'breed_name': row[1],
-                'intelligence': row[2],
-                'playfulness': row[3]
-            })
+        breeds = dictfetchall(cursor)
         return Response(breeds, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -261,11 +187,68 @@ class BreedsView(APIView):
 
         ## now return the breed
         cursor.execute("SELECT * FROM Breed WHERE breed_name = %s", [request.data['breed_name']])
-        row = cursor.fetchone()
-        breed = {
-            'breed_id': row[0],
-            'breed_name': row[1],
-            'intelligence': row[2],
-            'playfulness': row[3]
-        }
+        breed = dictfetchall(cursor)
         return Response(breed, status=status.HTTP_201_CREATED)
+    
+## Function that gets, deletes or updates a single pet
+# @param request GET, DELETE or PUT request with Pet Serializer
+# @param JWT token
+# @param pk Primary key of the pet
+# @return JSON response with status code
+class PetView(APIView):
+    def get(self, request, pk):
+        ## Get the pet from the database using raw SQL
+        ##Make the cursor DictCursor so that we can get the pet as a dictionary
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Pet WHERE pet_id = %s", [pk])
+        if cursor.rowcount == 0:
+            return Response({'detail': 'Pet does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        pet = dictfetchall(cursor)
+        return Response(pet, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+
+        can_delete = False
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        ## Delete the pet from the database using raw SQL
+        cursor.execute("SELECT * FROM Pet WHERE pet_id = %s", [pk])
+        if cursor.rowcount == 0:
+            return Response({'detail': 'Pet does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        pet = dictfetchall(cursor)
+
+       ##Check if the given user_id is the ao_id or the adopter_id of the pet
+        if pet[0]['ao_id'] == user_id or pet[0]['adopter_id'] == user_id:
+            can_delete = True
+        
+        if not can_delete:
+            return Response({'detail': 'User is not authorized to delete the pet'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cursor.execute("DELETE FROM Pet WHERE pet_id = %s", [pk])
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        user_id = request.data['user_id']
+
+        ## Update the pet in the database using raw SQL
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Pet WHERE pet_id = %s", [pk])
+
+        if cursor.rowcount == 0:
+            return Response({'detail': 'Pet does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        pet = dictfetchall(cursor)
+        can_update = False
+
+        ##Check if the given user_id is the ao_id or the adopter_id of the pet
+        if pet[0]['ao_id'] == user_id or pet[0]['adopter_id'] == user_id:
+            can_update = True
+
+        if not can_update:
+            return Response({'detail': 'User is not authorized to update the pet'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cursor.execute("UPDATE Pet SET pet_name = %s, pet_size = %s, pet_image = %s, pet_color = %s, is_adopted = %s, ao_id = %s, pet_breed_id = %s WHERE pet_id = %s",
+                        [request.data['pet_name'], request.data['pet_size'], request.data['pet_image'], request.data['pet_color'], request.data['is_adopted'],
+                          request.data['adoption_organization_id'], request.data['breed_id'], pk])
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
