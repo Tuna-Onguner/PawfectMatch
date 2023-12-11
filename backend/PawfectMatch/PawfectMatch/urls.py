@@ -21,4 +21,5 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('authentication.urls'), name='authentication'),
+    path('api/', include('adoption.urls'), name='adoption'),
 ]
