@@ -166,7 +166,7 @@ class PetsView(APIView):
 
 
 class BreedsView(APIView):
-    pdb.set_trace()
+
     def get(self, request):
         ## Get all the breeds from the database using raw SQL
         cursor = connection.cursor()
