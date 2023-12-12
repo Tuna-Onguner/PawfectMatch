@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
-from authentication.models import User
+from backend.PawfectMatch.authentication.models.User import User
 from django.db import connection
 
 ## Create a custom token class that inherits from the simplejwt's token class

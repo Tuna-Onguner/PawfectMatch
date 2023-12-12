@@ -1,5 +1,5 @@
 from django.db import models
-from authentication.models import User
+from backend.PawfectMatch.authentication.models.User import User
 
 class AdoptionOrganization(User):
     ao_id = models.AutoField(primary_key=True)
