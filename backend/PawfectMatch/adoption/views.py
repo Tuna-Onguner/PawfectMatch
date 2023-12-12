@@ -83,7 +83,8 @@ def adoption_applications(request):
             return Response(applications, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'User is not an adopter or adoption organization'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 ## Get, delete or update a single adoption application using REST API
 # @param request GET, DELETE or PUT request with AdoptionApplication Serializer
 # @param JWT token
@@ -122,6 +123,7 @@ def adoption_application(request, pk):
                 return Response({'detail': 'Adoption application does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'detail': 'User is not an adopter or adoption organization'}, status=status.HTTP_400_BAD_REQUEST)  
+
 
 ## Function that gets all pets and can create a pet
 # @param request GET and POST request with Pet Serializer
@@ -162,6 +164,7 @@ class PetsView(APIView):
         pet = dictfetchall(cursor)
         return Response(pet, status=status.HTTP_201_CREATED)
 
+
 class BreedsView(APIView):
     pdb.set_trace()
     def get(self, request):
@@ -189,7 +192,8 @@ class BreedsView(APIView):
         cursor.execute("SELECT * FROM Breed WHERE breed_name = %s", [request.data['breed_name']])
         breed = dictfetchall(cursor)
         return Response(breed, status=status.HTTP_201_CREATED)
-    
+
+
 ## Function that gets, deletes or updates a single pet
 # @param request GET, DELETE or PUT request with Pet Serializer
 # @param JWT token
@@ -215,13 +219,13 @@ class PetView(APIView):
         cursor.execute("SELECT * FROM Pet WHERE pet_id = %s", [pk])
         if cursor.rowcount == 0:
             return Response({'detail': 'Pet does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         pet = dictfetchall(cursor)
 
        ##Check if the given user_id is the ao_id or the adopter_id of the pet
         if pet[0]['ao_id'] == user_id or pet[0]['adopter_id'] == user_id:
             can_delete = True
-        
+
         if not can_delete:
             return Response({'detail': 'User is not authorized to delete the pet'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -237,7 +241,7 @@ class PetView(APIView):
 
         if cursor.rowcount == 0:
             return Response({'detail': 'Pet does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         pet = dictfetchall(cursor)
         can_update = False
 
@@ -246,9 +250,98 @@ class PetView(APIView):
             can_update = True
 
         if not can_update:
-            return Response({'detail': 'User is not authorized to update the pet'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "User is not authorized to update the pet"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        cursor.execute("UPDATE Pet SET pet_name = %s, pet_size = %s, pet_image = %s, pet_color = %s, is_adopted = %s, ao_id = %s, pet_breed_id = %s WHERE pet_id = %s",
-                        [request.data['pet_name'], request.data['pet_size'], request.data['pet_image'], request.data['pet_color'], request.data['is_adopted'],
-                          request.data['adoption_organization_id'], request.data['breed_id'], pk])
-        return Response({'status': 'success'}, status=status.HTTP_200_OK)
+        cursor.execute(
+            "UPDATE Pet SET pet_name = %s, pet_size = %s, pet_image = %s, pet_color = %s, is_adopted = %s, ao_id = %s, pet_breed_id = %s WHERE pet_id = %s",
+            [
+                request.data["pet_name"],
+                request.data["pet_size"],
+                request.data["pet_image"],
+                request.data["pet_color"],
+                request.data["is_adopted"],
+                request.data["adoption_organization_id"],
+                request.data["breed_id"],
+                pk,
+            ],
+        )
+        return Response({"status": "success"}, status=status.HTTP_200_OK)
+
+
+class BreedView(APIView):
+    def get(self, request, pk):
+        ## Get the breed from the database using raw SQL
+        ##Make the cursor DictCursor so that we can get the breed as a dictionary
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Breed WHERE breed_id = %s", [pk])
+        if cursor.rowcount == 0:
+            return Response(
+                {"detail": "Breed does not exist"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        breed = dictfetchall(cursor)
+        return Response(breed, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        ## First check if the user is an admin
+        user_id = request.data["user_id"]
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE admin_id = %s", [user_id])
+        row = cursor.fetchone()
+
+        ## If the user is not an admin then cannot delete the breed
+        if row is None:
+            return Response(
+                {"detail": "User is not an admin"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        ## Delete the breed from the database using raw SQL
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Breed WHERE breed_id = %s", [pk])
+        if cursor.rowcount == 0:
+            return Response(
+                {"detail": "Breed does not exist"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        breed = dictfetchall(cursor)
+
+        cursor.execute("DELETE FROM Breed WHERE breed_id = %s", [breed[0]["breed_id"]])
+        return Response({"status": "success"}, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        ## Check if the user is an admin
+        user_id = request.data["user_id"]
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE admin_id = %s", [user_id])
+        row = cursor.fetchone()
+        if row is None:
+            return Response(
+                {"detail": "User is not an admin"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        ## Update the breed in the database using raw SQL
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Breed WHERE breed_id = %s", [pk])
+        if cursor.rowcount == 0:
+            return Response(
+                {"detail": "Breed does not exist"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = BreedSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {"detail": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        cursor.execute(
+            "UPDATE Breed SET breed_name = %s, intelligence = %s, playfulness = %s WHERE breed_id = %s",
+            [
+                request.data["breed_name"],
+                request.data["intelligence"],
+                request.data["playfulness"],
+                pk,
+            ],
+        )
+        return Response({"status": "success"}, status=status.HTTP_200_OK)

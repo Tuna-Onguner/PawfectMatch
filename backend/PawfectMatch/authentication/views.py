@@ -10,12 +10,12 @@ from .serializers import UserSerializer
 from authentication.models import User
 from django.db import connection
 
+## Create a custom token class that inherits from the simplejwt's token class
 class CustomToken(RefreshToken):
     @classmethod
     def for_user(cls, user):
-        token = cls()
-        token['user_id'] = user.get_user_id()  # Use your custom method to get user_id
-        # Add other claims as needed
+        token = super().for_user(user)
+        token['user_id'] = user.user_id
         return token
 
 class LoginView(APIView):
@@ -25,10 +25,20 @@ class LoginView(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
 
-        # If authentication is successful, create the refresh and access tokens
-        user = User.objects.filter(email=email, password=password).first()
+        # Initialize a connection cursor with DictCursor
+        cursor = connection.cursor()
 
+        # SQL CODE TO CHECK IF USER EXISTS
+        cursor.execute("SELECT * FROM User WHERE email = %s AND password = %s", [email, password])
+        row = cursor.fetchone()
+        if row is None:
+            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+        #ToDo Check if this is the correct way to get values.
+        user = User(user_id=row[0], user_name=row[1], phone_number=row[2], email=row[3], password=row[4])
         if user is not None:
+            ## Generate JWT token
             refresh = CustomToken.for_user(user)
             return Response({
                 'refresh': str(refresh),
