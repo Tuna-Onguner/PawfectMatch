@@ -1,6 +1,6 @@
 from rest_framework import serializers
+
 from .models import AdoptionApplication, Pet, Breed
-import pdb
 
 
 ## Serializer for AdoptionApplication model that has

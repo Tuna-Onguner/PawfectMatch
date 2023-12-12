@@ -73,6 +73,19 @@ CREATE TABLE IF NOT EXISTS AdoptionApp (
     CHECK (LENGTH(aapp_file) <= 3 * 1024 * 1024)
 );
 
+CREATE TABLE IF NOT EXISTS Veterinarian (
+    vet_id INT NOT NULL AUTO_INCREMENT,
+    vet_name VARCHAR(100) NOT NULL,
+    vet_street VARCHAR(50) NOT NULL,
+    vet_country VARCHAR(50) NOT NULL,
+    vet_city VARCHAR(50) NOT NULL,
+    vet_state VARCHAR(50) NOT NULL,
+    vet_phone_number VARCHAR(50) NOT NULL,
+    vet_email VARCHAR(50) NOT NULL,
+    PRIMARY KEY (vet_id),
+    FOREIGN KEY (vet_id) REFERENCES User(user_id) ON DELETE CASCADE
+);
+
 INSERT INTO Breed (breed_name, intelligence, playfulness) VALUES
 ('Affenpinscher', 3, 4);
 

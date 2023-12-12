@@ -1,14 +1,13 @@
-from django.shortcuts import render
-
 # Create your views here.
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from django.db import connection
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from authentication.models.User import User
 from .serializers import UserSerializer
-from backend.PawfectMatch.authentication.models.User import User
-from django.db import connection
 
 
 ## Create a custom token class that inherits from the simplejwt's token class

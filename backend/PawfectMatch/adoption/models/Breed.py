@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Breed(models.Model):
     breed_id = models.AutoField(primary_key=True)
     breed_name = models.CharField(max_length=100, unique=True)
