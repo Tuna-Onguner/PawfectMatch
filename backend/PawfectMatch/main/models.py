@@ -31,10 +31,18 @@ class Adopter(User):
         return self.adopter_street
     
 class Blogger(Adopter):
-    pass
+    blogger_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Blogger'
+        managed = False
 
 class Expert(Blogger):
-    pass
+    expert_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Expert'
+        managed = False
 
 class Veterinarian(User):
     vet_id = models.AutoField(primary_key=True)
@@ -48,4 +56,8 @@ class Veterinarian(User):
         managed = False
 
 class Admin(User):
-    pass
+    admin_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Admin'
+        managed = False
