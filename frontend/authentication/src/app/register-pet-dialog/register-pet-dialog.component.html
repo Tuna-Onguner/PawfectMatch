@@ -1,0 +1,49 @@
+<p> Register Pet Dialog Works</p>
+<div class="form-container">
+<form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Pet Name" formControlName="petName">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Pet Size" formControlName="petSize">
+      <mat-option *ngFor="let size of petSizes" [value]="size">{{size}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="file" placeholder="Pet Image" formControlName="petImage">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Pet Color" formControlName="petColor">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Pet Age" formControlName="petAge">
+      <mat-option *ngFor="let age of [].constructor(20); let i = index" [value]="i+1">{{i+1}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Pet Type" formControlName="petType">
+      <mat-option *ngFor="let type of petTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Pet Breed" formControlName="petBreed">
+      <mat-option *ngFor="let breed of petBreeds" [value]="breed">{{breed}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-button (click)="toggleBreedForm()">Create New Breed</button>
+  <div *ngIf="showBreedForm">
+    <mat-form-field>
+      <input matInput placeholder="New Breed Name" formControlName="newBreed">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-slider min="1" max="10" step="1" thumbLabel formControlName="playfulness"></mat-slider>
+      <span>Playfulness</span>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-slider min="1" max="10" step="1" thumbLabel formControlName="intelligence"></mat-slider>
+      <span>Intelligence</span>
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" type="submit">Register</button>
+</form>
+</div>

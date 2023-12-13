@@ -1,0 +1,16 @@
+<mat-grid-list cols="4" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let pet of pets.slice((pageIndex) * pageSize, (pageIndex + 1) * pageSize)">
+    <div class="tile-container">
+      <div class="upper-tile">
+        <img [src]="'assets/images/' + pet.petImage" alt="{{pet.petName}}" class="pet-image">
+      </div>
+      <div class="lower-tile">
+        <p>Name: {{pet.petName}}</p>
+        <p>Color: {{pet.petColor}}</p>
+        <button mat-raised-button color="primary">Adopt</button>
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-paginator [length]="pets.length" [pageSize]="8" [pageIndex]="pageIndex" (page)="pageChanged($event)"></mat-paginator>

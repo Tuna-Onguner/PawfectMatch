@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar-row">
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+    <span class="spacer"></span>
+    <button mat-button class="logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-button class="change-password">
+      <mat-icon>vpn_key</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <button mat-button class="sidenav-button" [routerLink]="['/main-adopter-page/register-pet-dialog']" aria-label="Blogs">
+      <mat-icon>book</mat-icon>
+      <span>Blogs</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/main-adopter-page/register-pet-dialog']" aria-label="Register A Pet">
+      <mat-icon>pets</mat-icon>
+      <span> Register A Pet</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/advice" aria-label="Ask For An Advice">
+      <mat-icon>question_answer</mat-icon>
+      <span> Ask For An Advice</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/main-adopter-page/adopter-adoption-page" aria-label="Adoption">
+      <mat-icon>child_friendly</mat-icon>
+      <span> Adoption</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/blogger" aria-label="Blogger">
+      <mat-icon>create</mat-icon>
+      <span> Blogger</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/donations" aria-label="Donations">
+      <mat-icon>monetization_on</mat-icon>
+      <span> Donations</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/veterinarians" aria-label="Veterinarians">
+      <mat-icon>local_hospital</mat-icon>
+      <span> Veterinarians</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/owned-pets" aria-label="Owned Pets">
+      <mat-icon>pets</mat-icon>
+      <span> Owned Pets</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/profile" aria-label="Profile">
+      <mat-icon>account_circle</mat-icon>
+      <span> Profile</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/applications" aria-label="Applications">
+      <mat-icon>assignment</mat-icon>
+      <span> Applications</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/appointments" aria-label="Appointments">
+      <mat-icon>calendar_today</mat-icon>
+      <span> Appointments</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/examinations" aria-label="Examinations">
+      <mat-icon>checklist</mat-icon>
+      <span> Examinations</span>
+    </button>
+    <button mat-button class="sidenav-button" routerLink="/overseeing" aria-label="Overseeing">
+      <mat-icon>visibility</mat-icon>
+      <span> Overseeing</span>
+    </button>
+  </mat-sidenav>
+</mat-sidenav-container>
+<router-outlet>
+
+</router-outlet>

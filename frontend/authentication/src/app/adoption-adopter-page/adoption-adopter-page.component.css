@@ -1,0 +1,31 @@
+.tile-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+.upper-tile {
+  height: 60%;
+}
+
+.lower-tile {
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+mat-grid-list {
+  top: 50px;
+  margin-left: 250px; /* Adjust this value based on the width of your sidenav */
+}
+
+
