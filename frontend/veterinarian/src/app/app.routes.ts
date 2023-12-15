@@ -10,10 +10,10 @@ import { DetailAgreementsComponent } from './detail-agreements/detail-agreements
 
 export const routes: Routes = [
     {path: 'make-agreements',
-        component: MakeAgreementsComponent,
-        children: [
-        {path: 'detail-agreements', component: DetailAgreementsComponent},
-        ]
+    component: MakeAgreementsComponent,
+    children: [
+      {path: 'detail-agreements', component: DetailAgreementsComponent},
+    ]
     },
     { path: '', redirectTo: '/make-agreements', pathMatch: 'full' },
     { path: 'publish-schedule', component: PublishSchedulesComponent },
