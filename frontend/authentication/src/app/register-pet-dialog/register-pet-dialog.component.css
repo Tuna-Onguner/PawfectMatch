@@ -1,6 +1,57 @@
-.form.container {
-  margin-left: 250px;
+.form-container {
+  margin: auto;
   top: 100px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #3f51b5; /* Add border */
+  width: 40%; /* Adjust as needed */
+  padding: 20px; /* Adjust as needed */
+  border-radius: 15px
+}
 
+.title {
+  align-self: flex-start;
+  margin-top: -40px; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+.breed-instruction {
+  font-size: 12px; /* Adjust as needed */
+  margin-top: -10px; /* Adjust as needed */
+  margin-left: 80px; /* Move 30px to the right */
+}
+
+mat-form-field {
+  display: block;
+  margin-left: 15px;
+}
+
+p {
+  position: absolute;
+  left: 250px;
+  font-family: Arial, sans-serif; /* replace with your desired font */
+  font-size: 20px; /* replace with your desired font size */
+  color: #3f51b5;
+  z-index: 1;
+}
+
+.form-sections {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 50px; /* Add margin */
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-input {
+  color: #3f51b5; /* Color similar to the Register Pet button */
+  margin-bottom: 20px; /* Add margin */
 }
 

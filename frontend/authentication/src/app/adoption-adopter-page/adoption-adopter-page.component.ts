@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { Pet } from '../../../__models/functional_models';
+import {Blog, Pet} from '../../../__models/functional_models';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {NgForOf, NgOptimizedImage} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {BlogDialogComponent} from "../blog-dialog/blog-dialog.component";
+import {AdoptDialogComponent} from "../adopt-dialog/adopt-dialog.component";
 
 @Component({
   selector: 'app-adoption-adopter-page',
@@ -23,7 +26,15 @@ export class AdoptionAdopterPageComponent {
   pageIndex: number =0;
   pageSize: number = 8;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
+
+// ...
+
+  openDialog(pet: Pet): void {
+  this.dialog.open(AdoptDialogComponent, {
+    data: { pet: pet}
+  });
+}
 
   ngOnInit(): void {
     // Fetch the data of the pets and assign it to this.pets

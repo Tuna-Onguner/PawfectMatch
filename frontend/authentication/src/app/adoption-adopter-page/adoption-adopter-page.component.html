@@ -7,10 +7,12 @@
       <div class="lower-tile">
         <p>Name: {{pet.petName}}</p>
         <p>Color: {{pet.petColor}}</p>
-        <button mat-raised-button color="primary">Adopt</button>
+        <button mat-raised-button color="primary" (click)="openDialog(pet)">Adopt</button>
       </div>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
-
 <mat-paginator [length]="pets.length" [pageSize]="8" [pageIndex]="pageIndex" (page)="pageChanged($event)"></mat-paginator>
+
+
+

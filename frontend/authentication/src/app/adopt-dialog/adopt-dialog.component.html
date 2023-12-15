@@ -1,0 +1,25 @@
+<div class="adoption-dialog">
+  <h1 class="dialog-title">Apply for Adoption</h1>
+  <div class="upper-half">
+    <div class="pet-info">
+      <img [src]="'assets/images/' + data.pet.petImage" alt="Pet image">
+      <div class="info">
+        <h2>Pet Name: {{ data.pet.petName }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="lower-half">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Motivation Script" formControlName="motivationScript"></textarea>
+      </mat-form-field>
+      <div class="file-input">
+        <mat-label>Motivation File</mat-label>
+        <input type="file" placeholder="Motivation File" formControlName="motivationFile">
+      </div>
+      <button mat-raised-button color="primary" type="submit">Apply</button>
+    </form>
+  </div>
+</div>
+
+<button mat-button color="primary" (click)="closeDialog()">Close</button>

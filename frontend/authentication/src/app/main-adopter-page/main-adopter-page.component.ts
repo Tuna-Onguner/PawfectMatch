@@ -8,6 +8,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {RegisterPetDialogComponent} from "../register-pet-dialog/register-pet-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-adopter-page',
@@ -25,31 +26,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrl: './main-adopter-page.component.css'
 })
 export class MainAdopterPageComponent {
+  constructor(private router: Router) {}
 
-  /*
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) { }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(RegisterPetDialogComponent, {
-      width: '500px',
-      height: '500px',
-      data: {
-        petSizes: ['Large', 'Medium', 'Small'],
-        petTypes: ['Dog', 'Cat', 'Other'],
-        petBreeds: ['Breed1', 'Breed2', 'Breed3']}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  ngOnInit() {
+    this.router.navigateByUrl('/main-adopter-page/adopter-adoption-page');
   }
-
-  openSnackBar() {
-    this.snackBar.open('Pet registered successfully', 'Close', {
-      duration: 2000,
-    });
-  }
-
-  protected readonly RegisterPetDialogComponent = RegisterPetDialogComponent;
-  */
 }
