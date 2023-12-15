@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="toolbar-row">
+      <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+      <span>PawfectMatch</span>
+      <span class="spacer"></span>
+      <button mat-button class="logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+      <button mat-button class="change-password">
+        <mat-icon>vpn_key</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+      <button mat-button class="sidenav-button" aria-label="Blogs">
+        <mat-icon>book</mat-icon>
+        <span>Blogs</span>
+      </button>
+  <router-outlet>
+  
+  </router-outlet>
+  
