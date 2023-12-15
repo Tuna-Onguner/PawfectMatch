@@ -31,8 +31,35 @@
         <span>Upload Exam Results</span>
       </button>
     </mat-sidenav>
-  </mat-sidenav-container>
-  <router-outlet>
   
-  </router-outlet>
+    <div class="main-content"><div class="list-view">
+      <h2>Agreements List</h2>
+      <mat-card *ngFor="let agreement of agreements" class="mat-card-item" (click)="showDetails(agreement)">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar"></div>
+          <mat-card-title-group>
+            <mat-card-title>
+              <span>{{ agreement.organizationName }}</span>
+              <button mat-icon-button (click)="showDetails(agreement)">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button mat-icon-button class="action-button apply-button" (click)="applyAgreement(agreement)">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button class="action-button reject-button" (click)="rejectAgreement(agreement)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-card-title>
+            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+      </mat-card>
+      </div>
+  
+      <div class="detail-view">
+        <!-- You can display details here when a detail button is clicked -->
+      </div>
+    </div>
+  </mat-sidenav-container>
+  <router-outlet></router-outlet>
   
