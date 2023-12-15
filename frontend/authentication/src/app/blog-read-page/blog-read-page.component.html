@@ -1,0 +1,21 @@
+<mat-grid-list cols="4" rowHeight="1:2">
+  <mat-grid-tile *ngFor="let blog of blogs.slice((pageIndex) * pageSize, (pageIndex + 1) * pageSize)">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Blog Title: {{ blog.blogTitle }}</mat-card-title>
+        <mat-card-subtitle> By: {{ blog.bloggerName }}</mat-card-subtitle>
+      </mat-card-header>
+     <div class="image-container">
+       <img mat-card-image [src]="blog.blogImage" alt="Blog image">
+      </div>
+      <mat-card-content>
+        <p> Published On: {{ blog.publishedDate }}</p>
+        <p> About: {{ blog.blogFieldName}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="openDialog(blog)">Read</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-paginator [length]="blogs.length" [pageSize]="4" [pageIndex]="pageIndex" (page)="pageChanged($event)"></mat-paginator>

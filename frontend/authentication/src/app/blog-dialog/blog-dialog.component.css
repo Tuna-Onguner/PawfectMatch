@@ -1,0 +1,14 @@
+.blog {
+  color: #3f51b5; /* Replace var(--primary) with your primary color */
+  margin: 20px; /* Adjust as needed */
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.blog h2, .blog p:not(:last-child) {
+  color: #3f51b5; /* Replace var(--primary) with your primary color */
+}
+
+.blog p:last-child {
+  color: black; /* Adjust as needed */
+}

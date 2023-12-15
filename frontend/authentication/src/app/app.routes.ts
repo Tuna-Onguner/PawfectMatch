@@ -6,6 +6,7 @@ import { RegisterOrganizationComponent} from "./register-organization/register-o
 import {MainAdopterPageComponent} from "./main-adopter-page/main-adopter-page.component";
 import {AdoptionAdopterPageComponent} from "./adoption-adopter-page/adoption-adopter-page.component";
 import {RegisterPetDialogComponent} from "./register-pet-dialog/register-pet-dialog.component";
+import {BlogReadPageComponent} from "./blog-read-page/blog-read-page.component";
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponentComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     children: [
       {path: 'adopter-adoption-page', component: AdoptionAdopterPageComponent},
       {path: 'register-pet-dialog', component: RegisterPetDialogComponent},
+      {path: 'blog-read-page', component: BlogReadPageComponent},
     ]
   },
 ];

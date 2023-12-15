@@ -10,8 +10,14 @@ root {
 .toolbar-row {
   display: flex;
   align-items: center;
-  position: relative;
+  position: fixed;
   left: 0;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .spacer {

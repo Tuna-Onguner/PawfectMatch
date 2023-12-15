@@ -40,11 +40,11 @@ export interface BlogField {
 
 export interface Blog {
   blogId: number;
-  bloggerId: number;
+  bloggerName: string;
   blogImage: string | null;
   blogContent: string;
   blogTitle: string;
-  blogFieldId: number;
+  blogFieldName: string;
   isRestricted: boolean;
   publishedDate: Date | null;
 }
