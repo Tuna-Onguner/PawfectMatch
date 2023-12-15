@@ -5,15 +5,20 @@ import { MakeAgreementsComponent } from './make-agreements/make-agreements.compo
 import { PublishSchedulesComponent } from './publish-schedules/publish-schedules.component';
 import { SchedulingRequestsComponent } from './scheduling-requests/scheduling-requests.component';
 import { UploadExamResultsComponent } from './upload-exam-results/upload-exam-results.component';
+import { DetailAgreementsComponent } from './detail-agreements/detail-agreements.component';
 
 
 export const routes: Routes = [
-    { path: 'make-agreements', component: MakeAgreementsComponent },
+    {path: 'make-agreements',
+        component: MakeAgreementsComponent,
+        children: [
+        {path: 'detail-agreements', component: DetailAgreementsComponent},
+        ]
+    },
     { path: '', redirectTo: '/make-agreements', pathMatch: 'full' },
     { path: 'publish-schedule', component: PublishSchedulesComponent },
     { path: 'scheduling-request', component: SchedulingRequestsComponent },
-    {path: 'scheduling-request/:id', component: SchedulingRequestsComponent},
-    {path: 'upload-exam-results', component: UploadExamResultsComponent}
+    {path: 'upload-exam-results', component: UploadExamResultsComponent},
 ];
 
 @NgModule({

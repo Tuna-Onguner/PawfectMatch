@@ -13,7 +13,7 @@ import { Agreement } from '../../../models/veterinarian_models'; // Replace with
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
-
+import { DetailAgreementsComponent } from '../detail-agreements/detail-agreements.component';
 
 @Component({
   selector: 'app-make-agreements',
@@ -28,7 +28,8 @@ import {MatCardModule} from "@angular/material/card";
     MatSidenavModule,
     RouterOutlet,
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    DetailAgreementsComponent,
   ],
   templateUrl: './make-agreements.component.html',
   styleUrl: './make-agreements.component.css'
@@ -45,11 +46,11 @@ export class MakeAgreementsComponent implements OnInit {
   }
 
   showDetails(agreement: Agreement) {
-    // This method is called when the detail button is clicked
-    // You can implement logic to show the details for the selected agreement
-    // For now, let's log the details to the console
-    console.log('Selected Agreement:', agreement);
+    this.dialog.open(DetailAgreementsComponent, {
+      data: agreement  // Pass the agreement directly without the extra 'data' property
+    });
   }
+  
   applyAgreement(agreement: Agreement) {
     // This method is called when the detail button is clicked
     // You can implement logic to show the details for the selected agreement
