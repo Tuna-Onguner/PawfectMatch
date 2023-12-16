@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatMenuModule} from "@angular/material/menu";
-import {RouterLink, RouterOutlet} from "@angular/router";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import { NgModule } from '@angular/core';
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { CommonModule } from '@angular/common';
-import {MatCardModule} from "@angular/material/card";
+import { MatCardModule } from "@angular/material/card";
+import { DetailExamResultsComponent } from '../detail-exam-results/detail-exam-results.component';
 
 @Component({
   selector: 'app-upload-exam-results',
@@ -26,7 +26,7 @@ import {MatCardModule} from "@angular/material/card";
     MatCardModule,
   ],
   templateUrl: './upload-exam-results.component.html',
-  styleUrl: './upload-exam-results.component.css'
+  styleUrls: ['./upload-exam-results.component.css']
 })
 export class UploadExamResultsComponent {
   weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -34,7 +34,7 @@ export class UploadExamResultsComponent {
   endTime = 17 * 60 + 30; // 5:30 PM in minutes
   timeSlots: string[] = [];
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.generateTimeSlots();
   }
 
@@ -45,5 +45,16 @@ export class UploadExamResultsComponent {
       const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
       this.timeSlots.push(time);
     }
+  }
+
+  openUploadFileDialog(selectedSlot: string) {
+    const dialogRef = this.dialog.open(DetailExamResultsComponent, {
+      width: '400px',
+      data: { selectedSlot: selectedSlot }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // Handle actions after the dialog is closed, if needed
+    });
   }
 }

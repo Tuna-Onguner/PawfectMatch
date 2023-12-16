@@ -7,6 +7,7 @@ import { SchedulingRequestsComponent } from './scheduling-requests/scheduling-re
 import { UploadExamResultsComponent } from './upload-exam-results/upload-exam-results.component';
 import { DetailAgreementsComponent } from './detail-agreements/detail-agreements.component';
 import { DetailAppointmentsComponent } from './detail-appointments/detail-appointments.component';
+import { DetailExamResultsComponent } from './detail-exam-results/detail-exam-results.component';
 
 
 export const routes: Routes = [
@@ -22,7 +23,10 @@ export const routes: Routes = [
       children: [
         {path: 'detail-appointmes', component: DetailAppointmentsComponent},
       ] },
-    {path: 'upload-exam-results', component: UploadExamResultsComponent},
+    {path: 'upload-exam-results', component: UploadExamResultsComponent,
+      children: [
+      {path: 'detail-exam-results', component: DetailExamResultsComponent},
+    ]},
 ];
 
 @NgModule({

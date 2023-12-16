@@ -39,7 +39,7 @@
       <mat-card-title>{{ day }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div *ngFor="let slot of timeSlots" class="time-slot">
+      <div *ngFor="let slot of timeSlots" class="time-slot" (click)="openUploadFileDialog(slot)">
         {{ slot }}
       </div>
     </mat-card-content>

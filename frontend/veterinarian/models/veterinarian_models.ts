@@ -16,4 +16,23 @@ export interface Appointments {
     appointmentStatus: string;
     adopterId: number;
     reason: string;
-}
+    }
+export interface ExamResults {
+    examResultId: number;
+    veterinarianId: number;
+    petId: number;
+    examDate: Date;
+    examTime: string;
+    examStatus: string;
+    adopterId: number;
+    examResults: string;
+    }
+
+export interface Schedule { 
+    scheduleId: number;
+    veterinarianId: number;
+    beginTime: string;
+    endTime: string;
+    numberOfDays: number;
+    isRestricted: boolean;
+    }

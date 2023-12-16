@@ -29,8 +29,48 @@ import {MatCardModule} from "@angular/material/card";
   styleUrl: './publish-schedules.component.css'
 })
 export class PublishSchedulesComponent {
-  publishSchedule(week: string) {
+  publishThisWeekSchedule() {
+    // Get values from the form fields
+    const week = 'This Week';
+    const beginDate = (document.getElementById(`beginDate${week === 'This Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const endDate = (document.getElementById(`endDate${week === 'This Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const slotNumber = (document.getElementById(`slotNumber${week === 'This Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const visibility = (document.getElementById(`visibility${week === 'This Week' ? '1' : '2'}`) as HTMLSelectElement).value;
+
+
+    // Validate the form fields (you may add more validation logic as needed)
+    if (!beginDate || !endDate || !slotNumber || !visibility) {
+      alert('Please fill in all fields before publishing.');
+      return;
+    }
+
     // Implement logic to publish the schedule for the specified week
     console.log(`Publishing schedule for ${week}`);
+    console.log('Begin Date:', beginDate);
+    console.log('End Date:', endDate);
+    console.log('Slot Number:', slotNumber);
+    console.log('Visibility:', visibility);
+  }
+  publishNextWeekSchedule() {
+    // Get values from the form fields
+    const week = 'Next Week';
+    const beginDate = (document.getElementById(`beginDate${week === 'Next Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const endDate = (document.getElementById(`endDate${week === 'Next Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const slotNumber = (document.getElementById(`slotNumber${week === 'Next Week' ? '1' : '2'}`) as HTMLInputElement).value;
+    const visibility = (document.getElementById(`visibility${week === 'Next Week' ? '1' : '2'}`) as HTMLSelectElement).value;
+
+
+    // Validate the form fields (you may add more validation logic as needed)
+    if (!beginDate || !endDate || !slotNumber || !visibility) {
+      alert('Please fill in all fields before publishing.');
+      return;
+    }
+
+    // Implement logic to publish the schedule for the specified week
+    console.log(`Publishing schedule for ${week}`);
+    console.log('Begin Date:', beginDate);
+    console.log('End Date:', endDate);
+    console.log('Slot Number:', slotNumber);
+    console.log('Visibility:', visibility);
   }
 }

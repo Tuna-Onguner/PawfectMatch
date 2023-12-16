@@ -1,0 +1,38 @@
+/* detail-exam-results.component.css */
+
+/* Container styles */
+:host {
+    display: block;
+    padding: 16px;
+  }
+  
+  /* Dialog content styles */
+  .dialog-content {
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  /* File input styles */
+  .file-input-container {
+    margin-bottom: 16px;
+  }
+  
+  .file-input-label {
+    display: block;
+    background-color: #2196F3;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  /* Button styles */
+  .upload-button {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  .upload-button:hover {
+    background-color: #45a049;
+  }
+  
