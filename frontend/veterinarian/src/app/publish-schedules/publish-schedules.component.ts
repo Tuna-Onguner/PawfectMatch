@@ -29,21 +29,5 @@ import {MatCardModule} from "@angular/material/card";
   styleUrl: './publish-schedules.component.css'
 })
 export class PublishSchedulesComponent {
-  weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  startTime = 8 * 60 + 30; // 8:30 AM in minutes
-  endTime = 17 * 60 + 30; // 5:30 PM in minutes
-  timeSlots: string[] = [];
 
-  constructor() {
-    this.generateTimeSlots();
-  }
-
-  generateTimeSlots() {
-    for (let i = this.startTime; i <= this.endTime; i += 30) {
-      const hours = Math.floor(i / 60);
-      const minutes = i % 60;
-      const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      this.timeSlots.push(time);
-    }
-  }
 }
