@@ -9,6 +9,12 @@ export interface blogApplications {
     userEmail: string;
     userName: string;
     userPhoneNumber: string;
+    motivationFile?: {
+        fileName: string;
+        filePath: string;
+        fileSize: number;
+        // Add more properties as needed
+      };
 }
 
 export interface expertApplications {
@@ -22,6 +28,12 @@ export interface expertApplications {
     userEmail: string;
     userName: string;
     userPhoneNumber: string;
+    motivationFile?: {
+        fileName: string;
+        filePath: string;
+        fileSize: number;
+        // Add more properties as needed
+      };
 }
 
 export interface granteeApplications {

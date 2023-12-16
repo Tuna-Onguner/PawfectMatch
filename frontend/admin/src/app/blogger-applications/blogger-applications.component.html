@@ -40,32 +40,32 @@
       </button>
       
     </mat-sidenav>
-   <!--
-    <div class="main-content"><div class="list-view">
-      <h2>Agreements List</h2>
-      <mat-card *ngFor="let agreement of agreements" class="mat-card-item" (click)="showDetails(agreement)">
-        <mat-card-header>
-          <div mat-card-avatar class="avatar"></div>
-          <mat-card-title-group>
-            <mat-card-title>
-              <span>{{ agreement.organizationName }}</span>
-                <button mat-icon-button (click)="showDetails(agreement)">
+    <div class="main-content">
+      <div class="list-view">
+        <h2>Blogger Applications List</h2>
+        <mat-card *ngFor="let blog of blogs" class="mat-card-item" (click)="showBlogDetails(blog)">
+          <mat-card-header>
+            <div mat-card-avatar class="avatar"></div>
+            <mat-card-title-group>
+              <mat-card-title>
+                <span>{{ blog.title }}</span>
+                <button mat-icon-button (click)="showBlogDetails(blog)">
                   <mat-icon>info</mat-icon>
                 </button>
-              <button mat-icon-button class="action-button apply-button" (click)="applyAgreement(agreement)">
-                <mat-icon>check</mat-icon>
-              </button>
-              <button mat-icon-button class="action-button reject-button" (click)="rejectAgreement(agreement)">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-card-title>
-            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-      </mat-card>
+                <button mat-icon-button class="action-button apply-button" *ngIf="blog.status === 'Pending'" (click)="applyApplication(blog)">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button class="action-button reject-button" *ngIf="blog.status === 'Pending'" (click)="rejectApplication(blog)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-card-title>
+              <mat-card-subtitle>Status: {{ blog.status }}</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
       </div>
-
-    -->
+    </div>
+    
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
