@@ -1,4 +1,6 @@
 from .Pet import Pet
+from django.db import models
+
 
 class Dog(Pet):
-    pass
+    dog_id = models.AutoField(primary_key=True)

@@ -59,6 +59,25 @@ CREATE TABLE IF NOT EXISTS Pet (
     PRIMARY KEY (pet_id)
 );
 
+CREATE TABLE IF NOT EXISTS Dog (
+    dog_id INT NOT NULL,
+    FOREIGN KEY (dog_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    PRIMARY KEY (dog_id)
+);
+
+CREATE TABLE IF NOT EXISTS Cat (
+    cat_id INT NOT NULL,
+    FOREIGN KEY (cat_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    PRIMARY KEY (cat_id)
+);
+
+CREATE TABLE IF NOT EXISTS Other (
+    other_id INT NOT NULL,
+    other_type VARCHAR(50) NOT NULL,
+    FOREIGN KEY (other_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    PRIMARY KEY (other_id)
+);
+
 CREATE TABLE IF NOT EXISTS AdoptionApp (
     adopter_id INT NOT NULL,
     aapp_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -71,6 +90,37 @@ CREATE TABLE IF NOT EXISTS AdoptionApp (
     FOREIGN KEY (pet_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
     PRIMARY KEY (adopter_id, pet_id),
     CHECK (LENGTH(aapp_file) <= 3 * 1024 * 1024)
+);
+
+CREATE TABLE IF NOT EXISTS Veterinarian (
+    vet_id INT NOT NULL,
+    vet_street VARCHAR(50) NOT NULL,
+    vet_country VARCHAR(50) NOT NULL,
+    vet_city VARCHAR(50) NOT NULL,
+    vet_state VARCHAR(50) NOT NULL,
+    FOREIGN KEY (vet_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    PRIMARY KEY (vet_id)
+); 
+
+CREATE TABLE IF NOT EXISTS Schedule (
+    schedule_id INT NOT NULL AUTO_INCREMENT,
+    vet_id INT NOT NULL,
+    is_restricted BOOLEAN DEFAULT TRUE,
+    schedule_beginning_date DATE NOT NULL,
+    schedule_end_date DATE NOT NULL,
+    FOREIGN KEY (vet_id) REFERENCES Veterinarian(vet_id) ON DELETE CASCADE,
+    PRIMARY KEY (schedule_id)
+);
+
+CREATE TABLE IF NOT EXISTS Slot (
+    slot_id INT NOT NULL AUTO_INCREMENT,
+    schedule_id INT NOT NULL,
+    is_reserved BOOLEAN DEFAULT FALSE,
+    date DATE NOT NULL,
+    start_hour TIME NOT NULL,
+    end_hour TIME NOT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES Schedule(schedule_id) ON DELETE CASCADE,
+    PRIMARY KEY (slot_id)
 );
 
 INSERT INTO Breed (breed_name, intelligence, playfulness) VALUES

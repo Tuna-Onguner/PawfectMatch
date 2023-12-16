@@ -1,5 +1,6 @@
 from django.db import models
-from backend.PawfectMatch.authentication.models.User import User
+from authentication.models.User import User
+
 
 class AdoptionOrganization(User):
     ao_id = models.AutoField(primary_key=True)
@@ -13,28 +14,32 @@ class AdoptionOrganization(User):
     pet_count = models.IntegerField(default=0)
 
     class Meta:
-        db_table = 'AdoptionOrganization'
+        db_table = "AdoptionOrganization"
         managed = False
 
     def __str__(self):
         return self.ao_name
-    
+
+
 class Adopter(User):
     adopter_id = models.AutoField(primary_key=True)
     card_number = models.CharField(max_length=16)
 
     class Meta:
-        db_table = 'Adopter'
+        db_table = "Adopter"
         managed = False
 
     def __str__(self):
         return self.adopter_street
-    
+
+
 class Blogger(Adopter):
     pass
 
+
 class Expert(Blogger):
     pass
+
 
 class Veterinarian(User):
     vet_id = models.AutoField(primary_key=True)
@@ -44,8 +49,9 @@ class Veterinarian(User):
     vet_state = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 'Veterinarian'
+        db_table = "Veterinarian"
         managed = False
+
 
 class Admin(User):
     pass

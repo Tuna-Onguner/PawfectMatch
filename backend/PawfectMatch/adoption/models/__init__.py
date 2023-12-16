@@ -5,3 +5,5 @@ from .Pet import Pet
 from .Dog import Dog
 from .Other import Other
 from .AdoptionApplication import AdoptionApplication
+from .Schedule import Schedule
+from .Slot import Slot
