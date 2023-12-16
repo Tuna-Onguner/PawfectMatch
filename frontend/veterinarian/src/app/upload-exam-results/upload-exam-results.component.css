@@ -1,38 +1,63 @@
 root {
-    --primary-color: #007BFF;
-    --secondary-color: #10da13;
-    --background-color: #ccdbf3;
-    --form-background-color: #ffffff;
-    --text-color: #000;
-    --shadow-color: #000;
-  }
-  
-  .toolbar-row {
-    display: flex;
-    align-items: center;
-    position: relative;
-    left: 0;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  .sidenav {
-    background-color: var(--background-color);
-    width: 250px;
-    position: fixed;
-    left: 0;
-    top: 70px;
-    bottom: 0;
-    overflow: auto;
-    padding: 20px;
-  }
-  
-  .sidenav-button {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    height: 50px;
-  }
-  
+  --primary-color: #007BFF;
+  --secondary-color: #10da13;
+  --background-color: #ccdbf3;
+  --form-background-color: #ffffff;
+  --text-color: #000;
+  --shadow-color: #000;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  position: relative;
+  left: 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav {
+  background-color: var(--background-color);
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 70px;
+  bottom: 0;
+  overflow: auto;
+  padding: 20px;
+}
+
+.sidenav-button {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 50px;
+}
+.day {
+  margin-bottom: 20px;
+}
+
+.time-slot {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 2px;
+  display: inline-block;
+}
+.main-content {
+  margin-left: 240px; /* Adjust the margin based on your sidebar width */
+  padding: 20px;
+}
+
+.day-card {
+  margin-bottom: 20px;
+}
+
+.time-slot {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 2px;
+  display: inline-block;
+}
+

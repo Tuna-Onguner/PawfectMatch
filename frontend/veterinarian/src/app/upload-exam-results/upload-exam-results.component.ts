@@ -7,6 +7,9 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-upload-exam-results',
@@ -18,11 +21,29 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatMenuModule,
     RouterLink,
     MatSidenavModule,
-    RouterOutlet
+    RouterOutlet,
+    CommonModule,
+    MatCardModule,
   ],
   templateUrl: './upload-exam-results.component.html',
   styleUrl: './upload-exam-results.component.css'
 })
 export class UploadExamResultsComponent {
+  weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  startTime = 8 * 60 + 30; // 8:30 AM in minutes
+  endTime = 17 * 60 + 30; // 5:30 PM in minutes
+  timeSlots: string[] = [];
 
+  constructor() {
+    this.generateTimeSlots();
+  }
+
+  generateTimeSlots() {
+    for (let i = this.startTime; i <= this.endTime; i += 30) {
+      const hours = Math.floor(i / 60);
+      const minutes = i % 60;
+      const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      this.timeSlots.push(time);
+    }
+  }
 }

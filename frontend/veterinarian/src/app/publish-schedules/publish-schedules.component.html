@@ -32,6 +32,19 @@
       </button>
     </mat-sidenav>
   </mat-sidenav-container>
+  
+  <div class="main-content">
+    <mat-card *ngFor="let day of weekdays" class="day-card">
+      <mat-card-header>
+        <mat-card-title>{{ day }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let slot of timeSlots" class="time-slot">
+          {{ slot }}
+        </div>
+      </mat-card-content>
+    </mat-card>    
+  </div>
   <router-outlet>
   
   </router-outlet>

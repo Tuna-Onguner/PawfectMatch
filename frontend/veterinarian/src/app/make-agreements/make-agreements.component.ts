@@ -29,7 +29,6 @@ import { DetailAgreementsComponent } from '../detail-agreements/detail-agreement
     RouterOutlet,
     MatListModule,
     MatCardModule,
-    DetailAgreementsComponent,
   ],
   templateUrl: './make-agreements.component.html',
   styleUrl: './make-agreements.component.css'
