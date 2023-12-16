@@ -6,10 +6,14 @@ import { BloggerApplicationsComponent } from './blogger-applications/blogger-app
 import { ExpertApplicationsComponent } from './expert-applications/expert-applications.component';
 import { GranteeApplicationsComponent } from './grantee-applications/grantee-applications.component';
 import { TransferringDonationsComponent } from './transferring-donations/transferring-donations.component';
+import { DetailUserComponent } from './detail-user/detail-user.component';
 
 
 export const routes: Routes = [
-    {path: 'user-administration', component: UserAdministrationComponent},
+    {path: 'user-administration', component: UserAdministrationComponent,
+    children: [
+        {path: 'detail-user', component: DetailUserComponent},
+      ]},
     { path: '', redirectTo: '/user-administration', pathMatch: 'full' },
     {path: 'blogger-applications', component: BloggerApplicationsComponent},
     { path: '', redirectTo: '/user-administration', pathMatch: 'full' },

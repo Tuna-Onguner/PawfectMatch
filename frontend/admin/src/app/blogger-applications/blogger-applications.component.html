@@ -14,26 +14,31 @@
 
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-        <button mat-button class="sidenav-button" [routerLink]="['/user-administration']" aria-label="User Administration">
-            <mat-icon></mat-icon>
-            <span>User Administration</span>
-          </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/user-administration']" aria-label="User Administration">
+        <mat-icon>people</mat-icon>
+        <span>User Administration</span>
+      </button>
+      
       <button mat-button class="sidenav-button" [routerLink]="['/blogger-applications']" aria-label="Blogger Applications">
-        <mat-icon></mat-icon>
+        <mat-icon>assignment_ind</mat-icon>
         <span>Blogger Applications</span>
       </button>
+      
       <button mat-button class="sidenav-button" [routerLink]="['/expert-applications']" aria-label="Expert Applications">
-        <mat-icon></mat-icon>
+        <mat-icon>star</mat-icon>
         <span>Expert Applications</span>
       </button>
+      
       <button mat-button class="sidenav-button" [routerLink]="['/grantee-applications']" aria-label="Grantee Applications">
-        <mat-icon></mat-icon>
+        <mat-icon>account_balance_wallet</mat-icon>
         <span>Grantee Applications</span>
       </button>
+      
       <button mat-button class="sidenav-button" [routerLink]="['/transferring-donations']" aria-label="Transferring Donations">
-        <mat-icon></mat-icon>
+        <mat-icon>compare_arrows</mat-icon>
         <span>Transferring Donations</span>
       </button>
+      
     </mat-sidenav>
    <!--
     <div class="main-content"><div class="list-view">

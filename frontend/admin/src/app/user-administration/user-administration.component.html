@@ -15,52 +15,52 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="side" opened>
         <button mat-button class="sidenav-button" [routerLink]="['/user-administration']" aria-label="User Administration">
-            <mat-icon></mat-icon>
-            <span>User Administration</span>
-          </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/blogger-applications']" aria-label="Blogger Applications">
-        <mat-icon></mat-icon>
-        <span>Blogger Applications</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/expert-applications']" aria-label="Expert Applications">
-        <mat-icon></mat-icon>
-        <span>Expert Applications</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/grantee-applications']" aria-label="Grantee Applications">
-        <mat-icon></mat-icon>
-        <span>Grantee Applications</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/transferring-donations']" aria-label="Transferring Donations">
-        <mat-icon></mat-icon>
-        <span>Transferring Donations</span>
-      </button>
+  <mat-icon>people</mat-icon>
+  <span>User Administration</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/blogger-applications']" aria-label="Blogger Applications">
+      <mat-icon>assignment_ind</mat-icon>
+      <span>Blogger Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/expert-applications']" aria-label="Expert Applications">
+      <mat-icon>star</mat-icon>
+      <span>Expert Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/grantee-applications']" aria-label="Grantee Applications">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <span>Grantee Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/transferring-donations']" aria-label="Transferring Donations">
+      <mat-icon>compare_arrows</mat-icon>
+      <span>Transferring Donations</span>
+    </button>
+
     </mat-sidenav>
-   <!--
     <div class="main-content"><div class="list-view">
       <h2>Agreements List</h2>
-      <mat-card *ngFor="let agreement of agreements" class="mat-card-item" (click)="showDetails(agreement)">
+      <mat-card *ngFor="let user of users" class="mat-card-item" (click)="showUserDetails(user)">
         <mat-card-header>
           <div mat-card-avatar class="avatar"></div>
           <mat-card-title-group>
             <mat-card-title>
-              <span>{{ agreement.organizationName }}</span>
-                <button mat-icon-button (click)="showDetails(agreement)">
+              <span>{{ user.name }}</span>
+                <button mat-icon-button (click)="showUserDetails(user)">
                   <mat-icon>info</mat-icon>
                 </button>
-              <button mat-icon-button class="action-button apply-button" (click)="applyAgreement(agreement)">
-                <mat-icon>check</mat-icon>
-              </button>
-              <button mat-icon-button class="action-button reject-button" (click)="rejectAgreement(agreement)">
-                <mat-icon>close</mat-icon>
-              </button>
+                <button mat-icon-button class="action-button reject-button"  (click)="removeUser(user)">
+                  <mat-icon>close</mat-icon>
+                </button>
             </mat-card-title>
-            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
+            <mat-card-subtitle>Role: {{ user.role }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
       </mat-card>
       </div>
-
-    -->
+    </div>
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
