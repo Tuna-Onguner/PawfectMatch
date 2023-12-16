@@ -200,9 +200,101 @@ class AdoptionAppView(APIView):
         return Response({'message': 'Adoption application updated successfully.'}, status=status.HTTP_200_OK)
 
 
-class BloggerAppView:
-    pass
+class BloggerAppView(APIView):
+    def get(self, request, format=None):
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            cursor.execute("""
+                SELECT bf.blog_field_id, bf.blog_field_name, a.adopter_id, u.user_name as blogger_name
+                FROM BlogField bf
+                JOIN Blogger b ON bf.blog_field_id = b.blog_field_id
+                JOIN Adopter a ON b.blogger_id = a.adopter_id
+                JOIN User u ON a.adopter_id = u.user_id
+            """)
+            bloggers = dictfetchall(cursor)
+            return Response(bloggers)
+            
+        if cursor.fetchone():
+            cursor.execute("""
+                SELECT ba.blogger_app_id, a.adopter_id, a.adopter_name, a.email, a.phone_number, ba.motivation_text, ba.file_path, ba.application_date, ba.status, ba.response_date
+                FROM BloggerApplication ba
+                JOIN Adopter a ON ba.adopter_id = a.adopter_id
+            """)
+            blogger_apps = dictfetchall(cursor)
+            return Response(blogger_apps)
+        
+        return Response(bloggers)
 
+    def put(self, request, blogger_app_id, format=None):
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
+        if not cursor.fetchone():
+            return Response({'error': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
 
-class ExpertAppView:
-    pass
+        status = request.data.get('status')
+        if status not in ['approved', 'rejected']:
+            return Response({'error': 'Invalid status.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cursor.execute("""
+            UPDATE BloggerApplication
+            SET status = %s, response_date = CURRENT_DATE
+            WHERE blogger_app_id = %s
+        """, [status, blogger_app_id])
+
+        return Response({'message': 'Blogger application updated successfully.'}, status=status.HTTP_200_OK)
+    
+    def post(self, request, format=None):
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
+        
+        if cursor.fetchone():
+            adopter_id = request.data.get('adopter_id')
+            blog_field_id = request.data.get('blog_field_id')
+            bapp_file = request.data.get('bapp_file')
+            bmotivation_text = request.data.get('bmotivation_text')
+
+            if not bapp_file and not bmotivation_text:
+                return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            cursor.execute("""
+                INSERT INTO BloggerApp (adopter_id, blog_field_id, bapp_date, bapp_file, bapp_status, bapp_response_date, bmotivation_text)
+                VALUES (%s, %s, NOW(), %s, 'PENDING', NULL, %s)
+            """, [adopter_id, blog_field_id, bapp_file, bmotivation_text])
+
+        return Response({'message': 'Blogger application created successfully.'}, status=status.HTTP_201_CREATED)
+
+class ExpertAppView(APIView):
+    def get(self, request, format=None):
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            cursor.execute("""
+                SELECT ea.expert_app_id, a.adopter_id, a.adopter_name, a.email, a.phone_number, ea.motivation_text, ea.file_path, ea.application_date, ea.status, ea.response_date
+                FROM ExpertApplication ea
+                JOIN Adopter a ON ea.adopter_id = a.adopter_id
+            """)
+            expert_apps = dictfetchall(cursor)
+            
+        return Response(expert_apps)
+
+    def put(self, request, expert_app_id, format=None):
+        user_id = request.data['user_id']
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            status = request.data.get('status')
+            if status not in ['approved', 'rejected']:
+                return Response({'error': 'Invalid status.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            cursor.execute("""
+                UPDATE ExpertApplication
+                SET status = %s, response_date = CURRENT_DATE
+                WHERE expert_app_id = %s
+            """, [status, expert_app_id])
+
+        return Response({'message': 'Expert application updated successfully.'}, status=status.HTTP_200_OK)
