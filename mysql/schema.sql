@@ -85,3 +85,17 @@ INSERT INTO AdoptionOrganization (ao_id, ao_name, ao_street, ao_country, ao_city
 
 INSERT INTO Adopter (adopter_id, card_number) VALUES
 (2, '1234567890123456');
+
+CREATE TABLE IF NOT EXISTS BlogField (
+blog_field_id              INT NOT NULL AUTO_INCREMENT,
+blog_field_name       VARCHAR(50),
+UNIQUE (blog_field_name)
+PRIMARY KEY (blog_field_id)
+);
+
+CREATE TABLE IF NOT EXISTS ExpertiseField (
+expertise_field_id              INT NOT NULL AUTO_INCREMENT,
+expertise_field_name       VARCHAR(50),
+UNIQUE (expertise_field_name)
+PRIMARY KEY (expertise_field_id)
+);

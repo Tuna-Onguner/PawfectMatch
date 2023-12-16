@@ -61,3 +61,21 @@ class Admin(User):
     class Meta:
         db_table = 'Admin'
         managed = False
+        
+class ExpertiseField(models.Model):
+    expertise_field_id = models.AutoField(primary_key=True)
+    expertise_field_name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        db_table = 'ExpertiseField'
+        managed = False
+
+
+class BlogField(models.Model):
+    blog_field_id = models.AutoField(primary_key=True)
+    blog_field_name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        db_table = 'BlogField'
+        managed = False
+        
