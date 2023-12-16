@@ -53,6 +53,9 @@
           <option value="visible">Visible</option>
           <option value="invisible">Invisible</option>
         </select>
+  
+        <!-- Publish Button for This Week Section -->
+        <button mat-button class="publish-button" (click)="publishSchedule('This Week')">Publish</button>
       </div>
     
       <!-- Next Week Section -->
@@ -69,9 +72,13 @@
           <option value="visible">Visible</option>
           <option value="invisible">Invisible</option>
         </select>
+  
+        <!-- Publish Button for Next Week Section -->
+        <button mat-button class="publish-button" (click)="publishSchedule('Next Week')">Publish</button>
       </div>
     </mat-card-content>    
   </mat-card>
+  
 </div>
 
 <router-outlet></router-outlet>

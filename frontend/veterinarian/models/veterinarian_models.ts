@@ -6,3 +6,14 @@ export interface Agreement {
     endDate: Date;
     agreementStatus: string;
     }
+
+export interface Appointments {
+    appointmentId: number;
+    veterinarianId: number;
+    petId: number;
+    appointmentDate: Date;
+    appointmentTime: string;
+    appointmentStatus: string;
+    adopterId: number;
+    reason: string;
+}

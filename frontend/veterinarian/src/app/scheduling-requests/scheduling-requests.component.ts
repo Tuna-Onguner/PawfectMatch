@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -7,22 +7,78 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { Appointments } from '../../../models/veterinarian_models'; // Replace with the correct path
+import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
+import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-scheduling-requests',
   standalone: true,
   imports: [
+    CommonModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
     RouterLink,
     MatSidenavModule,
-    RouterOutlet
+    RouterOutlet,
+    MatListModule,
+    MatCardModule,
   ],
   templateUrl: './scheduling-requests.component.html',
   styleUrl: './scheduling-requests.component.css'
 })
-export class SchedulingRequestsComponent {
+export class SchedulingRequestsComponent implements OnInit {
+  appointments: Appointments[] = []; // Populate this array with your data
 
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
+
+  ngOnInit() {
+    // In a real application, you would fetch appointments data from a service
+    // For now, we'll mock some data for demonstration purposes
+    this.appointments = this.getMockAppointments();
+  }
+
+  showDetails(appointment: Appointments) {
+
+  }
+  applyAppointment(agreement: Appointments) {
+    // This method is called when the detail button is clicked
+    // You can implement logic to show the details for the selected agreement
+    // For now, let's log the details to the console
+    console.log('Selected Agreement:', agreement);
+  }
+  rejectAppointment(agreement: Appointments) { // This method is called when the detail button is clicked
+    // You can implement logic to show the details for the selected agreement
+    // For now, let's log the details to the console
+    console.log('Selected Agreement:', agreement);
+  }
+  private getMockAppointments(): Appointments[] {
+    // This method provides mock data for demonstration purposes
+    return [
+      {
+        appointmentId: 1,
+        veterinarianId: 1,
+        petId: 1,
+        appointmentDate: new Date('2023-01-05'),
+        appointmentTime: '10:00 AM',
+        appointmentStatus: 'Scheduled',
+        adopterId: 2,
+        reason: 'Regular Checkup',
+      },
+      {
+        appointmentId: 2,
+        veterinarianId: 1,
+        petId: 2,
+        appointmentDate: new Date('2023-01-10'),
+        appointmentTime: '02:30 PM',
+        appointmentStatus: 'Pending',
+        adopterId: 3,
+        reason: 'Vaccination',
+      },
+      // Add more mock appointments as needed
+    ];
+  }
 }

@@ -29,5 +29,8 @@ import {MatCardModule} from "@angular/material/card";
   styleUrl: './publish-schedules.component.css'
 })
 export class PublishSchedulesComponent {
-
+  publishSchedule(week: string) {
+    // Implement logic to publish the schedule for the specified week
+    console.log(`Publishing schedule for ${week}`);
+  }
 }
