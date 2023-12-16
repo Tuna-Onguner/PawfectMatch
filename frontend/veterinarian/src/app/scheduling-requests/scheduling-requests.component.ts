@@ -11,6 +11,7 @@ import { Appointments } from '../../../models/veterinarian_models'; // Replace w
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
+import { DetailAppointmentsComponent } from '../detail-appointments/detail-appointments.component';
 
 @Component({
   selector: 'app-scheduling-requests',
@@ -42,18 +43,15 @@ export class SchedulingRequestsComponent implements OnInit {
   }
 
   showDetails(appointment: Appointments) {
-
+    this.dialog.open(DetailAppointmentsComponent, {
+      data: appointment  // Pass the agreement directly without the extra 'data' property
+    });
   }
-  applyAppointment(agreement: Appointments) {
-    // This method is called when the detail button is clicked
-    // You can implement logic to show the details for the selected agreement
-    // For now, let's log the details to the console
-    console.log('Selected Agreement:', agreement);
+  applyAppointment(appointment: Appointments) {
+    appointment.appointmentStatus = 'Accepted';
   }
-  rejectAppointment(agreement: Appointments) { // This method is called when the detail button is clicked
-    // You can implement logic to show the details for the selected agreement
-    // For now, let's log the details to the console
-    console.log('Selected Agreement:', agreement);
+  rejectAppointment(appointment: Appointments) { 
+    appointment.appointmentStatus = 'Rejected';
   }
   private getMockAppointments(): Appointments[] {
     // This method provides mock data for demonstration purposes

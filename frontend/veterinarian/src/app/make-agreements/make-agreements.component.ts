@@ -51,15 +51,10 @@ export class MakeAgreementsComponent implements OnInit {
   }
   
   applyAgreement(agreement: Agreement) {
-    // This method is called when the detail button is clicked
-    // You can implement logic to show the details for the selected agreement
-    // For now, let's log the details to the console
-    console.log('Selected Agreement:', agreement);
+    agreement.agreementStatus = 'Accepted';
   }
-  rejectAgreement(agreement: Agreement) { // This method is called when the detail button is clicked
-    // You can implement logic to show the details for the selected agreement
-    // For now, let's log the details to the console
-    console.log('Selected Agreement:', agreement);
+  rejectAgreement(agreement: Agreement) { 
+    agreement.agreementStatus = 'Rejected';
   }
 
   private getMockAgreements(): Agreement[] {
@@ -71,7 +66,7 @@ export class MakeAgreementsComponent implements OnInit {
         agreementText: 'Agreement text for Organization A',
         beginDate: new Date('2023-01-01'),
         endDate: new Date('2023-12-31'),
-        agreementStatus: 'Active',
+        agreementStatus: 'Accepted',
       },
       {
         agreementId: 2,
@@ -79,7 +74,7 @@ export class MakeAgreementsComponent implements OnInit {
         agreementText: 'Agreement text for Organization B',
         beginDate: new Date('2023-02-01'),
         endDate: new Date('2023-11-30'),
-        agreementStatus: 'Inactive',
+        agreementStatus: 'Pending',
       },
       {
         agreementId: 3,
@@ -87,7 +82,7 @@ export class MakeAgreementsComponent implements OnInit {
         agreementText: 'Agreement text for Organization B',
         beginDate: new Date('2023-02-01'),
         endDate: new Date('2023-11-30'),
-        agreementStatus: 'Inactive',
+        agreementStatus: 'Pending',
       },
       {
         agreementId: 4,
@@ -95,7 +90,7 @@ export class MakeAgreementsComponent implements OnInit {
         agreementText: 'Agreement text for Organization B',
         beginDate: new Date('2023-02-01'),
         endDate: new Date('2023-11-30'),
-        agreementStatus: 'Inactive',
+        agreementStatus: 'Accepted',
       },
       // Add more mock agreements as needed
     ];

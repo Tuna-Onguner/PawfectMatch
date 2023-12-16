@@ -6,6 +6,7 @@ import { PublishSchedulesComponent } from './publish-schedules/publish-schedules
 import { SchedulingRequestsComponent } from './scheduling-requests/scheduling-requests.component';
 import { UploadExamResultsComponent } from './upload-exam-results/upload-exam-results.component';
 import { DetailAgreementsComponent } from './detail-agreements/detail-agreements.component';
+import { DetailAppointmentsComponent } from './detail-appointments/detail-appointments.component';
 
 
 export const routes: Routes = [
@@ -17,7 +18,10 @@ export const routes: Routes = [
     },
     { path: '', redirectTo: '/make-agreements', pathMatch: 'full' },
     { path: 'publish-schedule', component: PublishSchedulesComponent },
-    { path: 'scheduling-request', component: SchedulingRequestsComponent },
+    { path: 'scheduling-request', component: SchedulingRequestsComponent,
+      children: [
+        {path: 'detail-appointmes', component: DetailAppointmentsComponent},
+      ] },
     {path: 'upload-exam-results', component: UploadExamResultsComponent},
 ];
 
