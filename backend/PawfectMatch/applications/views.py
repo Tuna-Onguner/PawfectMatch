@@ -127,30 +127,75 @@ class AdoptionAppView(APIView):
                     AdoptionApp.ao_id = %s
             """, [ao_id])
             adoption_apps = dictfetchall(cursor)
+            return Response(adoption_apps)
+        
+        # There is a problem
+        
+        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            breed_name = request.data.get('breed_name', '')
+            pet_size = request.data.get('pet_size', '')
+            pet_color = request.data.get('pet_color', '')
+            pet_age = request.data.get('pet_age', '')
+
+            cursor.execute("""
+                SELECT *
+                FROM Pet p, Breed b
+                WHERE p.breed_id = b.breed_id AND b.breed_name LIKE %s
+                    AND p.pet_size LIKE %s AND p.pet_color = %s AND p.pet_age = %s
+            """, ['%' + breed_name + '%', pet_size, pet_color, pet_age])
+            pets = dictfetchall(cursor)
+            return Response(pets)
+        
+        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            cursor.execute("""
+                SELECT a.amotivation_text, a.aapp_status, a.aapp_file
+                FROM AdoptionApp a
+                WHERE a.adopter_id = %s
+            """, [user_id])
+            adoption_apps = dictfetchall(cursor)
+            return Response(adoption_apps)      
+            
         return Response(adoption_apps)
 
     def post(self, request, ao_id, format=None):
-        aapp_file = request.data.get('aapp_file')
-        amotivation_text = request.data.get('amotivation_text')
-
-        if not aapp_file and not amotivation_text:
-            return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
-
+        user_id = request.data['user_id']
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO AdoptionApp (ao_id, aapp_file, amotivation_text) VALUES (%s, %s, %s)",
-                       [ao_id, aapp_file, amotivation_text])
+        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
+        
+        if cursor.fetchone():
+            adopter_id = request.data.get('adopter_id')
+            pet_id = request.data.get('pet_id')
+            aapp_file = request.data.get('aapp_file')
+            amotivation_text = request.data.get('amotivation_text')
+            
+            if not aapp_file and not amotivation_text:
+                return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            cursor.execute("""
+                INSERT INTO AdoptionApp (adopter_id, ao_id, aapp_date, pet_id, aapp_file, aapp_status, aapp_response_date, amotivation_text)
+                VALUES (%s, %s, NOW(), %s, %s, 'PENDING', NULL, %s)
+            """, [adopter_id, ao_id, pet_id, aapp_file, amotivation_text])
 
         return Response({'message': 'Adoption application created successfully.'}, status=status.HTTP_201_CREATED)
 
     def put(self, request, ao_id, app_id, format=None):
-        new_status = request.data.get('new_status')
-
-        if new_status not in ['accepted', 'rejected']:
-            return Response({'error': 'Invalid status.'}, status=status.HTTP_400_BAD_REQUEST)
-
+        user_id = request.data['user_id']
         cursor = connection.cursor()
-        cursor.execute("UPDATE AdoptionApp SET aapp_status = %s WHERE ao_id = %s AND id = %s",
-                       [new_status, ao_id, app_id])
+        cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
+        if cursor.fetchone():
+            application_id = request.data.get('application_id')
+            new_status = request.data.get('new_status')
+
+            if new_status in ['accepted', 'rejected']:
+                cursor.execute("""
+                    UPDATE AdoptionApp
+                    SET aapp_status = %s
+                    WHERE adopter_id = %s
+                """, [new_status, application_id])
+            else:
+                return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'message': 'Adoption application updated successfully.'}, status=status.HTTP_200_OK)
 
