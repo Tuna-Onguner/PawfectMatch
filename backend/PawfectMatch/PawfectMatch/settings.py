@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "main",
     "authentication",
     "adoption",
-    "applications",
+    #"applications",
+    "roles",
 ]
 
 MIDDLEWARE = [
