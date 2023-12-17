@@ -43,7 +43,49 @@
         <span>Request Oversee</span>
       </button>
     </mat-sidenav>
-    <!-- ... rest of your code ... -->
+    <mat-sidenav-container class="sidenav-container">
+      <!-- ... (previous code) ... -->
+    
+      <div class="vertical-container">
+        <!-- Section 1: Previous Oversee -->
+        <div class="previous-oversee">
+          <h2>Previous Veterinary Oversees</h2>
+          <mat-card *ngFor="let oversee of previousOversees" class="mat-card-item">
+            <!-- Display information about previous oversees here -->
+            <mat-card-header>
+              <mat-card-title>{{ oversee.name }}</mat-card-title>
+              <mat-card-subtitle>{{ oversee.organizationName }}</mat-card-subtitle>
+              <mat-card (click)="openDialog(oversee)">View Details</mat-card>
+            </mat-card-header>
+            <!-- Add more details as needed -->
+          </mat-card>
+        </div>
+    
+        <!-- Section 2: Apply for New Oversee -->
+        <div class="apply-oversee">
+          <h2>Apply for Veterinary Oversee</h2>
+          <form (submit)="applyForOversee()">
+            <div class="form-group">
+              <label for="petType">Pet Type:</label>
+              <input type="text" id="petType" [(ngModel)]="petType" name="petType" required>
+            </div>
+    
+            <div class="form-group">
+              <label for="reason">Reason:</label>
+              <textarea id="reason" [(ngModel)]="reason" name="reason" required></textarea>
+            </div>
+    
+            <div class="form-group">
+              <label for="applicationDate">Application Date:</label>
+              <input type="date" id="applicationDate" [(ngModel)]="applicationDate" name="applicationDate" required>
+            </div>
+    
+            <button type="submit" mat-raised-button color="primary">Apply</button>
+          </form>
+        </div>
+      </div>
+    </mat-sidenav-container>
+    
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   

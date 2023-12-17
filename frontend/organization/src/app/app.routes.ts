@@ -10,6 +10,7 @@ import { ReceiveDonationsComponent } from './receive-donations/receive-donations
 import { RequestOverseeComponent } from './request-oversee/request-oversee.component';
 import { DetailPetComponent } from './detail-pet/detail-pet.component';
 import { DetailAdoptionApplicationComponent } from './detail-adoption-application/detail-adoption-application.component';
+import { DetailOverseeComponent } from './detail-oversee/detail-oversee.component';
 
 export const routes: Routes = [
     {path: 'home-organization', component: HomeComponent,
@@ -25,7 +26,10 @@ export const routes: Routes = [
     {path: 'apply-for-grants', component: ApplyForGrantsComponent},
     {path: 'find-veterinarians', component: FindVeterinariansComponent},
     {path: 'receive-donations', component: ReceiveDonationsComponent},
-    {path: 'request-oversee', component: RequestOverseeComponent}
+    {path: 'request-oversee', component: RequestOverseeComponent,
+    children: [
+        {path:'detail-oversee',component: DetailOverseeComponent}]
+    },
 ];
 
 @NgModule({
