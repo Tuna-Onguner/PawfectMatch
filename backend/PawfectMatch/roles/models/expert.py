@@ -1,5 +1,5 @@
 from django.db import models
-from backend.PawfectMatch.authentication.models.User import User
+from authentication.models.User import User
 
 
 class Expert(User):
