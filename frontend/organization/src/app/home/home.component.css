@@ -115,9 +115,3 @@ p {
   color: #555; /* Adjust the color as needed */
 }
 
-/* Media query for responsiveness - adjust as needed */
-@media (max-width: 600px) {
-  mat-grid-list {
-    cols: 1; /* Display one column on smaller screens */
-  }
-}
