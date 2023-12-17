@@ -1,3 +1,5 @@
+import { Pet } from "./pet-models";
+
 export interface AdoptionApplication{
     id: number;
     petId: number;
@@ -27,4 +29,16 @@ export interface GrantApplication{
     responseDate: Date;
     amountNeeded: number;
     file: File | null;
+}
+
+export interface Agreement{
+    id: number;
+    organizationId: number;
+    organizationName: string;
+    veterinarianId: number;
+    veterinarianName: string;
+    agreementDate: Date;
+    agreementText: string;
+    file: File | null;
+    petBreed: string;
 }

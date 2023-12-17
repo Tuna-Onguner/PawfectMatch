@@ -87,7 +87,6 @@ root {
   height: 100%;
 }
 
-.grant-applications,
-.apply-grant {
+.apply-oversee {
   margin: 16px; /* Adjust the margin as needed */
 }

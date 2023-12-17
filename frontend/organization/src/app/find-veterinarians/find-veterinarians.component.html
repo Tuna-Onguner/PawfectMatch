@@ -1,49 +1,93 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row class="toolbar-row">
-      <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
-      <span>PawfectMatch</span>
-      <span class="spacer"></span>
-      <button mat-button class="logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-      <button mat-button class="change-password">
-        <mat-icon>vpn_key</mat-icon>
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-      <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
-        <mat-icon>home</mat-icon>
-        <span>Home</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/add-pet']" aria-label="Add Pet">
-        <mat-icon>add</mat-icon>
-        <span>Add Pet</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/adoption-applications']" aria-label="Adoption Applications">
-        <mat-icon>pets</mat-icon>
-        <span>Adoption Applications</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/apply-for-grants']" aria-label="Apply for Grants">
-        <mat-icon>monetization_on</mat-icon>
-        <span>Apply for Grants</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/find-veterinarians']" aria-label="Find Veterinarians">
-        <mat-icon>local_hospital</mat-icon>
-        <span>Find Veterinarians</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/receive-donations']" aria-label="Receive Donations">
-        <mat-icon>receipt</mat-icon>
-        <span>Receive Donations</span>
-      </button>
-      <button mat-button class="sidenav-button" [routerLink]="['/request-oversee']" aria-label="Request Oversee">
-        <mat-icon>playlist_add_check</mat-icon>
-        <span>Request Oversee</span>
-      </button>
-    </mat-sidenav>
-    <!-- ... rest of your code ... -->
+  <mat-toolbar-row class="toolbar-row">
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+    <span class="spacer"></span>
+    <button mat-button class="logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-button class="change-password">
+      <mat-icon>vpn_key</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/add-pet']" aria-label="Add Pet">
+      <mat-icon>add</mat-icon>
+      <span>Add Pet</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/adoption-applications']" aria-label="Adoption Applications">
+      <mat-icon>pets</mat-icon>
+      <span>Adoption Applications</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/apply-for-grants']" aria-label="Apply for Grants">
+      <mat-icon>monetization_on</mat-icon>
+      <span>Apply for Grants</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/find-veterinarians']" aria-label="Find Veterinarians">
+      <mat-icon>local_hospital</mat-icon>
+      <span>Find Veterinarians</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/receive-donations']" aria-label="Receive Donations">
+      <mat-icon>receipt</mat-icon>
+      <span>Receive Donations</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/request-oversee']" aria-label="Request Oversee">
+      <mat-icon>playlist_add_check</mat-icon>
+      <span>Request Oversee</span>
+    </button>
+  </mat-sidenav>
+
+  <div class="content-container">
+    <div class="agreements">
+      <h2>Agreements with Veterinarians</h2>
+      <div *ngFor="let agreement of agreements" class="agreement-card">
+        <div class="info-section">
+          <p>{{ agreement.organizationName }} - {{ agreement.veterinarianName }}</p>
+          <button mat-icon-button (click)="showAgreementDetails(agreement)">
+            <mat-icon>info</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="new-agreement">
+      <h2>Make New Agreements</h2>
+      <form (submit)="makeNewAgreement()">
+        <div class="form-group">
+          <label for="organizationName">Organization Name:</label>
+          <input type="text" id="organizationName" [(ngModel)]="newAgreement.organizationName" name="organizationName" required>
+        </div>
+    
+        <div class="form-group">
+          <label for="veterinarianName">Veterinarian Name:</label>
+          <input type="text" id="veterinarianName" [(ngModel)]="newAgreement.veterinarianName" name="veterinarianName" required>
+        </div>
+    
+        <div class="form-group">
+          <label for="agreementDate">Agreement Date:</label>
+          <input type="date" id="agreementDate" [(ngModel)]="newAgreement.agreementDate" name="agreementDate" required>
+        </div>
+    
+        <div class="form-group">
+          <label for="petBreed">Pet Breed:</label>
+          <input type="text" id="petBreed" [(ngModel)]="newAgreement.petBreed" name="petBreed" required>
+        </div>
+    
+        <div class="form-group">
+          <label for="file">Attach File:</label>
+          <input type="file" id="file" (change)="handleFileInput($event)" name="file" required>
+        </div>
+    
+        <button type="submit" mat-raised-button color="primary">Apply</button>
+      </form>
+    </div>
+  </div>
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   

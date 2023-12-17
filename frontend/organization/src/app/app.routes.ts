@@ -11,6 +11,7 @@ import { RequestOverseeComponent } from './request-oversee/request-oversee.compo
 import { DetailPetComponent } from './detail-pet/detail-pet.component';
 import { DetailAdoptionApplicationComponent } from './detail-adoption-application/detail-adoption-application.component';
 import { DetailOverseeComponent } from './detail-oversee/detail-oversee.component';
+import { DetailVetAgreementComponent } from './detail-vet-agreement/detail-vet-agreement.component';
 
 export const routes: Routes = [
     {path: 'home-organization', component: HomeComponent,
@@ -24,7 +25,10 @@ export const routes: Routes = [
         {path:'detail-adoption-application',component: DetailAdoptionApplicationComponent}]
     },
     {path: 'apply-for-grants', component: ApplyForGrantsComponent},
-    {path: 'find-veterinarians', component: FindVeterinariansComponent},
+    {path: 'find-veterinarians', component: FindVeterinariansComponent,    
+    children: [
+        {path:'detail-vet-agreement',component: DetailVetAgreementComponent}]
+    },
     {path: 'receive-donations', component: ReceiveDonationsComponent},
     {path: 'request-oversee', component: RequestOverseeComponent,
     children: [

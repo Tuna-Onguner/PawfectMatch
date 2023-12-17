@@ -1,84 +1,68 @@
-root {
-    --primary-color: #007BFF;
-    --secondary-color: #10da13;
-    --background-color: #ccdbf3;
-    --form-background-color: #ffffff;
-    --text-color: #000;
-    --shadow-color: #000;
-  }
-  
-  .toolbar-row {
-    display: flex;
-    align-items: center;
-    position: relative;
-    left: 0;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  .sidenav {
-    background-color: var(--background-color);
-    width: 250px;
-    position: fixed;
-    left: 0;
-    top: 70px;
-    bottom: 0;
-    overflow: auto;
-    padding: 20px;
-  }
-  
-  .sidenav-button {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    height: 50px;
-  }
-  .list-view {
-    margin-top: 20px; /* Adjust margin as needed */
-  }
-  
-  .mat-list {
-    width: 100%; /* Occupy full width */
-  }
-  
-  .mat-list-item {
-    display: flex;
-    align-items: center;
-    padding: 15px; /* Adjust padding as needed */
-    border-bottom: 1px solid #ddd; /* Add a border between items */
-  }
-  
-  .mat-list-avatar {
-    min-width: 40px; /* Adjust the avatar width as needed */
-    min-height: 40px; /* Adjust the avatar height as needed */
-    margin-right: 15px; /* Adjust spacing between avatar and text */
-    background-color: #007BFF; /* Set avatar background color */
-    border-radius: 50%; /* Make the avatar circular */
-  }
-  
-  .mat-line {
-    flex: 1; /* Allow text to take up remaining space */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow if text is too long */
-    text-overflow: ellipsis; /* Show ellipsis (...) for overflowed text */
-  }
-  
-  .mat-icon-button {
-    margin-left: auto; /* Push the detail button to the right */
-  }
-  .action-button {
-    margin-left: 8px;
-  }
-  
-  .apply-button {
-    color: green; /* Customize color as needed */
-  }
-  
-  .reject-button {
-    color: red; /* Customize color as needed */
-  }
-  
-  /* Adjust styles as needed */
-  
+.root {
+  --primary-color: #007BFF;
+  --secondary-color: #10da13;
+  --background-color: #ccdbf3;
+  --form-background-color: #ffffff;
+  --text-color: #000;
+  --shadow-color: #000;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  padding: 0 16px; /* Adjust padding as needed */
+}
+
+.app-title {
+  font-size: 1.5em;
+  margin-left: 10px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.sidenav {
+  background-color: var(--background-color);
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 70px;
+  bottom: 0;
+  overflow: auto;
+  padding: 20px;
+}
+
+.content-container {
+  display: flex;
+  padding: 16px; /* Adjust padding as needed */
+}
+
+.agreements,
+.make-new-agreement {
+  flex: 1;
+  margin: 0 16px; /* Adjust the margin as needed */
+}
+
+.agreement-card {
+  background-color: #fff;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.new-agreement {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+button[type="submit"] {
+  margin-top: 16px;
+}
