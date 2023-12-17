@@ -105,6 +105,7 @@ class AdoptionAppView(APIView):
     def get(self, request, ao_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
+        
         cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
@@ -129,23 +130,6 @@ class AdoptionAppView(APIView):
             adoption_apps = dictfetchall(cursor)
             return Response(adoption_apps)
         
-        # There is a problem
-        
-        cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        if cursor.fetchone():
-            breed_name = request.data.get('breed_name', '')
-            pet_size = request.data.get('pet_size', '')
-            pet_color = request.data.get('pet_color', '')
-            pet_age = request.data.get('pet_age', '')
-
-            cursor.execute("""
-                SELECT *
-                FROM Pet p, Breed b
-                WHERE p.breed_id = b.breed_id AND b.breed_name LIKE %s
-                    AND p.pet_size LIKE %s AND p.pet_color = %s AND p.pet_age = %s
-            """, ['%' + breed_name + '%', pet_size, pet_color, pet_age])
-            pets = dictfetchall(cursor)
-            return Response(pets)
         
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
         if cursor.fetchone():
@@ -204,8 +188,14 @@ class BloggerAppView(APIView):
     def get(self, request, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
+        is_blogger = False
+        
+        cursor.execute("SELECT * FROM Blogger WHERE user_id = %s", [user_id])
+        if (cursor.fetchone()):
+            is_blogger = True
+        
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        if cursor.fetchone():
+        if cursor.fetchone() and not is_blogger:
             cursor.execute("""
                 SELECT bf.blog_field_id, bf.blog_field_name, a.adopter_id, u.user_name as blogger_name
                 FROM BlogField bf
@@ -213,9 +203,10 @@ class BloggerAppView(APIView):
                 JOIN Adopter a ON b.blogger_id = a.adopter_id
                 JOIN User u ON a.adopter_id = u.user_id
             """)
-            bloggers = dictfetchall(cursor)
-            return Response(bloggers)
+            blogger_apps = dictfetchall(cursor)
+            return Response(blogger_apps)
             
+        cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
                 SELECT ba.blogger_app_id, a.adopter_id, a.adopter_name, a.email, a.phone_number, ba.motivation_text, ba.file_path, ba.application_date, ba.status, ba.response_date
@@ -225,8 +216,8 @@ class BloggerAppView(APIView):
             blogger_apps = dictfetchall(cursor)
             return Response(blogger_apps)
         
-        return Response(bloggers)
-
+        return Response(blogger_apps)
+                        
     def put(self, request, blogger_app_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
