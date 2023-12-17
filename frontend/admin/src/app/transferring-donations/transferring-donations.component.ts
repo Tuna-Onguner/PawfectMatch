@@ -12,6 +12,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
+import { TransferringDonation } from '../../../models/applications-models';
+import { DetailTransferComponent } from '../detail-transfer/detail-transfer.component';
 
 @Component({
   selector: 'app-transferring-donations',
@@ -31,6 +33,45 @@ import {MatCardModule} from "@angular/material/card";
   templateUrl: './transferring-donations.component.html',
   styleUrl: './transferring-donations.component.css'
 })
-export class TransferringDonationsComponent {
+export class TransferringDonationsComponent implements OnInit {
+  transferringDonations: TransferringDonation[] = []; // Assuming you have a data source
 
+  constructor(
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    // Fetch or initialize your transferring donations data
+    this.transferringDonations = [
+      // Populate with sample data or fetch from a service
+      {
+        id: 1,
+        userId: 123,
+        userName: 'John Doe',
+        userEmailAddress: 'john.doe@example.com',
+        userPhoneNumber: '123-456-7890',
+        status: 'Pending',
+        organizationId: 456,
+        organizationName: 'Charity Organization',
+        applicationDate: new Date(),
+        responseDate: new Date(),
+        amount: 1000
+      },
+      // Add more items as needed
+    ];
+  }
+
+  acceptDonation(donation: TransferringDonation) {
+    donation.status = 'Accepted';
+  }
+  rejectDonation(donation: TransferringDonation) {
+    donation.status = 'Rejected';
+  }
+  showDonationDetails(donation: TransferringDonation) {
+    this.dialog.open(DetailTransferComponent, {
+      width: '400px', // Adjust the width as needed
+      data: donation
+    });
+  }
 }

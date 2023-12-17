@@ -40,32 +40,31 @@
       </button>
       
     </mat-sidenav>
-   <!--
-    <div class="main-content"><div class="list-view">
-      <h2>Agreements List</h2>
-      <mat-card *ngFor="let agreement of agreements" class="mat-card-item" (click)="showDetails(agreement)">
-        <mat-card-header>
-          <div mat-card-avatar class="avatar"></div>
-          <mat-card-title-group>
-            <mat-card-title>
-              <span>{{ agreement.organizationName }}</span>
-                <button mat-icon-button (click)="showDetails(agreement)">
+    <div class="main-content">
+      <div class="list-view">
+        <h2>Transferring Donations List</h2>
+        <mat-card *ngFor="let donation of transferringDonations" class="mat-card-item" (click)="showDonationDetails(donation)">
+          <mat-card-header>
+            <div mat-card-avatar class="avatar"></div>
+            <mat-card-title-group>
+              <mat-card-title>
+                <span>{{ donation.organizationName }}</span>
+                <button mat-icon-button (click)="showDonationDetails(donation)">
                   <mat-icon>info</mat-icon>
                 </button>
-              <button mat-icon-button class="action-button apply-button" (click)="applyAgreement(agreement)">
-                <mat-icon>check</mat-icon>
-              </button>
-              <button mat-icon-button class="action-button reject-button" (click)="rejectAgreement(agreement)">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-card-title>
-            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-      </mat-card>
+                <button mat-icon-button class="action-button accept-button" *ngIf="donation.status === 'Pending'" (click)="acceptDonation(donation)">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button class="action-button reject-button" *ngIf="donation.status === 'Pending'" (click)="rejectDonation(donation)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-card-title>
+              <mat-card-subtitle>Status: {{ donation.status }}</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>        
       </div>
-
-    -->
+    </div>
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   

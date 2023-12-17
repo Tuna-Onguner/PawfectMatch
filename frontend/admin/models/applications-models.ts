@@ -50,3 +50,16 @@ export interface GrantApplication{
     responseDate: Date;
     amountNeeded: number;
 }
+export interface TransferringDonation{
+    id: number;
+    userId: number;
+    userName: string;
+    userEmailAddress: string;
+    userPhoneNumber: string;
+    status: string;
+    organizationId: number;
+    organizationName: string;
+    applicationDate: Date;
+    responseDate: Date;
+    amount: number;
+}
