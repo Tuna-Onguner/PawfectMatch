@@ -10,6 +10,7 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailBlogApplicationsComponent } from './detail-blog-applications/detail-blog-applications.component';
 import { DetailExpertApplicationsComponent } from './detail-expert-applications/detail-expert-applications.component';
 import { DetailGranteeApplicationsComponent } from './detail-grantee-applications/detail-grantee-applications.component';
+import { DetailTransferComponent } from './detail-transfer/detail-transfer.component';
 
 
 export const routes: Routes = [
@@ -31,7 +32,10 @@ export const routes: Routes = [
     children: [
         {path: 'detail-grantee-applications', component: DetailGranteeApplicationsComponent},
       ]},
-    {path: 'transferring-donations', component: TransferringDonationsComponent},
+    {path: 'transferring-donations', component: TransferringDonationsComponent,    
+    children: [
+      {path: 'detail-transfer', component: DetailTransferComponent},
+    ]},
 ];
 
 @NgModule({

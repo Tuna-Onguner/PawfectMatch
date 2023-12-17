@@ -1,1 +1,13 @@
-<p>detail-grantee-applications works!</p>
+<h2 mat-dialog-title>Grant Application Details</h2>
+<div mat-dialog-content>
+  <p><strong>User Name:</strong> {{ data.userName }}</p>
+  <p><strong>Email Address:</strong> {{ data.userEmailAddress }}</p>
+  <p><strong>Phone Number:</strong> {{ data.userPhoneNumber }}</p>
+  <p><strong>Status:</strong> {{ data.status }}</p>
+  <p><strong>Organization Name:</strong> {{ data.organizationName }}</p>
+  <p><strong>Motivation:</strong> {{ data.motivation }}</p>
+  <p><strong>Amount Needed:</strong> {{ formatAmount(data.amountNeeded) }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">Close</button>
+</div>

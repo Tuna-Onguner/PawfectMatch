@@ -36,16 +36,17 @@ export interface expertApplications {
       };
 }
 
-export interface granteeApplications {
+export interface GrantApplication{
     id: number;
-    title: string;
-    type: string;
-    createdAt: Date;
-    userID: number;
-    status: string;
-    motivation: string;
-    granteeAmount: number;
-    userEmail: string;
+    userId: number;
     userName: string;
+    userEmailAddress: string;
     userPhoneNumber: string;
+    status: string;
+    organizationId: number;
+    organizationName: string;
+    applicationDate: Date;
+    motivation: string;
+    responseDate: Date;
+    amountNeeded: number;
 }

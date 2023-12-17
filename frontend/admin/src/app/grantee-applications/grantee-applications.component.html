@@ -40,32 +40,26 @@
       </button>
       
     </mat-sidenav>
-   <!--
-    <div class="main-content"><div class="list-view">
-      <h2>Agreements List</h2>
-      <mat-card *ngFor="let agreement of agreements" class="mat-card-item" (click)="showDetails(agreement)">
+    <div class="grant-applications-list">
+      <mat-card *ngFor="let application of grantApplications">
         <mat-card-header>
-          <div mat-card-avatar class="avatar"></div>
-          <mat-card-title-group>
-            <mat-card-title>
-              <span>{{ agreement.organizationName }}</span>
-                <button mat-icon-button (click)="showDetails(agreement)">
-                  <mat-icon>info</mat-icon>
-                </button>
-              <button mat-icon-button class="action-button apply-button" (click)="applyAgreement(agreement)">
-                <mat-icon>check</mat-icon>
-              </button>
-              <button mat-icon-button class="action-button reject-button" (click)="rejectAgreement(agreement)">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-card-title>
-            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
-          </mat-card-title-group>
+          <mat-card-title>{{ application.organizationName }}</mat-card-title>
+          <mat-card-subtitle>{{ application.status }}</mat-card-subtitle>
+          <button mat-icon-button (click)="showApplicationDetails(application)">
+            <mat-icon>info</mat-icon>
+          </button>
+          <button mat-icon-button class="action-button apply-button" *ngIf="application.status === 'Pending'" (click)="acceptApplication(application)">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-icon-button class="action-button reject-button" *ngIf="application.status === 'Pending'" (click)="rejectApplication(application)">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-card-header>
-      </mat-card>
-      </div>
 
-    -->
+      </mat-card>
+    </div>
+    
+    
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
