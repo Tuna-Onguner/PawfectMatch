@@ -16,93 +16,141 @@ delete /blogger/<blogger_id>/ - Deletes a specific Blogger by id
 
 class BloggerView(APIView):
     @staticmethod
-    def get(request):
+    def get(request) -> Response:  # NOQA
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM Blogger "
                            "JOIN Adopter ON Adopter.adopter_id = Blogger.blogger_id "
                            "JOIN User ON User.user_id = Adopter.adopter_id")
+
             bloggers = dictfetchall(cursor)
+
+            if len(bloggers) == 0:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
         return Response(status=status.HTTP_200_OK, data=bloggers)
 
     @staticmethod
-    def post(request):
-        # Extract the user, adopter and blogger data from the request
-        user_data = {
-            "user_name": request.data["user_name"],
-            "phone_number": request.data["phone_number"],
-            "email": request.data["email"],
-            "password": request.data["password"]
-        }
-        adopter_data = {
-            "card_number": request.data["card_number"],
-        }
-        blogger_data = {
-            "blog_name": request.data["blog_name"],
-        }
+    def post(request) -> Response:
+        if "user_name" not in request.data or "phone_number" not in request.data or "email" not in request.data or \
+                "password" not in request.data or "blog_name" not in request.data:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # Open a database connection
         with connection.cursor() as cursor:
-            # Execute a SQL query to insert the user data into the User table
-            cursor.execute(
-                "INSERT INTO User (user_name, phone_number, email, password)"
-                "VALUES (%s, %s, %s, %s)",
-                [user_data["user_name"],
-                 user_data["phone_number"],
-                 user_data["email"],
-                 user_data["password"]]
-            )
+            try:
+                cursor.execute(
+                    "INSERT INTO User (user_name, phone_number, email, password)"
+                    "VALUES (%s, %s, %s, %s)",
+                    [
+                        request.data["user_name"],
+                        request.data["phone_number"],
+                        request.data["email"],
+                        request.data["password"],
+                    ]
+                )
 
-            user_id = cursor.fetchone()[0]
+                cursor.execute("SELECT user_id FROM User WHERE email = %s", [request.data["email"]])
+                user_id = dictfetchone(cursor)["user_id"]
 
-            # Execute a query to insert the adopter data into the Adopter table
-            cursor.execute(
-                "INSERT INTO Adopter (adopter_id, card_number)"
-                "VALUES (%s, %s)",
-                [user_id,
-                 adopter_data["card_number"]]
-            )
+                cursor.execute(
+                    "INSERT INTO Adopter (adopter_id, card_number)"
+                    "VALUES (%s, %s)",
+                    [
+                        user_id,
+                        request.data["card_number"],
+                    ]
+                )
 
-            # Execute a query to insert the blogger data into the Blogger table
-            cursor.execute(
-                "INSERT INTO Blogger (blogger_id, blog_name)"
-                "VALUES (%s, %s)",
-                [user_id,
-                 blogger_data["blog_name"]]
-            )
+                cursor.execute(
+                    "INSERT INTO Blogger (blogger_id, blog_name)"
+                    "VALUES (%s, %s)",
+                    [
+                        user_id,
+                        request.data["blog_name"],
+                    ]
+                )
+            except Exception:  # NOQA
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # Return an HTTP 201 Created response
         return Response(status=status.HTTP_201_CREATED)
 
 
 class BloggerDetailView(APIView):
     @staticmethod
-    def get(request, blogger_id):
+    def get(request, _id) -> Response:  # NOQA
         with connection.cursor() as cursor:
             cursor.execute(
                 "SELECT * FROM Blogger "
                 "JOIN Adopter ON Adopter.adopter_id = Blogger.blogger_id "
                 "JOIN User ON User.user_id = Adopter.adopter_id "
-                "WHERE blogger_id = %s ",
-                [blogger_id])
-            blogger = dictfetchone(cursor)
+                "WHERE blogger_id = %s",
+                [
+                    _id,
+                ]
+            )
 
-            if cursor.rowcount == 0:
+            try:
+                blogger = dictfetchone(cursor)
+            except Exception:  # NOQA
                 return Response(status=status.HTTP_404_NOT_FOUND)
+
         return Response(status=status.HTTP_200_OK, data=blogger)
 
     @staticmethod
-    def put(request, blogger_id):
+    def put(request, _id) -> Response:
+        fields_adpt = ["card_number"]
+        fields_user = ["user_name", "phone_number", "email", "password"]
+        fields_blgr = ["blog_name"]
+
+        update_adpt = [f"{field} = %s" for field in fields_adpt if field in request.data]
+        update_user = [f"{field} = %s" for field in fields_user if field in request.data]
+        update_blgr = [f"{field} = %s" for field in fields_blgr if field in request.data]
+
+        values_adpt = [request.data[field] for field in fields_adpt if field in request.data]
+        values_user = [request.data[field] for field in fields_user if field in request.data]
+        values_blgr = [request.data[field] for field in fields_blgr if field in request.data]
+
+        if len(update_adpt) == 0 and len(update_user) == 0 and len(update_blgr) == 0:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
         with connection.cursor() as cursor:
-            cursor.execute("UPDATE Blogger SET blog_name = %s "
-                           "WHERE blogger_id = %s",
-                           [request.data["blog_name"],
-                            blogger_id])
+            try:
+                if len(update_adpt) != 0:
+                    cursor.execute(
+                        f"UPDATE Adopter SET {', '.join(update_adpt)} WHERE adopter_id = %s",
+                        [
+                            *values_adpt,
+                            _id,
+                        ]
+                    )
+
+                if len(update_user) != 0:
+                    cursor.execute(
+                        f"UPDATE User SET {', '.join(update_user)} WHERE user_id = %s",
+                        [
+                            *values_user,
+                            _id,
+                        ]
+                    )
+
+                if len(update_blgr) != 0:
+                    cursor.execute(
+                        f"UPDATE Blogger SET {', '.join(update_blgr)} WHERE blogger_id = %s",
+                        [
+                            *values_blgr,
+                            _id,
+                        ]
+                    )
+            except Exception:  # NOQA
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
         return Response(status=status.HTTP_200_OK)
 
     @staticmethod
-    def delete(request, blogger_id):
+    def delete(request, _id) -> Response:  # NOQA
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Blogger "
-                           "WHERE blogger_id = %s",
-                           [blogger_id])
+            try:
+                cursor.execute("DELETE FROM Blogger WHERE blogger_id = %s", [_id])
+            except Exception:  # NOQA
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
         return Response(status=status.HTTP_200_OK)

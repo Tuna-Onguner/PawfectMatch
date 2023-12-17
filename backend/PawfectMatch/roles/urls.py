@@ -1,18 +1,18 @@
 from django.urls import path
 
-from . import views
+from .views import *
 
 app_name = 'roles'
 
 urlpatterns = [
-    path('veterinarians/', views.VeterinarianView.as_view(), name='veterinarians'),
-    path('veterinarians/<int:pk>/', views.VeterinarianDetailView.as_view(), name='veterinarian'),
-    path('bloggers/', views.BloggerView.as_view(), name='bloggers'),
-    path('bloggers/<int:pk>/', views.BloggerDetailView.as_view(), name='blogger'),
-    path('experts/', views.ExpertView.as_view(), name='experts'),
-    path('experts/<int:pk>/', views.ExpertDetailView.as_view(), name='expert'),
-    path('adoption-organizations/', views.AdoptionOrganizationView.as_view(), name='adoption_organizations'),
-    path('adoption-organizations/<int:pk>/', views.AdoptionOrganizationDetailView.as_view(), name='adoption_organization'),
-    path('adopters/', views.AdopterView.as_view(), name='adopters'),
-    path('adopters/<int:pk>/', views.AdopterDetailView.as_view(), name='adopter'),
+    path('veterinarians/', VeterinarianView.as_view(), name='veterinarians'),
+    path('veterinarians/<int:_id>/', VeterinarianDetailView.as_view(), name='veterinarian'),
+    path('bloggers/', BloggerView.as_view(), name='bloggers'),
+    path('bloggers/<int:_id>/', BloggerDetailView.as_view(), name='blogger'),
+    path('experts/', ExpertView.as_view(), name='experts'),
+    path('experts/<int:_id>/', ExpertDetailView.as_view(), name='expert'),
+    path('adoption-organizations/', AdoptionOrganizationView.as_view(), name='adoption_organizations'),
+    path('adoption-organizations/<int:_id>/', AdoptionOrganizationDetailView.as_view(), name='adoption_organization'),
+    path('adopters/', AdopterView.as_view(), name='adopters'),
+    path('adopters/<int:_id>/', AdopterDetailView.as_view(), name='adopter'),
 ]
