@@ -81,4 +81,14 @@ root {
   }
   
   /* Adjust styles as needed */
+  .vertical-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+  
+  .grant-applications,
+  .apply-grant {
+    margin: 16px; /* Adjust the margin as needed */
+  }
   

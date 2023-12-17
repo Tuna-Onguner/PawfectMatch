@@ -26,5 +26,5 @@ export interface GrantApplication{
     motivation: string;
     responseDate: Date;
     amountNeeded: number;
-    file: File;
+    file: File | null;
 }
