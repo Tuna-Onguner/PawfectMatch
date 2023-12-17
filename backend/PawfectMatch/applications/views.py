@@ -5,13 +5,6 @@ from django.db import connection
 from rest_framework.views import APIView
 
 from PawfectMatch.utils import dictfetchall
-from .models import GranteeApp
-from django.utils import timezone
-
-from django.db import connection
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 
 class GranteeAppView(APIView):
     def get(self, request, ao_id, format=None):
