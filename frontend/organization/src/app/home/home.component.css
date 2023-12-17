@@ -81,4 +81,43 @@ root {
   }
   
   /* Adjust styles as needed */
-  
+  /* Add this to your home.component.css or create a separate CSS file */
+
+/* Styles for the pet grid container */
+.pet-grid {
+  padding: 16px;
+}
+
+/* Styles for each mat-card within the grid */
+mat-card {
+  max-width: 300px; /* Adjust the maximum width of each card as needed */
+  margin: 16px; /* Adjust the margin between cards */
+}
+
+/* Styles for the pet image within each card */
+mat-card img {
+  width: 100%;
+  height: auto;
+}
+
+/* Styles for the pet information within each card */
+mat-card-content {
+  text-align: center;
+}
+
+h3 {
+  margin-bottom: 8px;
+  font-size: 1.2em;
+}
+
+p {
+  margin-bottom: 4px;
+  color: #555; /* Adjust the color as needed */
+}
+
+/* Media query for responsiveness - adjust as needed */
+@media (max-width: 600px) {
+  mat-grid-list {
+    cols: 1; /* Display one column on smaller screens */
+  }
+}

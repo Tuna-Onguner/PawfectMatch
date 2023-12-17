@@ -1,0 +1,31 @@
+<!-- export interface Pet {
+    id: number;
+    name: string;
+    age: number;
+    type: string;
+    breed: string;
+    color: string;
+    weight: number;
+    height: number;
+    description: string;
+    image: string;
+    organizationId: number;
+    organizationName: string;
+} -->
+<h2 mat-dialog-title>{{ data.name }}</h2>
+<mat-dialog-content>
+  <img [src]="data.image" alt="{{ data.name }}" class="dialog-image">
+  <p><strong>Breed:</strong> {{ data.breed }}</p>
+  <p><strong>Color:</strong> {{ data.color }}</p>
+  <p><strong>Age:</strong> {{ data.age }}</p>
+  <p><strong>Weight:</strong> {{ data.weight }}</p>
+  <p><strong>Height:</strong> {{ data.height }}</p>
+    <p><strong>Description:</strong> {{ data.description }}</p>
+    <p><strong>Type:</strong> {{ data.type }}</p>
+
+  <p><strong>Organization:</strong> {{ data.organizationName }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="'close'">Close</button>
+</mat-dialog-actions>
+

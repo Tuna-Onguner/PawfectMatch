@@ -8,9 +8,13 @@ import { ApplyForGrantsComponent } from './apply-for-grants/apply-for-grants.com
 import { FindVeterinariansComponent } from './find-veterinarians/find-veterinarians.component';
 import { ReceiveDonationsComponent } from './receive-donations/receive-donations.component';
 import { RequestOverseeComponent } from './request-oversee/request-oversee.component';
+import { DetailPetComponent } from './detail-pet/detail-pet.component';
 
 export const routes: Routes = [
-    {path: 'home-organization', component: HomeComponent},
+    {path: 'home-organization', component: HomeComponent,
+        children: [
+            {path:'detail-pet',component: DetailPetComponent}]
+        },
     { path: '', redirectTo: '/home-organization', pathMatch: 'full' },
     {path: 'add-pet', component: AddPetComponent},
     {path: 'adoption-applications', component: AdoptionApplicationsComponent},

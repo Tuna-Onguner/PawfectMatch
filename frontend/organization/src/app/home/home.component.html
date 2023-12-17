@@ -43,7 +43,22 @@
         <span>Request Oversee</span>
       </button>
     </mat-sidenav>
-    <!-- ... rest of your code ... -->
+    <div class="pet-grid">
+      <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
+        <!-- Repeat the following mat-grid-tile for each pet -->
+        <mat-grid-tile *ngFor="let pet of petExamples" [colspan]="1" [rowspan]="1">
+          <mat-card>
+            <img mat-card-image [src]="pet.image" alt="{{ pet.name }}">
+            <mat-card-content>
+              <h3>{{ pet.name }}</h3>
+              <p>Breed: {{ pet.breed }}</p>
+              <p>Organization: {{ pet.organizationName }}</p>
+              <mat-card (click)="openPetDialog(pet)">View Details</mat-card>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
