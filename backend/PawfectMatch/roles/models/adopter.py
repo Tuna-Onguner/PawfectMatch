@@ -1,5 +1,5 @@
-from django.db import models
 from authentication.models.User import User
+from django.db import models
 
 
 class Adopter(User):

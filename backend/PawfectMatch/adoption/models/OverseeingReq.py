@@ -1,7 +1,7 @@
 from django.db import models
-from main.models import Adopter
-from main.models import AdoptionOrganization
 from django.utils import timezone
+from roles.models import Adopter
+from roles.models import AdoptionOrganization
 
 
 class OverseeingReq(models.Model):

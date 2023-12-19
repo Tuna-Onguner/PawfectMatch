@@ -2,7 +2,7 @@ from django.db import models
 
 
 class AdoptionApplication(models.Model):
-    adopter = models.ForeignKey('main.Adopter', on_delete=models.CASCADE)
+    adopter = models.ForeignKey('roles.Adopter', on_delete=models.CASCADE)
     app_date = models.DateTimeField(auto_now_add=True)
     pet = models.ForeignKey('Pet', on_delete=models.CASCADE)
     aapp_file = models.BinaryField(null=True)

@@ -1,8 +1,9 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.db import connection
 from PawfectMatch.utils import dictfetchall
+from django.db import connection
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from ..serializers import ExaminationSerializer
 
 

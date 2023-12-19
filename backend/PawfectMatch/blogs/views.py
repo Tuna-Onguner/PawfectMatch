@@ -1,17 +1,16 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from PawfectMatch.utils import dictfetchall
 from django.db import connection
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from PawfectMatch.utils import dictfetchall
 
 class CounselsView(APIView):
     def get(self, request, user_id):
         user_id = request.data.get('user_id')
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        
+
         if cursor.fetchone():
             cursor.execute("""
                 SELECT c.advice_date, ef.expertise_field_name, b.blog_title AS expert_name, c.adopter_problem, c.expert_response
@@ -29,10 +28,10 @@ class CounselsView(APIView):
         selected_expert_id = request.data.get('selected_expert_id')
         selected_expertise_field_id = request.data.get('selected_expertise_field_id')
         topic_of_advice = request.data.get('topic_of_advice')
-        
+
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        
+
         if cursor.fetchone():
             cursor.execute("""
                 INSERT INTO Counsels (adopter_id, expert_id, advice_date, expertise_field_id, adopter_problem, advice_status)
@@ -41,10 +40,11 @@ class CounselsView(APIView):
 
         return Response({'message': 'Advice created'}, status=status.HTTP_201_CREATED)
 
+
 class BlogFieldView(APIView):
     def get(self, request):
         cursor = connection.cursor()
-        
+
         cursor.execute("""
             SELECT *
             FROM
@@ -53,11 +53,12 @@ class BlogFieldView(APIView):
         blog_fields = dictfetchall(cursor)
         return Response(blog_fields)
 
+
 class BlogView(APIView):
     def get(self, request, blogger_id):
         user_id = request.data.get('user_id')
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT * FROM Expert WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor = connection.cursor()
@@ -67,9 +68,9 @@ class BlogView(APIView):
                 WHERE blogger_id = %s
             """, [blogger_id])
             blogs = dictfetchall(cursor)
-            
+
         return Response(blogs)
-    
+
     def post(self, request):
         user_id = request.data.get('user_id')
         blogger_id = request.data.get('blogger_id')
@@ -87,7 +88,7 @@ class BlogView(APIView):
             """, [blogger_id, blog_image, blog_content, blog_title, blog_field_id])
 
         return Response({'message': 'Blog created'}, status=status.HTTP_201_CREATED)
-    
+
     def put(self, request, blog_id):
         user_id = request.data.get('user_id')
         blog_image = request.data.get('blog_image')
@@ -104,9 +105,10 @@ class BlogView(APIView):
                 SET blog_image = %s, blog_content = %s, blog_title = %s, blog_field_id = %s, is_restricted = %s
                 WHERE blog_id = %s
             """, [blog_image, blog_content, blog_title, blog_field_id, is_restricted, blog_id])
-            
+
         return Response({'message': 'Blog updated'}, status=status.HTTP_200_OK)
-    
+
+
 class BlogsView(APIView):
     def get(self, request):
         cursor = connection.cursor()
@@ -118,10 +120,11 @@ class BlogsView(APIView):
         blogs = dictfetchall(cursor)
         return Response(blogs)
 
+
 class ExpertiseFieldView(APIView):
     def get(self, request):
         cursor = connection.cursor()
-        
+
         cursor.execute("""
             SELECT *
             FROM
@@ -129,4 +132,3 @@ class ExpertiseFieldView(APIView):
         """)
         blog_fields = dictfetchall(cursor)
         return Response(blog_fields)
-

@@ -7,7 +7,7 @@ class Schedule(models.Model):
     schedule_beginning_date = models.DateField(null=False)
     schedule_end_date = models.DateField(null=False)
     veterinarian = models.ForeignKey(
-        "main.Veterinarian", on_delete=models.CASCADE, null=False
+        "roles.Veterinarian", on_delete=models.CASCADE, null=False
     )
 
     class Meta:

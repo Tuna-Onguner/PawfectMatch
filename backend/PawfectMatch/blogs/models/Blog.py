@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Blog(models.Model):
     blogger_id = models.ForeignKey('Blogger', on_delete=models.CASCADE)
     blog_id = models.AutoField(primary_key=True)

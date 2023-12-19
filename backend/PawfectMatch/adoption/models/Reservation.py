@@ -1,7 +1,8 @@
 from django.db import models
-from main.models import Adopter
-from .Pet import Pet
+from roles.models import Adopter
+
 from .Examination import Examination
+from .Pet import Pet
 
 
 class Reservation(models.Model):

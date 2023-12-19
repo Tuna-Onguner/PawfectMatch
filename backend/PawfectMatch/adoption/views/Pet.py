@@ -1,11 +1,11 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from PawfectMatch.utils import dictfetchall
-from django.db import connection
 import pdb
-from adoption.serializers import PetSerializer
+
 from PawfectMatch.utils import dictfetchall
+from adoption.serializers import PetSerializer
+from django.db import connection
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 ## Function that gets all pets and can create a pet

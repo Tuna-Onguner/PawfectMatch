@@ -1,12 +1,11 @@
+import pdb
+
+from PawfectMatch.utils import dictfetchall
+from adoption.serializers import AdoptionApplicationSerializer
+from django.db import connection
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.db import connection
-
-from adoption.serializers import AdoptionApplicationSerializer
-from PawfectMatch.utils import dictfetchall
-
-import pdb
 
 
 ## Create an adoption application for a pet using REST API

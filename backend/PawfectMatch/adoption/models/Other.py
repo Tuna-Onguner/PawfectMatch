@@ -1,5 +1,6 @@
-from .Pet import Pet
 from django.db import models
+
+from .Pet import Pet
 
 
 class Other(Pet):

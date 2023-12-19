@@ -1,21 +1,20 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from PawfectMatch.utils import dictfetchall
 from django.db import connection
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from PawfectMatch.utils import dictfetchall
 
 class GranteeAppView(APIView):
-    def get(self, request, ao_id, format=None):
+    def get(self, request, ao_id):
         user_id = request.data['user_id']
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("SELECT * FROM GranteeApp WHERE ao_id = %s", [ao_id])
             grantee_apps = dictfetchall(cursor)
-                  
+
         cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
@@ -36,46 +35,48 @@ class GranteeAppView(APIView):
                 AdoptionOrganization ao ON ga.ao_id = ao.ao_id
             """)
             grantee_apps = dictfetchall(cursor)
-            
+
         return Response(grantee_apps)
-        
 
     def post(self, request, ao_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             gapp_amount = request.data.get('gapp_amount')
             gapp_file = request.data.get('gapp_file')
             gmotivation_text = request.data.get('gmotivation_text')
-            
+
             if not gapp_file and not gmotivation_text:
-                return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            cursor.execute("INSERT INTO GranteeApp (ao_id, gapp_amount, gapp_file, gmotivation_text) VALUES (%s, %s, %s, %s)",
-                       [ao_id, gapp_amount, gapp_file, gmotivation_text])
-            
+                return Response({'error': 'Either file or motivation text must be provided.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            cursor.execute(
+                "INSERT INTO GranteeApp (ao_id, gapp_amount, gapp_file, gmotivation_text) VALUES (%s, %s, %s, %s)",
+                [ao_id, gapp_amount, gapp_file, gmotivation_text])
+
         return Response({'message': 'Grantee application created successfully.'}, status=status.HTTP_201_CREATED)
 
     def put(self, request, ao_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             new_status = request.data.get('new_status')
             update_gapp_date = request.data.get('update_gapp_date')
-            
-            cursor.execute("UPDATE GranteeApp SET gapp_status = %s, gapp_response_date = CURRENT_TIMESTAMP WHERE ao_id = %s AND gapp_date = %s",
-                       [new_status, ao_id, update_gapp_date])
-        
+
+            cursor.execute(
+                "UPDATE GranteeApp SET gapp_status = %s, gapp_response_date = CURRENT_TIMESTAMP WHERE ao_id = %s AND gapp_date = %s",
+                [new_status, ao_id, update_gapp_date])
+
         cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             grantee_app_id = request.data.get('grantee_app_id')
             new_status = request.data.get('new_status')
             decided_amount = request.data.get('decided_amount')
-            
+
             if new_status == 'approved':
                 cursor.execute("""
                     UPDATE GranteeApplication
@@ -90,15 +91,15 @@ class GranteeAppView(APIView):
                 """, [new_status, grantee_app_id])
             else:
                 return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
-     
+
         return Response({'message': 'Grantee application updated successfully.'}, status=status.HTTP_200_OK)
 
-    
+
 class AdoptionAppView(APIView):
     def get(self, request, ao_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT * FROM AdoptionOrganization WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
@@ -122,8 +123,7 @@ class AdoptionAppView(APIView):
             """, [ao_id])
             adoption_apps = dictfetchall(cursor)
             return Response(adoption_apps)
-        
-        
+
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
@@ -132,23 +132,24 @@ class AdoptionAppView(APIView):
                 WHERE a.adopter_id = %s
             """, [user_id])
             adoption_apps = dictfetchall(cursor)
-            return Response(adoption_apps)      
-            
+            return Response(adoption_apps)
+
         return Response(adoption_apps)
 
     def post(self, request, ao_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        
+
         if cursor.fetchone():
             adopter_id = request.data.get('adopter_id')
             pet_id = request.data.get('pet_id')
             aapp_file = request.data.get('aapp_file')
             amotivation_text = request.data.get('amotivation_text')
-            
+
             if not aapp_file and not amotivation_text:
-                return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Either file or motivation text must be provided.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             cursor.execute("""
                 INSERT INTO AdoptionApp (adopter_id, ao_id, aapp_date, pet_id, aapp_file, aapp_status, aapp_response_date, amotivation_text)
@@ -182,11 +183,11 @@ class BloggerAppView(APIView):
         user_id = request.data['user_id']
         cursor = connection.cursor()
         is_blogger = False
-        
+
         cursor.execute("SELECT * FROM Blogger WHERE user_id = %s", [user_id])
         if (cursor.fetchone()):
             is_blogger = True
-        
+
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
         if cursor.fetchone() and not is_blogger:
             cursor.execute("""
@@ -198,7 +199,7 @@ class BloggerAppView(APIView):
             """)
             blogger_apps = dictfetchall(cursor)
             return Response(blogger_apps)
-            
+
         cursor.execute("SELECT * FROM Admin WHERE user_id = %s", [user_id])
         if cursor.fetchone():
             cursor.execute("""
@@ -208,9 +209,9 @@ class BloggerAppView(APIView):
             """)
             blogger_apps = dictfetchall(cursor)
             return Response(blogger_apps)
-        
+
         return Response(blogger_apps)
-                        
+
     def put(self, request, blogger_app_id, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
@@ -229,12 +230,12 @@ class BloggerAppView(APIView):
         """, [status, blogger_app_id])
 
         return Response({'message': 'Blogger application updated successfully.'}, status=status.HTTP_200_OK)
-    
+
     def post(self, request, format=None):
         user_id = request.data['user_id']
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
-        
+
         if cursor.fetchone():
             adopter_id = request.data.get('adopter_id')
             blog_field_id = request.data.get('blog_field_id')
@@ -242,7 +243,8 @@ class BloggerAppView(APIView):
             bmotivation_text = request.data.get('bmotivation_text')
 
             if not bapp_file and not bmotivation_text:
-                return Response({'error': 'Either file or motivation text must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Either file or motivation text must be provided.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             cursor.execute("""
                 INSERT INTO BloggerApp (adopter_id, blog_field_id, bapp_date, bapp_file, bapp_status, bapp_response_date, bmotivation_text)
@@ -250,6 +252,7 @@ class BloggerAppView(APIView):
             """, [adopter_id, blog_field_id, bapp_file, bmotivation_text])
 
         return Response({'message': 'Blogger application created successfully.'}, status=status.HTTP_201_CREATED)
+
 
 class ExpertAppView(APIView):
     def get(self, request, format=None):
@@ -263,7 +266,7 @@ class ExpertAppView(APIView):
                 JOIN Adopter a ON ea.adopter_id = a.adopter_id
             """)
             expert_apps = dictfetchall(cursor)
-            
+
         return Response(expert_apps)
 
     def put(self, request, expert_app_id, format=None):

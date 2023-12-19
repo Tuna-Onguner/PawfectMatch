@@ -1,7 +1,7 @@
 from django.db import models
-from main.models import AdoptionOrganization
-from main.models import Veterinarian
 from django.utils import timezone
+from roles.models import AdoptionOrganization
+from roles.models import Veterinarian
 
 
 class AgreementRequest(models.Model):

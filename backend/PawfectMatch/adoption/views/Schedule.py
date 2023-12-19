@@ -1,11 +1,10 @@
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework import status
-from django.db import connection
 from PawfectMatch.utils import dictfetchall
-from ..serializers import ScheduleSerializer, SlotSerializer
-import pdb
+from django.db import connection
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from ..serializers import ScheduleSerializer
 
 
 class SchedulesView(APIView):

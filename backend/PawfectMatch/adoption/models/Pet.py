@@ -8,8 +8,8 @@ class Pet(models.Model):
     pet_image = models.CharField(max_length=100)
     pet_color = models.CharField(max_length=50)
     is_adopted = models.BooleanField(default=False)
-    adopter = models.ForeignKey('main.Adopter', on_delete=models.SET_NULL, null=True)
-    adoption_organization = models.ForeignKey('main.AdoptionOrganization', on_delete=models.CASCADE)
+    adopter = models.ForeignKey('roles.Adopter', on_delete=models.SET_NULL, null=True)
+    adoption_organization = models.ForeignKey('roles.AdoptionOrganization', on_delete=models.CASCADE)
     breed = models.ForeignKey('Breed', on_delete=models.RESTRICT)
 
     class Meta:

@@ -1,6 +1,5 @@
 from django.db import models
 
-from django.db import models
 
 class Counsels(models.Model):
     adopter_id = models.ForeignKey('Adopter', on_delete=models.CASCADE)
