@@ -47,20 +47,20 @@
 
         <label for="endDate1">End Date:</label>
         <input type="date" id="endDate1" name="endDate1">
-    
+
         <label for="slotNumber1">Slot Number of Days:</label>
         <input type="number" id="slotNumber1" name="slotNumber1" min="1" max="12">
-    
+
         <label for="visibility1">Visibility:</label>
         <select id="visibility1" name="visibility1">
           <option value="visible">Visible</option>
           <option value="invisible">Invisible</option>
         </select>
-  
+
         <!-- Publish Button for This Week Section -->
         <button mat-button class="publish-button" (click)="publishThisWeekSchedule()">Publish</button>
       </div>
-    
+
       <!-- Next Week Section -->
       <div class="horizontal-section">
         <h2>Next Week</h2>
@@ -69,22 +69,22 @@
 
         <label for="endDate2">End Date:</label>
         <input type="date" id="endDate2" name="endDate2">
-    
+
         <label for="slotNumber2">Slot Number of Days:</label>
-        <input type="number" id="slotNumber1" name="slotNumber1" min="1" max="12">
-    
+        <input type="number" id="slotNumber2" name="slotNumber2" min="1" max="12">
+
         <label for="visibility2">Visibility:</label>
         <select id="visibility2" name="visibility2">
           <option value="visible">Visible</option>
           <option value="invisible">Invisible</option>
         </select>
-  
+
         <!-- Publish Button for Next Week Section -->
         <button mat-button class="publish-button" (click)="publishNextWeekSchedule()">Publish</button>
       </div>
-    </mat-card-content>    
+    </mat-card-content>
   </mat-card>
-  
+
 </div>
 
 <router-outlet></router-outlet>
