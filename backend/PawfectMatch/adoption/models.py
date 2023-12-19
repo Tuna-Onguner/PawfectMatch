@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Breed(models.Model):
     breed_id = models.AutoField(primary_key=True)
     breed_name = models.CharField(max_length=100, unique=True)
@@ -12,6 +13,7 @@ class Breed(models.Model):
 
     def __str__(self):
         return self.breed_name
+
 
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
@@ -30,21 +32,25 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.pet_name
-    
+
+
 class Cat(Pet):
     pass
 
+
 class Dog(Pet):
     pass
-   
+
+
 class Other(Pet):
     other_type = models.CharField(max_length=50)
 
     def __str__(self):
         return self.other_type
-    
-#This application will hold a user_id, pet_id aap_date, aapp_status, aapp_response_date, amotaivation_text, aapp_file
-#Pet_id and user_id will be foreign keys
+
+
+# This application will hold a user_id, pet_id aap_date, aapp_status, aapp_response_date, amotaivation_text, aapp_file
+# Pet_id and user_id will be foreign keys
 class AdoptionApplication(models.Model):
     adopter = models.ForeignKey('main.Adopter', on_delete=models.CASCADE)
     app_date = models.DateTimeField(auto_now_add=True)
@@ -57,6 +63,6 @@ class AdoptionApplication(models.Model):
     class Meta:
         db_table = 'AdoptionApplication'
         managed = False
-    
+
     def __str__(self):
         return self.app_date

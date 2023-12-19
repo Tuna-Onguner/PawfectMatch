@@ -1,14 +1,14 @@
-from django.shortcuts import render
-
 # Create your views here.
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from django.db import connection
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from authentication.models.User import User
 from .serializers import UserSerializer
-from authentication.models import User
-from django.db import connection
+
 
 ## Create a custom token class that inherits from the simplejwt's token class
 class CustomToken(RefreshToken):
@@ -17,6 +17,7 @@ class CustomToken(RefreshToken):
         token = super().for_user(user)
         token['user_id'] = user.user_id
         return token
+
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -33,9 +34,8 @@ class LoginView(APIView):
         row = cursor.fetchone()
         if row is None:
             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
 
-        #ToDo Check if this is the correct way to get values.
+        # ToDo Check if this is the correct way to get values.
         user = User(user_id=row[0], user_name=row[1], phone_number=row[2], email=row[3], password=row[4])
         if user is not None:
             ## Generate JWT token
@@ -46,6 +46,7 @@ class LoginView(APIView):
             }, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class LogoutView(APIView):
     def post(self, request):
@@ -64,23 +65,25 @@ class LogoutView(APIView):
             print(f"Exception: {e}")
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             # SQL CODE TO INSERT INTO USER TABLE
             cursor = connection.cursor()
 
-            cursor.execute("INSERT INTO User (user_name, phone_number, email, password) VALUES (%s, %s, %s, %s)", 
-                           [serializer.data['user_name'], serializer.data['phone_number'], serializer.data['email'], 
+            cursor.execute("INSERT INTO User (user_name, phone_number, email, password) VALUES (%s, %s, %s, %s)",
+                           [serializer.data['user_name'], serializer.data['phone_number'], serializer.data['email'],
                             serializer.data['password']])
-            
+
             # Get the user_id of the user that was just inserted
             cursor.execute("SELECT user_id FROM User WHERE email = %s", [serializer.data['email']])
             user_id = cursor.fetchone()[0]
 
-            #Also insert into the adopter table
+            # Also insert into the adopter table
             cursor.execute("INSERT INTO Adopter (adopter_id) VALUES (%s)", [user_id])
             return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
