@@ -66,7 +66,7 @@ export interface AdoptionApp {
   petName: string,
   aapp_file: string,
   aapp_status: string,
-  aapp_response_date: Date,
+  aapp_response_date: Date| null;
   amotivation_text: string;
 }
 

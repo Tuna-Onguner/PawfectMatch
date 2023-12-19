@@ -12,7 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
-import { AdoptionApplication } from '../../../models/applications'; // Replace with the correct path
+import { AdoptionApp } from "../../../__models/application_models" // Replace with the correct path
 import { DetailAdoptionApplicationComponent } from '../detail-adoption-application/detail-adoption-application.component'; // Import the detail component
 
 @Component({
@@ -34,7 +34,7 @@ import { DetailAdoptionApplicationComponent } from '../detail-adoption-applicati
   styleUrl: './adoption-applications.component.css'
 })
 export class AdoptionApplicationsComponent implements OnInit {
-  adoptionApplications: AdoptionApplication[] = [];
+  adoptionApplications: AdoptionApp[] = [];
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
 
@@ -44,66 +44,57 @@ export class AdoptionApplicationsComponent implements OnInit {
     this.adoptionApplications = this.getMockAdoptionApplications();
   }
 
-  showDetails(application: AdoptionApplication) {
+  showDetails(application: AdoptionApp) {
     this.dialog.open(DetailAdoptionApplicationComponent, {
-      data: application
+      data: application,
     });
   }
 
-  acceptApplication(application: AdoptionApplication) {
-    application.status = 'Accepted';
-  }
-  rejectApplication(application: AdoptionApplication) {
-    application.status = 'Rejected';
+  acceptApplication(application: AdoptionApp) {
+    application.aapp_status = 'Accepted';
   }
 
-  private getMockAdoptionApplications(): AdoptionApplication[] {
+  rejectApplication(application: AdoptionApp) {
+    application.aapp_status = 'Rejected';
+  }
+
+  private getMockAdoptionApplications(): AdoptionApp[] {
     // Mock data for demonstration purposes
     return [
       {
-        id: 1,
-        petId: 1,
+        adopter_id: 101,
+        ao_id: 1,
+        aapp_date: new Date('2023-01-15'),
+        pet_id: 1,
         petName: 'Fluffy',
-        userId: 101,
-        userName: 'John Doe',
-        userEmailAddress: 'john@example.com',
-        userPhoneNumber: '555-1234',
-        status: 'Pending',
-        organizationId: 1,
-        organizationName: 'Pet Rescue',
-        applicationDate: new Date('2023-01-15'),
-        motivation: 'We have a loving home for Fluffy!'
+        aapp_file: '',
+        aapp_status: 'Pending',
+        aapp_response_date: null,
+        amotivation_text: 'We have a loving home for Fluffy!',
       },
       {
-        id: 2,
-        petId: 2,
+        adopter_id: 102,
+        ao_id: 2,
+        aapp_date: new Date('2023-02-20'),
+        pet_id: 2,
         petName: 'Buddy',
-        userId: 102,
-        userName: 'Jane Smith',
-        userEmailAddress: 'jane@example.com',
-        userPhoneNumber: '555-5678',
-        status: 'Approved',
-        organizationId: 2,
-        organizationName: 'Animal Haven',
-        applicationDate: new Date('2023-02-20'),
-        motivation: 'Our family is excited to welcome Buddy!'
+        aapp_file: '',
+        aapp_status: 'Approved',
+        aapp_response_date: new Date('2023-02-25'),
+        amotivation_text: 'Our family is excited to welcome Buddy!',
       },
       {
-        id: 3,
-        petId: 3,
+        adopter_id: 103,
+        ao_id: 1,
+        aapp_date: new Date('2023-03-10'),
+        pet_id: 3,
         petName: 'Max',
-        userId: 103,
-        userName: 'Alice Johnson',
-        userEmailAddress: 'alice@example.com',
-        userPhoneNumber: '555-9876',
-        status: 'Pending',
-        organizationId: 1,
-        organizationName: 'Pet Rescue',
-        applicationDate: new Date('2023-03-10'),
-        motivation: 'Max will be a great addition to our home!'
+        aapp_file: '',
+        aapp_status: 'Pending',
+        aapp_response_date: null,
+        amotivation_text: 'Max will be a great addition to our home!',
       },
       // Add more mock adoption applications as needed
     ];
   }
-  
 }

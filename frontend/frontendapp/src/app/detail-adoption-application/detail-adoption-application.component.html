@@ -1,18 +1,15 @@
-<!-- detail-adoption-application.component.html -->
-
-<h2 mat-dialog-title>Adoption Application Details</h2>
-
-<mat-dialog-content>
-  <p><strong>Pet Name:</strong> {{ data.petName }}</p>
-  <p><strong>User Name:</strong> {{ data.userName }}</p>
-  <p><strong>User Email:</strong> {{ data.userEmailAddress }}</p>
-  <p><strong>User Phone Number:</strong> {{ data.userPhoneNumber }}</p>
-  <p><strong>Status:</strong> {{ data.status }}</p>
-  <p><strong>Organization:</strong> {{ data.organizationName }}</p>
-  <p><strong>Motivation:</strong> {{ data.motivation }}</p>
-</mat-dialog-content>
-
-<mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="'close'">Close</button>
-</mat-dialog-actions>
-
+<h1 mat-dialog-title>Adoption Application Details</h1>
+<div mat-dialog-content>
+  <p><strong>Adopter ID:</strong> {{ adoptionApp.adopter_id }}</p>
+  <p><strong>Application ID:</strong> {{ adoptionApp.ao_id }}</p>
+  <p><strong>Application Date:</strong> {{ adoptionApp.aapp_date | date }}</p>
+  <p><strong>Pet ID:</strong> {{ adoptionApp.pet_id }}</p>
+  <p><strong>Pet Name:</strong> {{ adoptionApp.petName }}</p>
+  <p><strong>File:</strong> {{ adoptionApp.aapp_file }}</p>
+  <p><strong>Status:</strong> {{ adoptionApp.aapp_status }}</p>
+  <p><strong>Response Date:</strong> {{ adoptionApp.aapp_response_date | date }}</p>
+  <p><strong>Motivation:</strong> {{ adoptionApp.amotivation_text }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="closeDialog()">Close</button>
+</div>
