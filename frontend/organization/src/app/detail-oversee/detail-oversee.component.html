@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ data.name }} Details</h2>
+<div mat-dialog-content>
+  <img [src]="data.image" alt="{{ data.name }}" height="200px" width="200px">
+  <p><strong>Type:</strong> {{ data.type }}</p>
+  <p><strong>Breed:</strong> {{ data.breed }}</p>
+  <p><strong>Color:</strong> {{ data.color }}</p>
+  <p><strong>Weight:</strong> {{ data.weight }} kg</p>
+  <p><strong>Height:</strong> {{ data.height }} cm</p>
+  <p><strong>Description:</strong> {{ data.description }}</p>
+  <p><strong>Organization:</strong> {{ data.organizationName }}</p>
+  <p><strong>Feedback:</strong> {{ data.feedback }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>
+

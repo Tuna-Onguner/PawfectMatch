@@ -1,0 +1,64 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="toolbar-row">
+      <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+      <span>PawfectMatch</span>
+      <span class="spacer"></span>
+      <button mat-button class="logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+      <button mat-button class="change-password">
+        <mat-icon>vpn_key</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+      <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/add-pet']" aria-label="Add Pet">
+        <mat-icon>add</mat-icon>
+        <span>Add Pet</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/adoption-applications']" aria-label="Adoption Applications">
+        <mat-icon>pets</mat-icon>
+        <span>Adoption Applications</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/apply-for-grants']" aria-label="Apply for Grants">
+        <mat-icon>monetization_on</mat-icon>
+        <span>Apply for Grants</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/find-veterinarians']" aria-label="Find Veterinarians">
+        <mat-icon>local_hospital</mat-icon>
+        <span>Find Veterinarians</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/receive-donations']" aria-label="Receive Donations">
+        <mat-icon>receipt</mat-icon>
+        <span>Receive Donations</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/request-oversee']" aria-label="Request Oversee">
+        <mat-icon>playlist_add_check</mat-icon>
+        <span>Request Oversee</span>
+      </button>
+    </mat-sidenav>
+    <div class="pet-grid">
+      <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
+        <!-- Repeat the following mat-grid-tile for each pet -->
+        <mat-grid-tile *ngFor="let pet of petExamples" [colspan]="1" [rowspan]="1">
+          <mat-card>
+            <img mat-card-image [src]="pet.image" alt="{{ pet.name }}">
+            <mat-card-content>
+              <h3>{{ pet.name }}</h3>
+              <p>Breed: {{ pet.breed }}</p>
+              <p>Organization: {{ pet.organizationName }}</p>
+              <mat-card (click)="openPetDialog(pet)">View Details</mat-card>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-sidenav-container>
+  <router-outlet></router-outlet>
+  

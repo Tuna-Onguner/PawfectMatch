@@ -1,0 +1,18 @@
+<!-- detail-adoption-application.component.html -->
+
+<h2 mat-dialog-title>Adoption Application Details</h2>
+
+<mat-dialog-content>
+  <p><strong>Pet Name:</strong> {{ data.petName }}</p>
+  <p><strong>User Name:</strong> {{ data.userName }}</p>
+  <p><strong>User Email:</strong> {{ data.userEmailAddress }}</p>
+  <p><strong>User Phone Number:</strong> {{ data.userPhoneNumber }}</p>
+  <p><strong>Status:</strong> {{ data.status }}</p>
+  <p><strong>Organization:</strong> {{ data.organizationName }}</p>
+  <p><strong>Motivation:</strong> {{ data.motivation }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="'close'">Close</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,68 @@
+.root {
+  --primary-color: #007BFF;
+  --secondary-color: #10da13;
+  --background-color: #ccdbf3;
+  --form-background-color: #ffffff;
+  --text-color: #000;
+  --shadow-color: #000;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  padding: 0 16px; /* Adjust padding as needed */
+}
+
+.app-title {
+  font-size: 1.5em;
+  margin-left: 10px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.sidenav {
+  background-color: var(--background-color);
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 70px;
+  bottom: 0;
+  overflow: auto;
+  padding: 20px;
+}
+
+.content-container {
+  display: flex;
+  padding: 16px; /* Adjust padding as needed */
+}
+
+.agreements,
+.make-new-agreement {
+  flex: 1;
+  margin: 0 16px; /* Adjust the margin as needed */
+}
+
+.agreement-card {
+  background-color: #fff;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.new-agreement {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+button[type="submit"] {
+  margin-top: 16px;
+}

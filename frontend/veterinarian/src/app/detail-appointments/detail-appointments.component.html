@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Appointment Details</h1>
+<div mat-dialog-content>
+  <p><strong>Appointment ID:</strong> {{ appointment.appointmentId }}</p>
+  <p><strong>Veterinarian ID:</strong> {{ appointment.veterinarianId }}</p>
+    <p><strong>Appointment Date:</strong> {{ appointment.appointmentDate }}</p>
+    <p><strong>Appointment Time:</strong> {{ appointment.appointmentTime }}</p>
+    <p><strong>Appointment Status:</strong> {{ appointment.appointmentStatus }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="closeDialog()">Close</button>
+</div>
+
