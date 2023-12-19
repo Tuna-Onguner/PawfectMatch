@@ -1,72 +1,70 @@
+<!-- expert-applications.component.html -->
 <mat-toolbar color="primary">
-    <mat-toolbar-row class="toolbar-row">
-      <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
-      <span>PawfectMatch</span>
-      <span class="spacer"></span>
-      <button mat-button class="logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-      <button mat-button class="change-password">
-        <mat-icon>vpn_key</mat-icon>
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <mat-toolbar-row class="toolbar-row">
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+    <span class="spacer"></span>
+    <button mat-button class="logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-button class="change-password">
+      <mat-icon>vpn_key</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-      <button mat-button class="sidenav-button" [routerLink]="['/user-administration']" aria-label="User Administration">
-        <mat-icon>people</mat-icon>
-        <span>User Administration</span>
-      </button>
-      
-      <button mat-button class="sidenav-button" [routerLink]="['/blogger-applications']" aria-label="Blogger Applications">
-        <mat-icon>assignment_ind</mat-icon>
-        <span>Blogger Applications</span>
-      </button>
-      
-      <button mat-button class="sidenav-button" [routerLink]="['/expert-applications']" aria-label="Expert Applications">
-        <mat-icon>star</mat-icon>
-        <span>Expert Applications</span>
-      </button>
-      
-      <button mat-button class="sidenav-button" [routerLink]="['/grantee-applications']" aria-label="Grantee Applications">
-        <mat-icon>account_balance_wallet</mat-icon>
-        <span>Grantee Applications</span>
-      </button>
-      
-      <button mat-button class="sidenav-button" [routerLink]="['/transferring-donations']" aria-label="Transferring Donations">
-        <mat-icon>compare_arrows</mat-icon>
-        <span>Transferring Donations</span>
-      </button>
-      
-    </mat-sidenav>
-    <div class="main-content">
-      <div class="list-view">
-        <h2>Expert Applications List</h2>
-        <mat-card *ngFor="let expert of expertApplications" class="mat-card-item" (click)="showApplicationDetails(expert)">
-          <mat-card-header>
-            <div mat-card-avatar class="avatar"></div>
-            <mat-card-title-group>
-              <mat-card-title>
-                <span>{{ expert.title }}</span>
-                <button mat-icon-button (click)="showApplicationDetails(expert)">
-                  <mat-icon>info</mat-icon>
-                </button>
-                <button mat-icon-button class="action-button apply-button" *ngIf="expert.status === 'Pending'" (click)="applyApplication(expert)">
-                  <mat-icon>check</mat-icon>
-                </button>
-                <button mat-icon-button class="action-button reject-button" *ngIf="expert.status === 'Pending'" (click)="rejectApplication(expert)">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-card-title>
-              <mat-card-subtitle>Status: {{ expert.status }}</mat-card-subtitle>
-            </mat-card-title-group>
-          </mat-card-header>
-        </mat-card>
-      </div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <button mat-button class="sidenav-button" [routerLink]="['/user-administration']" aria-label="User Administration">
+      <mat-icon>people</mat-icon>
+      <span>User Administration</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/blogger-applications']" aria-label="Blogger Applications">
+      <mat-icon>assignment_ind</mat-icon>
+      <span>Blogger Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/expert-applications']" aria-label="Expert Applications">
+      <mat-icon>star</mat-icon>
+      <span>Expert Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/grantee-applications']" aria-label="Grantee Applications">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <span>Grantee Applications</span>
+    </button>
+
+    <button mat-button class="sidenav-button" [routerLink]="['/transferring-donations']" aria-label="Transferring Donations">
+      <mat-icon>compare_arrows</mat-icon>
+      <span>Transferring Donations</span>
+    </button>
+
+  </mat-sidenav>
+  <div class="main-content">
+    <div class="list-view">
+      <h2>Expert Applications List</h2>
+      <mat-card *ngFor="let expert of expertApplications" class="mat-card-item" (click)="showApplicationDetails(expert)">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar"></div>
+          <mat-card-title-group>
+            <mat-card-title>
+              <span>{{ expert.title }}</span>
+              <button mat-icon-button (click)="showApplicationDetails(expert)">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button mat-icon-button class="action-button apply-button" *ngIf="expert.eappStatus === 'Pending'" (click)="applyApplication(expert)">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button class="action-button reject-button" *ngIf="expert.eappStatus === 'Pending'" (click)="rejectApplication(expert)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-card-title>
+            <mat-card-subtitle>Status: {{ expert.eappStatus }}</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+      </mat-card>
     </div>
-  </mat-sidenav-container>
-  <router-outlet></router-outlet>
-  
-
-
+  </div>
+</mat-sidenav-container>
+<router-outlet></router-outlet>

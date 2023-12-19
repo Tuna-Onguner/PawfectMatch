@@ -14,34 +14,7 @@
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-    <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/add-pet']" aria-label="Add Pet">
-      <mat-icon>add</mat-icon>
-      <span>Add Pet</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/adoption-applications']" aria-label="Adoption Applications">
-      <mat-icon>pets</mat-icon>
-      <span>Adoption Applications</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/apply-for-grants']" aria-label="Apply for Grants">
-      <mat-icon>monetization_on</mat-icon>
-      <span>Apply for Grants</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/find-veterinarians']" aria-label="Find Veterinarians">
-      <mat-icon>local_hospital</mat-icon>
-      <span>Find Veterinarians</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/receive-donations']" aria-label="Receive Donations">
-      <mat-icon>receipt</mat-icon>
-      <span>Receive Donations</span>
-    </button>
-    <button mat-button class="sidenav-button" [routerLink]="['/request-oversee']" aria-label="Request Oversee">
-      <mat-icon>playlist_add_check</mat-icon>
-      <span>Request Oversee</span>
-    </button>
+    <!-- Your existing sidenav buttons -->
   </mat-sidenav>
 
   <div class="content-container">
@@ -60,34 +33,43 @@
       <h2>Make New Agreements</h2>
       <form (submit)="makeNewAgreement()">
         <div class="form-group">
-          <label for="organizationName">Organization Name:</label>
-          <input type="text" id="organizationName" [(ngModel)]="newAgreement.organizationName" name="organizationName" required>
+          <mat-form-field appearance="fill">
+            <mat-label>Organization Name:</mat-label>
+            <input matInput type="text" [(ngModel)]="newAgreement.organizationName" name="organizationName" required>
+          </mat-form-field>
         </div>
-    
+
         <div class="form-group">
-          <label for="veterinarianName">Veterinarian Name:</label>
-          <input type="text" id="veterinarianName" [(ngModel)]="newAgreement.veterinarianName" name="veterinarianName" required>
+          <mat-form-field appearance="fill">
+            <mat-label>Veterinarian Name:</mat-label>
+            <input matInput type="text" [(ngModel)]="newAgreement.veterinarianName" name="veterinarianName" required>
+          </mat-form-field>
         </div>
-    
+
         <div class="form-group">
-          <label for="agreementDate">Agreement Date:</label>
-          <input type="date" id="agreementDate" [(ngModel)]="newAgreement.agreementDate" name="agreementDate" required>
+          <mat-form-field appearance="fill">
+            <mat-label>Agreement Date:</mat-label>
+            <input matInput type="date" [(ngModel)]="newAgreement.agreementDate" name="agreementDate" required>
+          </mat-form-field>
         </div>
-    
+
         <div class="form-group">
-          <label for="petBreed">Pet Breed:</label>
-          <input type="text" id="petBreed" [(ngModel)]="newAgreement.petBreed" name="petBreed" required>
+          <mat-form-field appearance="fill">
+            <mat-label>Pet Breed:</mat-label>
+            <input matInput type="text" [(ngModel)]="newAgreement.petBreed" name="petBreed" required>
+          </mat-form-field>
         </div>
-    
+
         <div class="form-group">
-          <label for="file">Attach File:</label>
-          <input type="file" id="file" (change)="handleFileInput($event)" name="file" required>
+          <mat-form-field appearance="fill">
+            <mat-label>Attach File:</mat-label>
+            <input matInput type="file" (change)="handleFileInput($event)" name="file" required>
+          </mat-form-field>
         </div>
-    
-        <button type="submit" mat-raised-button color="primary">Apply</button>
+
+        <button type="submit" mat-button color="primary">Apply</button>
       </form>
     </div>
   </div>
-  </mat-sidenav-container>
-  <router-outlet></router-outlet>
-  
+</mat-sidenav-container>
+<router-outlet></router-outlet>

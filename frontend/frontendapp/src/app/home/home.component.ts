@@ -13,7 +13,7 @@ import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {Pet} from "../../../models/pet-models";
+import {Pet} from "../../../__models/functional_models"
 import {DetailPetComponent} from "../detail-pet/detail-pet.component";
 
 
@@ -38,12 +38,13 @@ import {DetailPetComponent} from "../detail-pet/detail-pet.component";
 })
 export class HomeComponent implements OnInit {
   petExamples: Pet[] = [];
+
   constructor(public dialog: MatDialog) {}
 
   openPetDialog(pet: Pet): void {
     this.dialog.open(DetailPetComponent, {
       data: pet,
-      width: '400px' // Adjust the width as needed
+      width: '400px', // Adjust the width as needed
     });
   }
 
@@ -54,18 +55,18 @@ export class HomeComponent implements OnInit {
   generatePetExamples() {
     for (let i = 1; i <= 6; i++) {
       const pet: Pet = {
-        id: i,
-        name: `Pet${i}`,
-        age: Math.floor(Math.random() * 5) + 1, // Random age between 1 and 5
-        type: 'Dog', // You can customize this based on your types
-        breed: `Breed${i}`,
-        color: 'Brown', // You can customize this based on your colors
-        weight: Math.floor(Math.random() * 10) + 5, // Random weight between 5 and 15
-        height: Math.floor(Math.random() * 20) + 10, // Random height between 10 and 30
-        description: `Description for Pet${i}`,
-        image: `path/to/image${i}.jpg`, // You should have images with corresponding names
-        organizationId: i,
-        organizationName: `Org${i}`
+        petId: i,
+        petName: `Pet${i}`,
+        petSize: 'Medium', // You can customize this based on your sizes
+        petImage: `path/to/image${i}.jpg`, // You should have images with corresponding names
+        petColor: 'Brown', // You can customize this based on your colors
+        isAdopted: false,
+        adopterId: i, // Initially set to null as the pet is not adopted
+        aoId: i,
+        aoName: `Org${i}`,
+        petBreedName: `Breed${i}`,
+        petAge: Math.floor(Math.random() * 5) + 1, // Random age between 1 and 5
+        petBreedId: i,
       };
 
       this.petExamples.push(pet);

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Agreement } from '../../../models/applications';
+import { AgreementReq } from '../../../__models/application_models';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 export class DetailVetAgreementComponent {
   constructor(
     public dialogRef: MatDialogRef<DetailVetAgreementComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Agreement,
+    @Inject(MAT_DIALOG_DATA) public data: AgreementReq,
     private datePipe: DatePipe  // Inject DatePipe directly
   ) {}
 
