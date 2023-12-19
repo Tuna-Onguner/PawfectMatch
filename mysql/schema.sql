@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS pawfectdb;
+create database if not exists pawfectdb;
 
 CREATE TABLE IF NOT EXISTS User
 (
@@ -79,6 +79,20 @@ CREATE TABLE IF NOT EXISTS AdoptionApp
     CHECK (LENGTH(aapp_file) <= 3 * 1024 * 1024)
 );
 
+CREATE TABLE IF NOT EXISTS BlogField
+(
+    blog_field_id   INT NOT NULL AUTO_INCREMENT,
+    blog_field_name VARCHAR(50),
+    UNIQUE (blog_field_name) PRIMARY KEY (blog_field_id)
+);
+
+CREATE TABLE IF NOT EXISTS ExpertiseField
+(
+    expertise_field_id   INT NOT NULL AUTO_INCREMENT,
+    expertise_field_name VARCHAR(50),
+    UNIQUE (expertise_field_name) PRIMARY KEY (expertise_field_id)
+);
+
 CREATE TABLE IF NOT EXISTS Veterinarian
 (
     vet_id      INT          NOT NULL AUTO_INCREMENT,
@@ -105,6 +119,22 @@ CREATE TABLE IF NOT EXISTS Expert
     PRIMARY KEY (expert_id),
     FOREIGN KEY (expert_id) REFERENCES Blogger (blogger_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS Donation
+(
+    donation_id INT            NOT NULL AUTO_INCREMENT,
+    donor_id    INT            NOT NULL,
+    ao_id       INT            NOT NULL,
+    amount      NUMERIC(10, 2) NOT NULL,
+    currency    VARCHAR(3)     NOT NULL DEFAULT 'USD',
+    ddate       DATETIME                DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (donation_id),
+    FOREIGN KEY (donor_id) REFERENCES User (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE
+);
+
+
+-- TODO: Remove below later
 
 INSERT INTO Breed (breed_name, intelligence, playfulness)
 VALUES ('Affenpinscher', 3, 4);

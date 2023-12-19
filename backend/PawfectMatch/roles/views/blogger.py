@@ -31,45 +31,26 @@ class BloggerView(APIView):
 
     @staticmethod
     def post(request) -> Response:
-        if "user_name" not in request.data or "phone_number" not in request.data or "email" not in request.data or \
-                "password" not in request.data or "blog_name" not in request.data:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if "user_id" not in request.data:
+            return Response(
+                data={"error": "user_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         with connection.cursor() as cursor:
             try:
                 cursor.execute(
-                    "INSERT INTO User (user_name, phone_number, email, password)"
-                    "VALUES (%s, %s, %s, %s)",
+                    "INSERT INTO Blogger (blogger_id, blog_name) VALUES (%s, %s)",
                     [
-                        request.data["user_name"],
-                        request.data["phone_number"],
-                        request.data["email"],
-                        request.data["password"],
+                        request.data["user_id"],
+                        request.data["blog_name"] if "blog_name" in request.data else "",
                     ]
                 )
-
-                cursor.execute("SELECT user_id FROM User WHERE email = %s", [request.data["email"]])
-                user_id = dictfetchone(cursor)["user_id"]
-
-                cursor.execute(
-                    "INSERT INTO Adopter (adopter_id, card_number)"
-                    "VALUES (%s, %s)",
-                    [
-                        user_id,
-                        request.data["card_number"],
-                    ]
+            except Exception as e:  # NOQA
+                return Response(
+                    data={"error": str(e)},
+                    status=status.HTTP_400_BAD_REQUEST
                 )
-
-                cursor.execute(
-                    "INSERT INTO Blogger (blogger_id, blog_name)"
-                    "VALUES (%s, %s)",
-                    [
-                        user_id,
-                        request.data["blog_name"],
-                    ]
-                )
-            except Exception:  # NOQA
-                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_201_CREATED)
 

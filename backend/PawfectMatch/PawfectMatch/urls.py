@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/', include('authentication.urls'), name='authentication'),
     path('api/', include('adoption.urls'), name='adoption'),
     path('api/', include('roles.urls'), name='roles'),
+    path('api/', include('donations.urls'), name='donations'),
 ]
