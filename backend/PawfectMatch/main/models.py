@@ -1,6 +1,5 @@
 from django.db import models
-from authentication.models.User import User
-
+from authentication.models import User
 
 class AdoptionOrganization(User):
     ao_id = models.AutoField(primary_key=True)
@@ -19,8 +18,7 @@ class AdoptionOrganization(User):
 
     def __str__(self):
         return self.ao_name
-
-
+    
 class Adopter(User):
     adopter_id = models.AutoField(primary_key=True)
     card_number = models.CharField(max_length=16)
@@ -31,7 +29,36 @@ class Adopter(User):
 
     def __str__(self):
         return self.adopter_street
+    
+class Blogger(Adopter):
+    blogger_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Blogger'
+        managed = False
 
+class Expert(Blogger):
+    expert_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Expert'
+        managed = False
+
+class Veterinarian(User):
+    vet_id = models.AutoField(primary_key=True)
+    vet_street = models.CharField(max_length=100)
+    vet_country = models.CharField(max_length=50)
+    vet_city = models.CharField(max_length=50)
+    vet_state = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'Veterinarian'
+        managed = False
 
 class Admin(User):
-    pass
+    admin_id = models.AutoField(primary_key=True)
+    
+    class Meta:
+        db_table = 'Admin'
+        managed = False
+        
