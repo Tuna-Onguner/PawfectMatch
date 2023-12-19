@@ -12,9 +12,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
-import { TransferringDonation } from '../../../models/applications-models';
+import { DonationReception } from '../../../__models/functional_models';
 import { DetailTransferComponent } from '../detail-transfer/detail-transfer.component';
-
+import * as faker from 'faker';
 @Component({
   selector: 'app-transferring-donations',
   standalone: true,
@@ -34,7 +34,7 @@ import { DetailTransferComponent } from '../detail-transfer/detail-transfer.comp
   styleUrl: './transferring-donations.component.css'
 })
 export class TransferringDonationsComponent implements OnInit {
-  transferringDonations: TransferringDonation[] = []; // Assuming you have a data source
+  transferringDonations: DonationReception[] = []; // Assuming you have a data source
 
   constructor(
     private dialog: MatDialog,
@@ -43,32 +43,35 @@ export class TransferringDonationsComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch or initialize your transferring donations data
-    this.transferringDonations = [
-      // Populate with sample data or fetch from a service
-      {
-        id: 1,
-        userId: 123,
-        userName: 'John Doe',
-        userEmailAddress: 'john.doe@example.com',
-        userPhoneNumber: '123-456-7890',
-        status: 'Pending',
-        organizationId: 456,
-        organizationName: 'Charity Organization',
-        applicationDate: new Date(),
-        responseDate: new Date(),
-        amount: 1000
-      },
-      // Add more items as needed
-    ];
+    this.transferringDonations = this.generateRandomDonationReceptions();
   }
 
-  acceptDonation(donation: TransferringDonation) {
-    donation.status = 'Accepted';
+
+  generateRandomDonationReceptions(): DonationReception[] {
+    let randomDonationReceptions: DonationReception[] = [];
+    for(let i = 0; i < 10; i++) {
+        let donationReception: DonationReception = {
+            donationId: faker.datatype.number({ min: 1, max: 100 }),
+            adopterId: faker.datatype.number({ min: 1, max: 100 }),
+            aoName: faker.company.companyName(),
+            adopterName: faker.name.findName(),
+            donationStatus: faker.random.arrayElement(['Accepted', 'Rejected', 'Pending']),
+            receptionDate: faker.date.past(),
+            receivedAmount: faker.datatype.number({ min: 1, max: 10000 }),
+            adminId: faker.datatype.number({ min: 1, max: 100 }),
+        };
+
+        randomDonationReceptions.push(donationReception);
+    }
+    return randomDonationReceptions;
+}
+  acceptDonation(donation: DonationReception) {
+    donation.donationStatus = 'Accepted';
   }
-  rejectDonation(donation: TransferringDonation) {
-    donation.status = 'Rejected';
+  rejectDonation(donation: DonationReception) {
+    donation.donationStatus = 'Rejected';
   }
-  showDonationDetails(donation: TransferringDonation) {
+  showDonationDetails(donation: DonationReception) {
     this.dialog.open(DetailTransferComponent, {
       width: '400px', // Adjust the width as needed
       data: donation

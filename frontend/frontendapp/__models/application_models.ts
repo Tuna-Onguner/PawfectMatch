@@ -47,7 +47,9 @@ export interface AgreementReq {
 
 export interface OverseeingReq {
   aoId: number;
+  aoName: string;
   adopterId: number;
+  adopterName: string;
   oreqDate: Date;
   oreqStatus: string;
   oreqResponseDate: Date;
@@ -55,5 +57,16 @@ export interface OverseeingReq {
   oreqResult: string | null;
 }
 
+export interface AdoptionApp {
+  adopter_id: number,
+  ao_id: number,
+  aapp_date: Date,
+  pet_id: number,
+  petName: string,
+  aapp_file: string,
+  aapp_status: string,
+  aapp_response_date: Date,
+  amotivation_text: string;
+}
 
 

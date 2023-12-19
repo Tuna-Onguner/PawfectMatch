@@ -11,7 +11,7 @@
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
-  
+
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="side" opened>
       <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
@@ -43,9 +43,10 @@
         <span>Request Oversee</span>
       </button>
     </mat-sidenav>
-    <mat-sidenav-container class="sidenav-container">
+  </mat-sidenav-container>
+
       <!-- ... (previous code) ... -->
-    
+
       <div class="vertical-container">
         <!-- Section 1: Previous Oversee -->
         <div class="previous-oversee">
@@ -53,39 +54,34 @@
           <mat-card *ngFor="let oversee of previousOversees" class="mat-card-item">
             <!-- Display information about previous oversees here -->
             <mat-card-header>
-              <mat-card-title>{{ oversee.name }}</mat-card-title>
-              <mat-card-subtitle>{{ oversee.organizationName }}</mat-card-subtitle>
+              <mat-card-title>{{ oversee.adopterName }}</mat-card-title>
+              <mat-card-subtitle>{{ oversee.aoName }}</mat-card-subtitle>
               <mat-card (click)="openDialog(oversee)">View Details</mat-card>
             </mat-card-header>
             <!-- Add more details as needed -->
           </mat-card>
         </div>
-    
-        <!-- Section 2: Apply for New Oversee -->
-        <div class="apply-oversee">
-          <h2>Apply for Veterinary Oversee</h2>
-          <form (submit)="applyForOversee()">
-            <div class="form-group">
-              <label for="petType">Pet Type:</label>
-              <input type="text" id="petType" [(ngModel)]="petType" name="petType" required>
-            </div>
-    
-            <div class="form-group">
-              <label for="reason">Reason:</label>
-              <textarea id="reason" [(ngModel)]="reason" name="reason" required></textarea>
-            </div>
-    
-            <div class="form-group">
-              <label for="applicationDate">Application Date:</label>
-              <input type="date" id="applicationDate" [(ngModel)]="applicationDate" name="applicationDate" required>
-            </div>
-    
-            <button type="submit" mat-raised-button color="primary">Apply</button>
-          </form>
-        </div>
+
+      <div class="apply-oversee">
+        <h2>Apply for Veterinary Oversee</h2>
+        <form [formGroup]="oversee_app" (ngSubmit)="applyForOversee()">
+          <div class="form-group">
+            <label for="reason">Reason:</label>
+            <textarea id="reason" formControlName="reason" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="applicationDate">Application Date:</label>
+            <input type="date" id="applicationDate" formControlName="applicationDate" required>
+          </div>
+
+          <button type="submit" mat-raised-button color="primary" [disabled]="!oversee_app.valid">Apply</button>
+        </form>
       </div>
-    </mat-sidenav-container>
-    
-  </mat-sidenav-container>
+    </div>
+
+       <!-- Section 2: Apply for New Oversee -->
+
+
+
   <router-outlet></router-outlet>
-  

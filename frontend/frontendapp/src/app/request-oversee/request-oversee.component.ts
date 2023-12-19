@@ -7,14 +7,17 @@ import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
+import {FormGroup, FormsModule} from '@angular/forms';
 import { DetailOverseeComponent } from '../detail-oversee/detail-oversee.component'; // Import the dialog component
-import { Oversee } from '../../../models/pet-models'; // Import the Oversee interface
+import { OverseeingReq } from '../../../__models/application_models'; // Import the Oversee interface
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { FormBuilder, Validators } from '@angular/forms';
+import {ReactiveFormsModule} from "@angular/forms";
+import faker from "faker";
 
 @Component({
   selector: 'app-request-oversee',
@@ -31,46 +34,51 @@ import { MatButtonModule } from '@angular/material/button';
       MatListModule,
       MatCardModule,
       FormsModule,
+      ReactiveFormsModule
     ],
   templateUrl: './request-oversee.component.html',
   styleUrls: ['./request-oversee.component.css']
 })
 export class RequestOverseeComponent {
-  previousOversees: Oversee[] = [
-    // Sample data for demonstration
-    {
-      id: 1,
-      veterinarianId: 101,
-      name: 'Buddy',
-      age: 3,
-      type: 'Dog',
-      breed: 'Labrador Retriever',
-      color: 'Golden',
-      weight: 30,
-      height: 24,
-      description: 'Friendly and energetic',
-      image: 'path/to/buddy-image.jpg',
-      organizationId: 201,
-      organizationName: 'Pawfect Vet Clinic',
-      feedback: 'Good health condition',
-    },
-    // Add more oversees as needed
-  ];
+  previousOversees: OverseeingReq[] = [];
+  oversee_app: FormGroup;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private fb: FormBuilder) {
+    this.oversee_app = this.fb.group({
+      reason: ['', Validators.required],
+      applicationDate: ['', Validators.required]
+    });
+  }
 
-  openDialog(oversee: Oversee): void {
+  applyForOversee() {
+    if (this.oversee_app.valid) {
+      // Implement the method for applying for a new oversee
+    }
+  }
+
+  openDialog(oversee: OverseeingReq): void {
     this.dialog.open(DetailOverseeComponent, {
       width: '400px', // Adjust the width as needed
       data: oversee,
     });
   }
 
-  applyForOversee() {
-    // Implement the method for applying for a new oversee
+  generateOversees(): void {
+  let previousOversees: OverseeingReq[] = [];
+  for(let i = 0; i < 30; i++) {
+    previousOversees.push(<OverseeingReq>{
+      aoId: faker.datatype.number({min: 1, max: 100}),
+      aoName: faker.company.companyName(),
+      adopterId: faker.datatype.number({min: 1, max: 100}),
+      adopterName: faker.name.findName(),
+      oreqDate: faker.date.past(),
+      oreqStatus: faker.random.word(),
+      oreqResponseDate: faker.date.past(),
+      omotivationText: faker.lorem.paragraph(),
+      oreqResult: faker.random.word(),
+    });
   }
+  this.previousOversees = previousOversees;
+}
 
-  petType: string | undefined;
-  reason: string | undefined;
-  applicationDate: Date | undefined;
 }

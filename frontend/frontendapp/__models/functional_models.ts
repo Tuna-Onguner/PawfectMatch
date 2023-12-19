@@ -97,6 +97,8 @@ export interface Donation {
 export interface DonationReception {
   donationId: number;
   adopterId: number;
+  aoName: string;
+  adopterName: string;
   donationStatus: string;
   receptionDate: Date;
   receivedAmount: number;
