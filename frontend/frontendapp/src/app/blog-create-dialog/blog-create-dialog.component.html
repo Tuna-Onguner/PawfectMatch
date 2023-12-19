@@ -1,0 +1,19 @@
+<form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <textarea matInput class="title" placeholder="Blog Title" formControlName="blogTitle"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Blog Field Name" formControlName="blogFieldName">
+  </mat-form-field>
+  <mat-form-field class="content">
+    <textarea matInput placeholder="Blog Content" formControlName="blogContent"></textarea>
+  </mat-form-field>
+  <div class="file-input">
+    <mat-label>Blog Image</mat-label>
+    <input type="file" placeholder="Blog Image" formControlName="blogImage">
+  </div>
+  <div>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-raised-button color="primary" type="submit">Create</button>
+  </div>
+</form>

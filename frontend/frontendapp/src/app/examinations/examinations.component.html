@@ -1,0 +1,29 @@
+<div class="mat-elevation-z8">
+  <h1> Examination Results</h1>
+  <table mat-table [dataSource]="dataSource" class="full-width-table">
+    <!-- Examination Description Column -->
+    <ng-container matColumnDef="examinationDescription">
+      <th mat-header-cell *matHeaderCellDef> Examination Description </th>
+      <td mat-cell *matCellDef="let examination"> {{examination.exDescription}} </td>
+    </ng-container>
+
+    <!-- Pet Name Column -->
+    <ng-container matColumnDef="petName">
+      <th mat-header-cell *matHeaderCellDef> Pet Name </th>
+      <td mat-cell *matCellDef="let examination"> {{examination.petName}} </td>
+    </ng-container>
+
+    <!-- Examination File Column -->
+    <ng-container matColumnDef="examinationFile">
+      <th mat-header-cell *matHeaderCellDef> Examination File </th>
+      <td mat-cell *matCellDef="let examination">
+        <a [href]="examination.exFile" download>Download File</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSize]="7" showFirstLastButtons></mat-paginator>
+</div>

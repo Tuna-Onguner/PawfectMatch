@@ -1,0 +1,109 @@
+<div class="form-container">
+  <form [formGroup]="bloggerForm" class="blogger-form" (ngSubmit)="onBloggerSubmit()">
+    <h1> Blogger Application </h1>
+  <mat-form-field>
+    <mat-label>Blogger Field</mat-label>
+    <input matInput formControlName="bloggerField">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Motivation Script</mat-label>
+    <textarea matInput formControlName="motivationScript"></textarea>
+  </mat-form-field>
+
+  <div class="input-file">
+    <mat-label>Blogger File</mat-label>
+    <input type="file" formControlName="bloggerFile">
+  </div>
+
+  <button mat-button type="submit" color="primary" [disabled]="bloggerForm.invalid">Apply as Blogger</button>
+</form>
+
+<ng-container *ngIf="role === 'Blogger' || role === 'Expert'">
+  <form [formGroup]="expertForm" class="expert-form" (ngSubmit)="onExpertSubmit()">
+    <h1> Expert Application </h1>
+  <mat-form-field>
+    <mat-label>Expertise Field</mat-label>
+    <input matInput formControlName="expertiseField">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Motivation Script</mat-label>
+    <textarea matInput formControlName="motivationScript"></textarea>
+  </mat-form-field>
+
+  <div class="input-file">
+    <mat-label>Expert File</mat-label>
+    <input type="file" formControlName="expertFile">
+  </div>
+
+  <button mat-button type="submit" color="primary" [disabled]="expertForm.invalid">Apply as Expert</button>
+</form>
+</ng-container>
+</div>
+
+<div class="tables">
+  <!-- Blogger Applications Table -->
+<div class="mat-elevation-z8">
+  <h1> Previous Blogger Applications</h1>
+  <table mat-table [dataSource]="bloggerDataSource" class="full-width-table">
+    <ng-container matColumnDef="applicationDate">
+      <th mat-header-cell *matHeaderCellDef> Application Date </th>
+      <td mat-cell *matCellDef="let bloggerApp"> {{bloggerApp.bappDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="responseDate">
+      <th mat-header-cell *matHeaderCellDef> Response Date </th>
+      <td mat-cell *matCellDef="let bloggerApp"> {{bloggerApp.bappResponseDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="applicationStatus">
+      <th mat-header-cell *matHeaderCellDef> Application Status </th>
+      <td mat-cell *matCellDef="let bloggerApp"> {{bloggerApp.bappStatus}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bloggerField">
+      <th mat-header-cell *matHeaderCellDef> Blogger Field </th>
+      <td mat-cell *matCellDef="let bloggerApp"> {{bloggerApp.blogFieldName}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="bloggerDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: bloggerDisplayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #bloggerPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Expert Applications Table -->
+<div class="mat-elevation-z8">
+  <h1> Previous Expert Applications</h1>
+  <table mat-table [dataSource]="expertDataSource" class="full-width-table">
+    <ng-container matColumnDef="applicationDate">
+      <th mat-header-cell *matHeaderCellDef> Application Date </th>
+      <td mat-cell *matCellDef="let expertApp"> {{expertApp.eappDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="responseDate">
+      <th mat-header-cell *matHeaderCellDef> Response Date </th>
+      <td mat-cell *matCellDef="let expertApp"> {{expertApp.eappResponseDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="applicationStatus">
+      <th mat-header-cell *matHeaderCellDef> Application Status </th>
+      <td mat-cell *matCellDef="let expertApp"> {{expertApp.eappStatus}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expertiseField">
+      <th mat-header-cell *matHeaderCellDef> Expertise Field </th>
+      <td mat-cell *matCellDef="let expertApp"> {{expertApp.expertiseFieldName}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="expertDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: expertDisplayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #expertPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
+</div>
+</div>
+
+

@@ -1,0 +1,9 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+h1 {
+  color: #3f51b5;
+}

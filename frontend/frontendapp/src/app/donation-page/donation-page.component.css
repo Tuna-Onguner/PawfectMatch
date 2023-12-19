@@ -1,0 +1,17 @@
+
+.donations-list {
+  margin-left: 250px;
+  margin-top: 150px;
+}
+
+.donate {
+  position: absolute;
+  top: 100px;
+  left: 260px;
+}
+
+button:nth-of-type(2) {
+  position: absolute;
+  top: 100px;
+  left: 380px;
+}
