@@ -1,6 +1,6 @@
 // blogger-applications.component.ts
 import { Component, OnInit } from '@angular/core';
-import { blogApplications } from '../../../models/applications-models'; // Adjust the path based on your project structure
+import { BloggerApp } from '../../../__models/application_models'; // Adjust the path based on your project structure
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,9 +35,9 @@ import { MatListModule } from '@angular/material/list'; // Add this line for Mat
   ],
   templateUrl: './blogger-applications.component.html',
   styleUrls: ['./blogger-applications.component.css']
-})
-export class BloggerApplicationsComponent implements OnInit {
-  blogs: blogApplications[] = []; // Initialize an empty array
+})export class BloggerApplicationsComponent implements OnInit {
+  blogs: BloggerApp[] = [];
+
   constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -45,72 +45,57 @@ export class BloggerApplicationsComponent implements OnInit {
     this.blogs = this.getMockBlogs();
   }
 
-  showBlogDetails(blog: blogApplications) {
+  showBlogDetails(blog: BloggerApp) {
     this.dialog.open(DetailBlogApplicationsComponent, {
-    data: blog,
+      data: blog,
     });
   }
-  applyApplication(blog: blogApplications) {
-    blog.status = 'Approved';
+
+  applyApplication(blog: BloggerApp) {
+    blog.bappStatus = 'Approved';
   }
-  rejectApplication(blog: blogApplications) {
-      blog.status = 'Rejected';
+
+  rejectApplication(blog: BloggerApp) {
+    blog.bappStatus = 'Rejected';
   }
-  private getMockBlogs(): blogApplications[] {
+
+  private getMockBlogs(): BloggerApp[] {
     // Mock data for demonstration purposes
     return [
       {
-        id: 1,
-        title: 'Blog Title 1',
-        type: 'Type A',
-        createdAt: new Date('2023-01-01'),
-        userID: 101,
-        status: 'Pending',
-        motivation: 'Motivation for Blog 1',
-        userEmail: 'user1@example.com',
-        userName: 'User One',
-        userPhoneNumber: '123-456-7890',
-        motivationFile: {
-          fileName: 'motivation_file_1.txt',
-          filePath: '/path/to/motivation_file_1.txt',
-          fileSize: 1024 // File size in bytes
-        }
+        adopterId: 1,
+        blogFieldId: 101,
+        blogFieldName: 'Blog Type A',
+        bappDate: new Date('2023-01-01'),
+        bappFile: null,
+        bappStatus: 'Pending',
+        bappResponseDate: new Date(),
+        bmotivationText: 'Motivation for Blog 1',
+        badminId: 201
       },
       {
-        id: 2,
-        title: 'Blog Title 2',
-        type: 'Type B',
-        createdAt: new Date('2023-02-15'),
-        userID: 102,
-        status: 'Approved',
-        motivation: 'Motivation for Blog 2',
-        userEmail: 'user2@example.com',
-        userName: 'User Two',
-        userPhoneNumber: '987-654-3210',
-        motivationFile: {
-          fileName: 'motivation_file_2.doc',
-          filePath: '/path/to/motivation_file_2.doc',
-          fileSize: 2048 // File size in bytes
-        }
+        adopterId: 2,
+        blogFieldId: 102,
+        blogFieldName: 'Blog Type B',
+        bappDate: new Date('2023-02-15'),
+        bappFile: null,
+        bappStatus: 'Approved',
+        bappResponseDate: new Date(),
+        bmotivationText: 'Motivation for Blog 2',
+        badminId: 202
       },
       {
-        id: 3,
-        title: 'Blog Title 3',
-        type: 'Type C',
-        createdAt: new Date('2023-03-20'),
-        userID: 103,
-        status: 'Rejected',
-        motivation: 'Motivation for Blog 3',
-        userEmail: 'user3@example.com',
-        userName: 'User Three',
-        userPhoneNumber: '555-123-4567',
-        motivationFile: {
-          fileName: 'motivation_file_3.pdf',
-          filePath: '/path/to/motivation_file_3.pdf',
-          fileSize: 3072 // File size in bytes
-        }
+        adopterId: 3,
+        blogFieldId: 103,
+        blogFieldName: 'Blog Type C',
+        bappDate: new Date('2023-03-20'),
+        bappFile: null,
+        bappStatus: 'Rejected',
+        bappResponseDate: new Date(),
+        bmotivationText: 'Motivation for Blog 3',
+        badminId: 203
       },
       // Add more mock blogs as needed
     ];
-  }  
+  }
 }

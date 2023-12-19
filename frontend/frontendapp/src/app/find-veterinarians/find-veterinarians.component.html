@@ -22,7 +22,7 @@
       <h2>Agreements with Veterinarians</h2>
       <div *ngFor="let agreement of agreements" class="agreement-card">
         <div class="info-section">
-          <p>{{ agreement.organizationName }} - {{ agreement.veterinarianName }}</p>
+          <p>{{ agreement.aoId }} - {{ agreement.vetId }}</p>
           <button mat-icon-button (click)="showAgreementDetails(agreement)">
             <mat-icon>info</mat-icon>
           </button>
@@ -35,35 +35,21 @@
         <div class="form-group">
           <mat-form-field appearance="fill">
             <mat-label>Organization Name:</mat-label>
-            <input matInput type="text" [(ngModel)]="newAgreement.organizationName" name="organizationName" required>
+            <input matInput type="text" [(ngModel)]="newAgreement.aoId" name="organizationName" required>
           </mat-form-field>
         </div>
 
         <div class="form-group">
           <mat-form-field appearance="fill">
             <mat-label>Veterinarian Name:</mat-label>
-            <input matInput type="text" [(ngModel)]="newAgreement.veterinarianName" name="veterinarianName" required>
+            <input matInput type="text" [(ngModel)]="newAgreement.vetId" name="veterinarianName" required>
           </mat-form-field>
         </div>
 
         <div class="form-group">
           <mat-form-field appearance="fill">
             <mat-label>Agreement Date:</mat-label>
-            <input matInput type="date" [(ngModel)]="newAgreement.agreementDate" name="agreementDate" required>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label>Pet Breed:</mat-label>
-            <input matInput type="text" [(ngModel)]="newAgreement.petBreed" name="petBreed" required>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label>Attach File:</mat-label>
-            <input matInput type="file" (change)="handleFileInput($event)" name="file" required>
+            <input matInput type="date" [(ngModel)]="newAgreement.agreqDate" name="agreementDate" required>
           </mat-form-field>
         </div>
 

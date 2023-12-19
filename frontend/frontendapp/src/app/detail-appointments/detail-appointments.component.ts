@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Appointments } from '../../../models/veterinarian_models';
+import { Reservation } from '../../../__models/functional_models';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-appointments',
@@ -8,8 +9,9 @@ import { Appointments } from '../../../models/veterinarian_models';
   styleUrl: './detail-appointments.component.css'
 })
 export class DetailAppointmentsComponent {
-   constructor(@Inject(MAT_DIALOG_DATA) public appointment: Appointments, private dialogRef: MatDialogRef<DetailAppointmentsComponent>) { }
-
+  
+   constructor(@Inject(MAT_DIALOG_DATA) public appointment: Reservation,private datePipe: DatePipe, private dialogRef: MatDialogRef<DetailAppointmentsComponent>) { }
+   reservation: any;
   closeDialog(): void {
     this.dialogRef.close();
   }

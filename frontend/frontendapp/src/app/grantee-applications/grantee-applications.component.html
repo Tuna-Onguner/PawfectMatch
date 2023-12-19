@@ -44,15 +44,15 @@
     <h2>Grantee Applications List</h2>
     <mat-card *ngFor="let application of grantApplications">
       <mat-card-header>
-        <mat-card-title>{{ application.organizationName }}</mat-card-title>
-        <mat-card-subtitle>{{ application.status }}</mat-card-subtitle>
+        <mat-card-title>{{ application.aoId }}</mat-card-title>
+        <mat-card-subtitle>{{ application.gappStatus }}</mat-card-subtitle>
         <button mat-icon-button (click)="showApplicationDetails(application)">
           <mat-icon>info</mat-icon>
         </button>
-        <button mat-icon-button class="action-button apply-button" *ngIf="application.status === 'Pending'" (click)="acceptApplication(application)">
+        <button mat-icon-button class="action-button apply-button" *ngIf="application.gappStatus === 'Pending'" (click)="acceptApplication(application)">
           <mat-icon>check</mat-icon>
         </button>
-        <button mat-icon-button class="action-button reject-button" *ngIf="application.status === 'Pending'" (click)="rejectApplication(application)">
+        <button mat-icon-button class="action-button reject-button" *ngIf="application.gappStatus === 'Pending'" (click)="rejectApplication(application)">
           <mat-icon>close</mat-icon>
         </button>
       </mat-card-header>

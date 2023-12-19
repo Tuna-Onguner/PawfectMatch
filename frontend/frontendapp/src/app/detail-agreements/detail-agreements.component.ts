@@ -2,7 +2,8 @@
 
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Agreement } from '../../../models/veterinarian_models';
+import { AgreementReq } from '../../../__models/application_models';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-agreements',
@@ -10,7 +11,7 @@ import { Agreement } from '../../../models/veterinarian_models';
   styleUrls: ['./detail-agreements.component.css']
 })
 export class DetailAgreementsComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public agreement: Agreement, private dialogRef: MatDialogRef<DetailAgreementsComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public agreement: AgreementReq,private datePipe: DatePipe, private dialogRef: MatDialogRef<DetailAgreementsComponent>) { }
 
   closeDialog(): void {
     this.dialogRef.close();

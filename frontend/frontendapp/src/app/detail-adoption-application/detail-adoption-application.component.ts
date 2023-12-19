@@ -4,6 +4,7 @@ import { AdoptionApp } from  '../../../__models/application_models';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -19,8 +20,10 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class DetailAdoptionApplicationComponent {
+  adoptionApp: any;
   constructor(
     public dialogRef: MatDialogRef<DetailAdoptionApplicationComponent>,
+    private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA) public data: AdoptionApp
   ) {}
   closeDialog(): void {

@@ -1,12 +1,38 @@
-// expert-applications.component.ts
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatMenuModule} from "@angular/material/menu";
+import {RouterLink, RouterOutlet} from "@angular/router";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import { AgreementReq } from '../../../__models/application_models';
+import { OnInit } from '@angular/core';
+import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
+import {MatCardModule} from "@angular/material/card";
+import { DetailAgreementsComponent } from '../detail-agreements/detail-agreements.component';
 import { ExpertApp } from '../../../__models/application_models';
 import { DetailExpertApplicationsComponent } from '../detail-expert-applications/detail-expert-applications.component';
 
 @Component({
   selector: 'app-expert-applications',
   templateUrl: './expert-applications.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    RouterLink,
+    MatSidenavModule,
+    RouterOutlet,
+    MatListModule,
+    MatCardModule,
+  ],
   styleUrls: ['./expert-applications.component.css']
 })
 export class ExpertApplicationsComponent implements OnInit {

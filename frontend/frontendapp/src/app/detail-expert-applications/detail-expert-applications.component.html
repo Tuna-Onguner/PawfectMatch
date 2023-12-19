@@ -1,16 +1,11 @@
-
-<h1 mat-dialog-title>Expert Applications Details</h1>
+<h1 mat-dialog-title>Expert Application Details</h1>
 <div mat-dialog-content>
-  <p><strong>Application ID:</strong> {{ application.id }}</p>
-  <p><strong>Title:</strong> {{ application.title }}</p>
-  <p><strong>Type:</strong> {{ application.type }}</p>
-  <p><strong>User ID:</strong> {{ application.userID }}</p>
-  <p><strong>Status:</strong> {{ application.status }}</p>
-  <p><strong>Motivation:</strong> {{ application.motivation }}</p>
-  <p><strong>User Email:</strong> {{ application.userEmail }}</p>
-  <p><strong>User Name:</strong> {{ application.userName }}</p>
-  <p><strong>User Phone Number:</strong> {{ application.userPhoneNumber }}</p>
-<div mat-dialog-actions>
+  <p><strong>Application ID:</strong> {{ expertApplication.adopterId }}</p>
+  <p><strong>Title:</strong> {{ expertApplication.expertiseFieldName }}</p>
+  <p><strong>Type:</strong> {{ expertApplication.expertiseFieldId }}</p>
+  <p><strong>User ID:</strong> {{ expertApplication.adopterId }}</p>
+  <p><strong>Status:</strong> {{ expertApplication.eappStatus }}</p>
+  <p><strong>Motivation:</strong> {{ expertApplication.emotivationText }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button color="primary" (click)="closeDialog()">Close</button>

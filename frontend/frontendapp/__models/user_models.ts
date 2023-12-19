@@ -10,7 +10,7 @@ export interface Adopter extends User {
   adopterId: number;
   cardNumber: string;
   cvv: string;
-  expirationDate: Date;
+  expirationDate: Date| null;
 }
 
 export interface Blogger extends Adopter {

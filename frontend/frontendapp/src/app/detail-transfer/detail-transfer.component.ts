@@ -1,6 +1,7 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TransferringDonation } from '../../../models/applications-models';
+import { DonationReception } from '../../../__models/functional_models';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-detail-transfer',
   standalone: true,
@@ -11,7 +12,8 @@ import { TransferringDonation } from '../../../models/applications-models';
 export class DetailTransferComponent {
   constructor(
     public dialogRef: MatDialogRef<DetailTransferComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TransferringDonation,
+    private datePipe: DatePipe,
+    @Inject(MAT_DIALOG_DATA) public donationReception: DonationReception,
     @Inject(LOCALE_ID) private locale: string
   ) {}
   onClose(): void {

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { User } from '../../../models/user-models'; // Add this line
+import { User } from '../../../__models/user_models' // Add this line
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-user',
@@ -10,7 +11,7 @@ import { User } from '../../../models/user-models'; // Add this line
   styleUrl: './detail-user.component.css'
 })
 export class DetailUserComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public user: User, private dialogRef: MatDialogRef<DetailUserComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public user: User, private dialogRef: MatDialogRef<DetailUserComponent>,    private datePipe: DatePipe) { }
 
   closeDialog(): void {
     this.dialogRef.close();

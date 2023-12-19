@@ -3,11 +3,7 @@
 <div mat-dialog-content>
   <p><strong>Application ID:</strong> {{ data.aoId }}</p>
   <p><strong>Amount Requested:</strong> {{ formatAmount(data.gappAmount) }}</p>
-  <p><strong>Application Date:</strong> {{ data.gappDate | date }}</p>
-  <!-- Assuming gappFile is a Blob, you might want to display some information about the file, not the entire blob -->
-  <p *ngIf="data.gappFile !== null"><strong>File Attached:</strong> {{ data.gappFile.size }} bytes</p>
   <p><strong>Status:</strong> {{ data.gappStatus }}</p>
-  <p><strong>Response Date:</strong> {{ data.gappResponseDate | date }}</p>
   <p><strong>Motivation:</strong> {{ data.gMotivationText }}</p>
   <p><strong>Decided Amount:</strong> {{ formatAmount(data.gappDecidedAmount) }}</p>
 </div>

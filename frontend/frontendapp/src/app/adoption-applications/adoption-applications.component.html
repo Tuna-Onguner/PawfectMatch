@@ -55,19 +55,19 @@
           <div mat-card-avatar class="avatar"></div>
           <mat-card-title-group>
             <mat-card-title>
-              <span>{{ application.userName }}</span>
+              <span>{{ application.petName }}</span>
               <button mat-icon-button (click)="showDetails(application)">
                 <mat-icon>info</mat-icon>
               </button>
               <!-- Add buttons or actions as needed -->
-              <button mat-button color="primary" (click)="acceptApplication(application)" *ngIf="application.status === 'Pending'">
+              <button mat-button color="primary" (click)="acceptApplication(application)" *ngIf="application.aapp_status === 'Pending'">
                 Accept Application
               </button>
-              <button mat-button color="warn" (click)="rejectApplication(application)" *ngIf="application.status === 'Pending'">
+              <button mat-button color="warn" (click)="rejectApplication(application)" *ngIf="application.aapp_status === 'Pending'">
                 Reject Application
               </button>
             </mat-card-title>
-            <mat-card-subtitle>Status: {{ application.status }}</mat-card-subtitle>
+            <mat-card-subtitle>Status: {{ application.aapp_status }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
       </mat-card>
