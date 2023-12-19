@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Pet(models.Model):
     pet_id = models.AutoField(primary_key=True)
     pet_name = models.CharField(max_length=50)

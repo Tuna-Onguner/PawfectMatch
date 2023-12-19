@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class AdoptionApplication(models.Model):
     adopter = models.ForeignKey('main.Adopter', on_delete=models.CASCADE)
     app_date = models.DateTimeField(auto_now_add=True)
@@ -12,6 +13,6 @@ class AdoptionApplication(models.Model):
     class Meta:
         db_table = 'AdoptionApplication'
         managed = False
-    
+
     def __str__(self):
         return self.app_date

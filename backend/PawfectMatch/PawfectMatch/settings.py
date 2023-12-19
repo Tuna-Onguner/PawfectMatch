@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     "main",
     "authentication",
     "adoption",
-    "applications",
+    #"applications",
+    "roles",
+    "donations",
 ]
 
 MIDDLEWARE = [
