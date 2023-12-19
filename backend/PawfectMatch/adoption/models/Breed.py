@@ -8,7 +8,7 @@ class Breed(models.Model):
     playfulness = models.IntegerField()
 
     class Meta:
-        db_table = 'Breed'
+        db_table = "Breed"
         managed = False
 
     def __str__(self):
