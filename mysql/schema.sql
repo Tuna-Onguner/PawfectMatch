@@ -64,22 +64,25 @@ CREATE TABLE IF NOT EXISTS Pet
     PRIMARY KEY (pet_id)
 );
 
-CREATE TABLE IF NOT EXISTS Dog (
+CREATE TABLE IF NOT EXISTS Dog
+(
     dog_id INT NOT NULL,
-    FOREIGN KEY (dog_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    FOREIGN KEY (dog_id) REFERENCES Pet (pet_id) ON DELETE CASCADE,
     PRIMARY KEY (dog_id)
 );
 
-CREATE TABLE IF NOT EXISTS Cat (
+CREATE TABLE IF NOT EXISTS Cat
+(
     cat_id INT NOT NULL,
-    FOREIGN KEY (cat_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    FOREIGN KEY (cat_id) REFERENCES Pet (pet_id) ON DELETE CASCADE,
     PRIMARY KEY (cat_id)
 );
 
-CREATE TABLE IF NOT EXISTS Other (
-    other_id INT NOT NULL,
+CREATE TABLE IF NOT EXISTS Other
+(
+    other_id   INT         NOT NULL,
     other_type VARCHAR(50) NOT NULL,
-    FOREIGN KEY (other_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    FOREIGN KEY (other_id) REFERENCES Pet (pet_id) ON DELETE CASCADE,
     PRIMARY KEY (other_id)
 );
 
@@ -99,85 +102,92 @@ CREATE TABLE IF NOT EXISTS AdoptionApp
     CHECK (LENGTH(aapp_file) <= 3 * 1024 * 1024)
 );
 
-CREATE TABLE IF NOT EXISTS Veterinarian (
-    vet_id INT NOT NULL,
-    vet_street VARCHAR(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS Veterinarian
+(
+    vet_id      INT         NOT NULL,
+    vet_street  VARCHAR(50) NOT NULL,
     vet_country VARCHAR(50) NOT NULL,
-    vet_city VARCHAR(50) NOT NULL,
-    vet_state VARCHAR(50) NOT NULL,
-    FOREIGN KEY (vet_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    vet_city    VARCHAR(50) NOT NULL,
+    vet_state   VARCHAR(50) NOT NULL,
+    FOREIGN KEY (vet_id) REFERENCES User (user_id) ON DELETE CASCADE,
     PRIMARY KEY (vet_id)
-); 
+);
 
-CREATE TABLE IF NOT EXISTS Schedule (
-    schedule_id INT NOT NULL AUTO_INCREMENT,
-    vet_id INT NOT NULL,
-    is_restricted BOOLEAN DEFAULT TRUE,
+CREATE TABLE IF NOT EXISTS Schedule
+(
+    schedule_id             INT  NOT NULL AUTO_INCREMENT,
+    vet_id                  INT  NOT NULL,
+    is_restricted           BOOLEAN DEFAULT TRUE,
     schedule_beginning_date DATE NOT NULL,
-    schedule_end_date DATE NOT NULL,
-    FOREIGN KEY (vet_id) REFERENCES Veterinarian(vet_id) ON DELETE CASCADE,
+    schedule_end_date       DATE NOT NULL,
+    FOREIGN KEY (vet_id) REFERENCES Veterinarian (vet_id) ON DELETE CASCADE,
     PRIMARY KEY (schedule_id)
 );
 
-CREATE TABLE IF NOT EXISTS Reservation (
-    reservation_id INT NOT NULL AUTO_INCREMENT,
-    adopter_id INT NOT NULL,
-    pet_id INT NOT NULL,
-    rv_date DATETIME NOT NULL,
-    reasoning TEXT,
-    rv_status VARCHAR(8) DEFAULT 'PENDING',
-    rv_response_date DATETIME DEFAULT NULL,
-    FOREIGN KEY (pet_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
-    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+CREATE TABLE IF NOT EXISTS Reservation
+(
+    reservation_id   INT      NOT NULL AUTO_INCREMENT,
+    adopter_id       INT      NOT NULL,
+    pet_id           INT      NOT NULL,
+    rv_date          DATETIME NOT NULL,
+    reasoning        TEXT,
+    rv_status        VARCHAR(8) DEFAULT 'PENDING',
+    rv_response_date DATETIME   DEFAULT NULL,
+    FOREIGN KEY (pet_id) REFERENCES Pet (pet_id) ON DELETE CASCADE,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter (adopter_id) ON DELETE CASCADE,
     PRIMARY KEY (reservation_id)
 );
 
-CREATE TABLE IF NOT EXISTS Examination (
-    ex_id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Examination
+(
+    ex_id          INT NOT NULL AUTO_INCREMENT,
     ex_description TEXT,
-    ex_file BLOB DEFAULT NULL,
+    ex_file        BLOB DEFAULT NULL,
     reservation_id INT NOT NULL,
     CHECK (LENGTH(ex_file) <= 3 * 1024 * 1024),
-    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id) ON DELETE CASCADE,
+    FOREIGN KEY (reservation_id) REFERENCES Reservation (reservation_id) ON DELETE CASCADE,
     PRIMARY KEY (ex_id)
 );
 
-CREATE TABLE IF NOT EXISTS OverseeingReq(
-    ao_id INT NOT NULL,
-    adopter_id INT NOT NULL,
-    oreq_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    oreq_status VARCHAR(8) DEFAULT 'PENDING',
-    oreq_response_date DATETIME DEFAULT NULL,
-    omotivation_text TEXT NOT NULL,
-    oreq_result VARCHAR(14) DEFAULT NULL,
-    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
-    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+CREATE TABLE IF NOT EXISTS OverseeingReq
+(
+    ao_id              INT  NOT NULL,
+    adopter_id         INT  NOT NULL,
+    oreq_date          DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    oreq_status        VARCHAR(8)  DEFAULT 'PENDING',
+    oreq_response_date DATETIME    DEFAULT NULL,
+    omotivation_text   TEXT NOT NULL,
+    oreq_result        VARCHAR(14) DEFAULT NULL,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter (adopter_id) ON DELETE CASCADE,
     PRIMARY KEY (ao_id, adopter_id, oreq_date)
 );
 
-CREATE TABLE IF NOT EXISTS AgreementReq(
-    ao_id INT NOT NULL,
-    vet_id INT NOT NULL,
-    agreq_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    aqreq_status VARCHAR(8) DEFAULT 'PENDING',
-    agreq_response_date DATETIME DEFAULT NULL,
-    agmotivation_text TEXT NOT NULL,
-    agreq_term_date DATETIME DEFAULT NULL,
-    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
-    FOREIGN KEY (vet_id) REFERENCES Veterinarian(vet_id) ON DELETE CASCADE,
+CREATE TABLE IF NOT EXISTS AgreementReq
+(
+    ao_id               INT  NOT NULL,
+    vet_id              INT  NOT NULL,
+    agreq_date          DATETIME   DEFAULT CURRENT_TIMESTAMP,
+    aqreq_status        VARCHAR(8) DEFAULT 'PENDING',
+    agreq_response_date DATETIME   DEFAULT NULL,
+    agmotivation_text   TEXT NOT NULL,
+    agreq_term_date     DATETIME   DEFAULT NULL,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (vet_id) REFERENCES Veterinarian (vet_id) ON DELETE CASCADE,
     PRIMARY KEY (ao_id, vet_id, agreq_date)
 );
 
-CREATE TABLE IF NOT EXISTS Slot (
-    slot_id INT NOT NULL AUTO_INCREMENT,
-    schedule_id INT NOT NULL,
-    is_reserved BOOLEAN DEFAULT FALSE,
-    date DATE NOT NULL,
-    start_hour TIME NOT NULL,
-    end_hour TIME NOT NULL,
-    reservation_id INT DEFAULT NULL,
-    FOREIGN KEY (schedule_id) REFERENCES Schedule(schedule_id) ON DELETE CASCADE,
-    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id) ON DELETE CASCADE,
+CREATE TABLE IF NOT EXISTS Slot
+(
+    slot_id        INT  NOT NULL AUTO_INCREMENT,
+    schedule_id    INT  NOT NULL,
+    is_reserved    BOOLEAN DEFAULT FALSE,
+    date           DATE NOT NULL,
+    start_hour     TIME NOT NULL,
+    end_hour       TIME NOT NULL,
+    reservation_id INT     DEFAULT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES Schedule (schedule_id) ON DELETE CASCADE,
+    FOREIGN KEY (reservation_id) REFERENCES Reservation (reservation_id) ON DELETE CASCADE,
     PRIMARY KEY (slot_id)
 );
 
