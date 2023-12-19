@@ -106,15 +106,15 @@ CREATE TABLE IF NOT EXISTS Expert
     FOREIGN KEY (expert_id) REFERENCES Blogger (blogger_id) ON DELETE CASCADE
 );
 
-INSERT INTO Breed (breed_name, intelligence, playfulness)
-VALUES ('Affenpinscher', 3, 4);
-
-INSERT INTO User (user_name, phone_number, email, password)
-VALUES ('John Doe', '1234567890', 'email@com', 'password'),
-       ('Jane Doe', '123456782390', 'emai2l@com', 'password');
-
-INSERT INTO AdoptionOrganization (ao_id, ao_name, ao_street, ao_country, ao_city, ao_state)
-VALUES (1, 'Adoption Organization', '123 Main St', 'USA', 'New York', 'NY');
-
-INSERT INTO Adopter (adopter_id, card_number)
-VALUES (2, '1234567890123456');
+CREATE TABLE IF NOT EXISTS Donation
+(
+    donation_id INT NOT NULL AUTO_INCREMENT,
+    donor_id    INT NOT NULL,
+    ao_id       INT NOT NULL,
+    amount      NUMERIC(10, 2) NOT NULL,
+    currency    VARCHAR(3)     NOT NULL DEFAULT 'USD',
+    ddate       DATETIME       DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (donation_id),
+    FOREIGN KEY (donor_id) REFERENCES User (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE
+);
