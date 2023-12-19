@@ -134,3 +134,70 @@ dist
 
 # Django stuff:
 *.pyc
+
+# Ignore JSON files
+*.json
+
+# Ignore Node.js related files and directories
+node_modules/
+npm-debug.log
+
+# Ignore Angular specific files and directories
+/dist/
+/tmp/
+/.ng_build/
+/.ng_deps/
+/coverage/
+/.nyc_output/
+/bower_components/
+/.editorconfig
+*.sublime-workspace
+*.sublime-project
+*.komodoproject
+/.komodotools
+/sitemap.xml
+/.eslintcache
+/Thumbs.db
+/desktop.ini
+/.vscode/
+
+# Django specific files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore database files
+db.sqlite3
+*.sqlite3
+*.db
+
+# Ignore local settings
+local_settings.py
+
+# Ignore development and environment-specific files
+.env
+*.env
+
+# Ignore logs
+*.log
+
+# Ignore media and static files
+/media/
+/static/
+
+# Ignore generated files
+*.pyc
+
+# Ignore coverage reports
+.coverage
+htmlcov/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore Python virtual environment
+venv/
