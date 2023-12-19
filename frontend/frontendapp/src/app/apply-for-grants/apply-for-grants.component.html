@@ -47,39 +47,40 @@
   <div class="vertical-container">
     <div class="grant-applications">
       <h2>Previous Grant Applications</h2>
-      <mat-card  *ngFor="let application of grantApplications">
+      <mat-card *ngFor="let application of grantApplications">
         <mat-card-header>
-          <mat-card-title>{{ application.organizationName }}</mat-card-title>
-          <mat-card-subtitle>{{ application.status }}</mat-card-subtitle>
+          <mat-card-title>{{ application.aoId }}</mat-card-title>
+          <mat-card-subtitle>{{ application.gappStatus }}</mat-card-subtitle>
           <button mat-icon-button (click)="showApplicationDetails(application)">
             <mat-icon>info</mat-icon>
           </button>
         </mat-card-header>
-
+        <!-- Add additional fields based on your GranteeApp interface -->
+        <mat-card-content>
+          <p>Amount: {{ application.gappAmount }}</p>
+          <p>Date: {{ application.gappDate | date }}</p>
+          <!-- Add more fields as needed -->
+        </mat-card-content>
       </mat-card>
     </div>
-
+    
     <div class="apply-grant">
       <h2>Apply for a Grant</h2>
       <form (submit)="applyForGrant()">
+        <!-- ... (other form fields) ... -->
         <div class="form-group">
-          <label for="motivation">Motivation:</label>
-          <textarea id="motivation" [(ngModel)]="motivation" name="motivation" required></textarea>
+          <label for="gappDecidedAmount">Amount Needed:</label>
+          <input type="number" id="gappDecidedAmount" [(ngModel)]="amountNeeded" name="amountNeeded" required>
         </div>
-
-        <div class="form-group">
-          <label for="amountNeeded">Amount Needed:</label>
-          <input type="number" id="amountNeeded" [(ngModel)]="amountNeeded" name="amountNeeded" required>
-        </div>
-
+    
         <div class="form-group">
           <label for="file">Attach File:</label>
           <input type="file" id="file" (change)="handleFileInput($event)" name="file" required>
         </div>
-
+    
         <button type="submit" mat-raised-button color="primary">Apply</button>
       </form>
-    </div>
+    </div>    
   </div>
 
 </mat-sidenav-container>

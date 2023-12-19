@@ -13,8 +13,8 @@ import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
 import { FormsModule } from '@angular/forms';
-import { GrantApplication } from '../../../models/applications';
-import { DetailGranteeApplicationsComponent } from '/Users/sarperardabakir/Desktop/PawfectMatch/frontend/admin/src/app/detail-grantee-applications/detail-grantee-applications.component'
+import { GranteeApp } from '../../../__models/application_models';
+import { DetailGranteeApplicationsComponent } from '../detail-grantee-applications/detail-grantee-applications.component';
 @Component({
   selector: 'app-apply-for-grants',
   standalone: true,
@@ -35,31 +35,26 @@ import { DetailGranteeApplicationsComponent } from '/Users/sarperardabakir/Deskt
   styleUrl: './apply-for-grants.component.css'
 })
 export class ApplyForGrantsComponent implements OnInit {
-  grantApplications: GrantApplication[] = []; // Populate this array with actual data
+  grantApplications: GranteeApp[] = []; // Populate this array with actual data
   constructor(private dialog: MatDialog) {}
   ngOnInit() {
     // Fetch or set your grant applications data here
     this.grantApplications = [
       {
-        // Sample data for demonstration
-        id: 1,
-        userId: 123,
-        userName: 'John Doe',
-        userEmailAddress: 'john.doe@example.com',
-        userPhoneNumber: '123-456-7890',
-        status: 'Pending',
-        organizationId: 456,
-        organizationName: 'XYZ Foundation',
-        applicationDate: new Date(),
-        motivation: 'Sample motivation text',
-        responseDate: new Date(),
-        amountNeeded: 10000,
-        file: null,
+        aoId: 123,
+        gappAmount: 5000,
+        gappDate: new Date('2023-01-01'),
+        gappFile: new Blob([/* binary data */]),
+        gappStatus: 'Pending',
+        gappResponseDate: new Date('2023-01-10'),
+        gMotivationText: 'This is a sample motivation text.',
+        gappDecidedAmount: 4500,
+        gadminId: 456
       },
       // Add more applications as needed
     ];
   }
-  showApplicationDetails(grant: GrantApplication) {
+  showApplicationDetails(grant: GranteeApp) {
     this.dialog.open(DetailGranteeApplicationsComponent, {
       width: '400px', // Adjust the width as needed
       data: grant

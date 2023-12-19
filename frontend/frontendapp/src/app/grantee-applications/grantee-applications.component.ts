@@ -12,7 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
-import { GrantApplication } from '../../../models/applications-models';
+import { GranteeApp } from '../../../__models/application_models';
 import { DetailGranteeApplicationsComponent } from '../detail-grantee-applications/detail-grantee-applications.component';
 
 @Component({
@@ -34,40 +34,40 @@ import { DetailGranteeApplicationsComponent } from '../detail-grantee-applicatio
   styleUrl: './grantee-applications.component.css'
 })
 export class GranteeApplicationsComponent implements OnInit {
-  grantApplications: GrantApplication[] = []; // Populate this array with actual data
+  grantApplications: GranteeApp[] = [];
+
   constructor(private dialog: MatDialog) {}
+
   ngOnInit() {
     // Fetch or set your grant applications data here
     this.grantApplications = [
       {
-        // Sample data for demonstration
-        id: 1,
-        userId: 123,
-        userName: 'John Doe',
-        userEmailAddress: 'john.doe@example.com',
-        userPhoneNumber: '123-456-7890',
-        status: 'Pending',
-        organizationId: 456,
-        organizationName: 'XYZ Foundation',
-        applicationDate: new Date(),
-        motivation: 'Sample motivation text',
-        responseDate: new Date(),
-        amountNeeded: 10000,
+        aoId: 1,
+        gappAmount: 10000,
+        gappDate: new Date(),
+        gappFile: null, // Assuming the file is stored as binary data
+        gappStatus: 'Pending',
+        gappResponseDate: new Date(),
+        gMotivationText: 'Sample motivation text',
+        gappDecidedAmount: 0, // Default value, update as needed
+        gadminId: 123,
       },
       // Add more applications as needed
     ];
   }
-  showApplicationDetails(grant: GrantApplication) {
+
+  showApplicationDetails(grant: GranteeApp) {
     this.dialog.open(DetailGranteeApplicationsComponent, {
       width: '400px', // Adjust the width as needed
       data: grant
     });
   }
-  acceptApplication(grant: GrantApplication) {
-    grant.status = 'Accepted';
+
+  acceptApplication(grant: GranteeApp) {
+    grant.gappStatus = 'Accepted';
   }
-  rejectApplication(grant: GrantApplication) {
-    grant.status = 'Rejected';
+
+  rejectApplication(grant: GranteeApp) {
+    grant.gappStatus = 'Rejected';
   }
 }
-

@@ -1,16 +1,15 @@
+<!-- Assuming your OverseeingReq interface properties -->
 <h2 mat-dialog-title>{{ data.name }} Details</h2>
 <div mat-dialog-content>
   <img [src]="data.image" alt="{{ data.name }}" height="200px" width="200px">
-  <p><strong>Type:</strong> {{ data.type }}</p>
-  <p><strong>Breed:</strong> {{ data.breed }}</p>
-  <p><strong>Color:</strong> {{ data.color }}</p>
-  <p><strong>Weight:</strong> {{ data.weight }} kg</p>
-  <p><strong>Height:</strong> {{ data.height }} cm</p>
-  <p><strong>Description:</strong> {{ data.description }}</p>
-  <p><strong>Organization:</strong> {{ data.organizationName }}</p>
-  <p><strong>Feedback:</strong> {{ data.feedback }}</p>
+  <p><strong>Adoption Request ID:</strong> {{ data.aoId }}</p>
+  <p><strong>Adopter ID:</strong> {{ data.adopterId }}</p>
+  <p><strong>Request Date:</strong> {{ data.oreqDate | date }}</p>
+  <p><strong>Status:</strong> {{ data.oreqStatus }}</p>
+  <p><strong>Response Date:</strong> {{ data.oreqResponseDate | date }}</p>
+  <p><strong>Motivation:</strong> {{ data.omotivationText }}</p>
+  <p><strong>Request Result:</strong> {{ data.oreqResult || 'N/A' }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Close</button>
 </div>
-

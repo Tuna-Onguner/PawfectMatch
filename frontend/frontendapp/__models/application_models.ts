@@ -35,12 +35,13 @@ export interface GranteeApp {
 }
 
 export interface AgreementReq {
+  file: File | null;
   aoId: number;
   vetId: number;
   agreqDate: Date;
   requesterId: number;
   aqreqStatus: string;
-  agreqResponseDate: Date;
+  agreqResponseDate: Date | null;
   agMotivationText: string;
   agreqTermDate: Date;
 }

@@ -9,7 +9,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import { Agreement } from '../../../models/veterinarian_models'; // Replace with the correct path
+import { AgreementReq } from '../../../__models/application_models';
 import { OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // Add this line for MatListModule
 import {MatCardModule} from "@angular/material/card";
@@ -34,7 +34,7 @@ import { DetailAgreementsComponent } from '../detail-agreements/detail-agreement
   styleUrl: './make-agreements.component.css'
 })
 export class MakeAgreementsComponent implements OnInit {
-  agreements: Agreement[] = []; // Populate this array with your data
+  agreements: AgreementReq[] = []; // Populate this array with your data
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
 
@@ -44,53 +44,44 @@ export class MakeAgreementsComponent implements OnInit {
     this.agreements = this.getMockAgreements();
   }
 
-  showDetails(agreement: Agreement) {
+  showDetails(agreement: AgreementReq) {
     this.dialog.open(DetailAgreementsComponent, {
       data: agreement  // Pass the agreement directly without the extra 'data' property
     });
   }
   
-  applyAgreement(agreement: Agreement) {
-    agreement.agreementStatus = 'Accepted';
-  }
-  rejectAgreement(agreement: Agreement) { 
-    agreement.agreementStatus = 'Rejected';
+  applyAgreement(agreement: AgreementReq) {
+    agreement.aqreqStatus = 'Accepted';
   }
 
-  private getMockAgreements(): Agreement[] {
+  rejectAgreement(agreement: AgreementReq) { 
+    agreement.aqreqStatus = 'Rejected';
+  }
+
+  private getMockAgreements(): AgreementReq[] {
     // This method provides mock data for demonstration purposes
     return [
       {
-        agreementId: 1,
-        organizationName: 'Organization A',
-        agreementText: 'Agreement text for Organization A',
-        beginDate: new Date('2023-01-01'),
-        endDate: new Date('2023-12-31'),
-        agreementStatus: 'Accepted',
+        file: null, // Update this with appropriate values
+        aoId: 1,
+        vetId: 1,
+        agreqDate: new Date('2023-01-01'),
+        requesterId: 1,
+        aqreqStatus: 'Accepted',
+        agreqResponseDate: new Date('2023-01-02'),
+        agMotivationText: 'Agreement motivation for Organization A',
+        agreqTermDate: new Date('2023-12-31'),
       },
       {
-        agreementId: 2,
-        organizationName: 'Organization B',
-        agreementText: 'Agreement text for Organization B',
-        beginDate: new Date('2023-02-01'),
-        endDate: new Date('2023-11-30'),
-        agreementStatus: 'Pending',
-      },
-      {
-        agreementId: 3,
-        organizationName: 'Organization B',
-        agreementText: 'Agreement text for Organization B',
-        beginDate: new Date('2023-02-01'),
-        endDate: new Date('2023-11-30'),
-        agreementStatus: 'Pending',
-      },
-      {
-        agreementId: 4,
-        organizationName: 'Organization B',
-        agreementText: 'Agreement text for Organization B',
-        beginDate: new Date('2023-02-01'),
-        endDate: new Date('2023-11-30'),
-        agreementStatus: 'Accepted',
+        file: null, // Update this with appropriate values
+        aoId: 2,
+        vetId: 2,
+        agreqDate: new Date('2023-02-01'),
+        requesterId: 2,
+        aqreqStatus: 'Pending',
+        agreqResponseDate: null,
+        agMotivationText: 'Agreement motivation for Organization B',
+        agreqTermDate: new Date('2023-11-30'),
       },
       // Add more mock agreements as needed
     ];
