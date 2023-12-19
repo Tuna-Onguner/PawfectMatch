@@ -112,6 +112,55 @@ CREATE TABLE IF NOT EXISTS Schedule (
     PRIMARY KEY (schedule_id)
 );
 
+CREATE TABLE IF NOT EXISTS Reservation (
+    reservation_id INT NOT NULL AUTO_INCREMENT,
+    adopter_id INT NOT NULL,
+    pet_id INT NOT NULL,
+    rv_date DATETIME NOT NULL,
+    reasoning TEXT,
+    rv_status VARCHAR(8) DEFAULT 'PENDING',
+    rv_response_date DATETIME DEFAULT NULL,
+    FOREIGN KEY (pet_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    PRIMARY KEY (reservation_id)
+);
+
+CREATE TABLE IF NOT EXISTS Examination (
+    ex_id INT NOT NULL AUTO_INCREMENT,
+    ex_description TEXT,
+    ex_file BLOB DEFAULT NULL,
+    reservation_id INT NOT NULL,
+    CHECK (LENGTH(ex_file) <= 3 * 1024 * 1024),
+    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id) ON DELETE CASCADE,
+    PRIMARY KEY (ex_id)
+);
+
+CREATE TABLE IF NOT EXISTS OverseeingReq(
+    ao_id INT NOT NULL,
+    adopter_id INT NOT NULL,
+    oreq_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    oreq_status VARCHAR(8) DEFAULT 'PENDING',
+    oreq_response_date DATETIME DEFAULT NULL,
+    omotivation_text TEXT NOT NULL,
+    oreq_result VARCHAR(14) DEFAULT NULL,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    PRIMARY KEY (ao_id, adopter_id, oreq_date)
+);
+
+CREATE TABLE IF NOT EXISTS AgreementReq(
+    ao_id INT NOT NULL,
+    vet_id INT NOT NULL,
+    agreq_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    aqreq_status VARCHAR(8) DEFAULT 'PENDING',
+    agreq_response_date DATETIME DEFAULT NULL,
+    agmotivation_text TEXT NOT NULL,
+    agreq_term_date DATETIME DEFAULT NULL,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (vet_id) REFERENCES Veterinarian(vet_id) ON DELETE CASCADE,
+    PRIMARY KEY (ao_id, vet_id, agreq_date)
+);
+
 CREATE TABLE IF NOT EXISTS Slot (
     slot_id INT NOT NULL AUTO_INCREMENT,
     schedule_id INT NOT NULL,
@@ -119,7 +168,9 @@ CREATE TABLE IF NOT EXISTS Slot (
     date DATE NOT NULL,
     start_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
+    reservation_id INT DEFAULT NULL,
     FOREIGN KEY (schedule_id) REFERENCES Schedule(schedule_id) ON DELETE CASCADE,
+    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id) ON DELETE CASCADE,
     PRIMARY KEY (slot_id)
 );
 

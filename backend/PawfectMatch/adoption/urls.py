@@ -15,4 +15,30 @@ urlpatterns = [
     path("breeds/<int:pk>/", views.BreedView.as_view(), name="breed"),
     path("schedules/", views.SchedulesView.as_view(), name="schedules"),
     path("schedules/<int:pk>/", views.ScheduleView.as_view(), name="schedule"),
+    path("slots/", views.SlotsView.as_view(), name="slots"),
+    path("slots/<int:pk>/", views.SlotView.as_view(), name="slot"),
+    path("reservations/", views.ReservationsView.as_view(), name="reservations"),
+    path("reservations/<int:pk>/", views.ReservationView.as_view(), name="reservation"),
+    path("examinations/", views.ExaminationsView.as_view(), name="examinations"),
+    path("examinations/<int:pk>/", views.ExaminationView.as_view(), name="examination"),
+    path(
+        "agreement_requests/",
+        views.AgreementRequests.as_view(),
+        name="agreement_requests",
+    ),
+    path(
+        "agreement_requests/<int:pk>/",
+        views.AgreementReq.as_view(),
+        name="agreement_request",
+    ),
+    path(
+        "overseeing_requests/",
+        views.OverseeingReqsView.as_view(),
+        name="overseeing_requests",
+    ),
+    path(
+        "overseeing_requests/<int:pk>/",
+        views.OverseeingReqView.as_view(),
+        name="overseeing_request",
+    ),
 ]

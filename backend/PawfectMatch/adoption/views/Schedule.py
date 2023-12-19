@@ -85,66 +85,13 @@ class ScheduleView(APIView):
                 {"detail": "Schedule does not exist"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        schedule = dictfetchall(cursor)
+        schedule = dictfetchall(cursor)[0]
+
+        ##ALSO ADD THE SLOTS FOR THE SCHEDULE
+        cursor.execute("SELECT * FROM Slot WHERE schedule_id = %s", [pk])
+        schedule["slots"] = dictfetchall(cursor)
+
         return Response(schedule, status=status.HTTP_200_OK)
-
-    ## Add a slot to the schedule
-    def post(self, request, pk):
-        cursor = connection.cursor()
-
-        ##Check if the schedule exists
-        cursor.execute("SELECT * FROM Schedule WHERE schedule_id = %s", [pk])
-
-        row = cursor.fetchone()
-        if row is None:
-            return Response(
-                {"detail": "Schedule does not exist"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        ##Check if the slot with given start time and date already exists of the schedule
-        cursor.execute(
-            "SELECT * FROM Slot WHERE date = %s AND start_hour = %s AND schedule_id = %s",
-            [
-                request.data["date"],
-                request.data["start_hour"],
-                pk,
-            ],
-        )
-
-        row = cursor.fetchone()
-        if row is not None:
-            return Response(
-                {"detail": "Slot already exists"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        ##ADD THE SCHDULE ID TO THE REQUEST DATA
-        request.data["schedule_id"] = pk
-
-        serializer = SlotSerializer(data=request.data)
-        if not serializer.is_valid():
-            ##Print the errors
-            print(serializer.errors)
-            return Response(
-                {"detail": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST
-            )
-        ## Add the slot to the database using raw SQL
-        cursor.execute(
-            "INSERT INTO Slot (date, start_hour, schedule_id, end_hour) VALUES (%s, %s, %s, %s)",
-            [
-                request.data["date"],
-                request.data["start_hour"],
-                pk,
-                request.data["end_hour"],
-            ],
-        )
-
-        ## now return the slot
-        cursor.execute(
-            "SELECT * FROM Slot WHERE date = %s AND start_hour = %s AND schedule_id = %s",
-            [request.data["date"], request.data["start_hour"], pk],
-        )
-        slot = dictfetchall(cursor)
-        return Response(slot[-1], status=status.HTTP_201_CREATED)
 
     def put(self, request, pk):
         cursor = connection.cursor()
@@ -161,6 +108,11 @@ class ScheduleView(APIView):
 
         serializer = ScheduleSerializer(data=request.data)
 
+        if not serializer.is_valid():
+            return Response(
+                {"detail": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         ## Update the schedule in the database using raw SQL
         cursor.execute(
             "UPDATE Schedule SET is_restricted = %s, schedule_beginning_date = %s, schedule_end_date = %s, vet_id = %s WHERE schedule_id = %s",
@@ -175,5 +127,37 @@ class ScheduleView(APIView):
 
         ## now return the schedule
         cursor.execute("SELECT * FROM Schedule WHERE schedule_id = %s", [pk])
-        schedule = dictfetchall(cursor)
+        schedule = dictfetchall(cursor)[0]
+
+        ##ALSO ADD THE SLOTS FOR THE SCHEDULE
+        cursor.execute(
+            "SELECT * FROM Slot WHERE schedule_id = %s", [request.data["schedule_id"]]
+        )
+
+        schedule["slots"] = dictfetchall(cursor)
+
         return Response(schedule, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        cursor = connection.cursor()
+
+        ##Check if the schedule exists
+        cursor.execute("SELECT * FROM Schedule WHERE schedule_id = %s", [pk])
+
+        row = cursor.fetchone()
+        if row is None:
+            return Response(
+                {"detail": "Schedule does not exist"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        ##Check if user is owner of the schedule
+        cursor.execute(
+            "SELECT * FROM Schedule WHERE schedule_id = %s AND vet_id = %s",
+            [pk, request.data["vet_id"]],
+        )
+
+        ## Delete the schedule from the database using raw SQL
+        cursor.execute("DELETE FROM Schedule WHERE schedule_id = %s", [pk])
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
