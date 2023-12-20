@@ -195,14 +195,14 @@ CREATE TABLE IF NOT EXISTS BlogField
 (
     blog_field_id   INT NOT NULL AUTO_INCREMENT,
     blog_field_name VARCHAR(50),
-    UNIQUE (blog_field_name) PRIMARY KEY (blog_field_id)
+    PRIMARY KEY (blog_field_id)
 );
 
 CREATE TABLE IF NOT EXISTS ExpertiseField
 (
     expertise_field_id   INT NOT NULL AUTO_INCREMENT,
     expertise_field_name VARCHAR(50),
-    UNIQUE (expertise_field_name) PRIMARY KEY (expertise_field_id)
+    PRIMARY KEY (expertise_field_id)
 );
 
 CREATE TABLE IF NOT EXISTS Veterinarian
@@ -243,6 +243,13 @@ CREATE TABLE IF NOT EXISTS Donation
     PRIMARY KEY (donation_id),
     FOREIGN KEY (donor_id) REFERENCES User (user_id) ON DELETE CASCADE,
     FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Admin
+(
+    admin_id INT NOT NULL,
+    PRIMARY KEY (admin_id),
+    FOREIGN KEY (admin_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
 
 
