@@ -2,7 +2,6 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GranteeApp } from '../../../__models/application_models';
 import { CurrencyPipe } from '@angular/common';
-import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -16,7 +15,6 @@ export class DetailGranteeApplicationsComponent {
   constructor(
     public dialogRef: MatDialogRef<DetailGranteeApplicationsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GranteeApp,
-    private datePipe: DatePipe,
     @Inject(LOCALE_ID) private locale: string
   ) {}
 

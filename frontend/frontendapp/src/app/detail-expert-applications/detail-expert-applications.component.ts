@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { ExpertApp } from '../../../__models/application_models'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -12,7 +11,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './detail-expert-applications.component.css'
 })
 export class DetailExpertApplicationsComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public expertApplication: ExpertApp,    private datePipe: DatePipe, private dialogRef: MatDialogRef<DetailExpertApplicationsComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public expertApplication: ExpertApp, private dialogRef: MatDialogRef<DetailExpertApplicationsComponent>) { }
 
   closeDialog(): void {
     this.dialogRef.close();

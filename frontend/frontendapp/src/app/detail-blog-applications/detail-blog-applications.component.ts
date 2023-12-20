@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { BloggerApp } from '../../../__models/application_models'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-blog-applications',
@@ -11,7 +10,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './detail-blog-applications.component.css'
 })
 export class DetailBlogApplicationsComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public application: BloggerApp,private datePipe: DatePipe, private dialogRef: MatDialogRef<DetailBlogApplicationsComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public application: BloggerApp, private dialogRef: MatDialogRef<DetailBlogApplicationsComponent>) { }
   closeDialog(): void {
     this.dialogRef.close();
   }

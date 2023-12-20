@@ -1,7 +1,6 @@
 // upload-file-dialog.component.ts
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-exam-results',
@@ -10,7 +9,7 @@ import { DatePipe } from '@angular/common';
 })
 export class DetailExamResultsComponent {
   selectedFile: File | null = null;
-  constructor(public dialogRef: MatDialogRef<DetailExamResultsComponent>, private datePipe: DatePipe) {}
+  constructor(public dialogRef: MatDialogRef<DetailExamResultsComponent>) {}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];

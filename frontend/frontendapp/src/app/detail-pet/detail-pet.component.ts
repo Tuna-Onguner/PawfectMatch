@@ -4,7 +4,6 @@ import { Pet } from '../../../__models/functional_models';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-pet',
@@ -19,5 +18,5 @@ import { DatePipe } from '@angular/common';
   styleUrl: './detail-pet.component.css'
 })
 export class DetailPetComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Pet, private datePipe: DatePipe) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Pet) {}
 }
