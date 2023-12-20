@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.title {
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 500px;
+}
+
+.file-input {
+  color: #3f51b5; /* Color similar to the Register Pet button */
+  margin-bottom: 20px; /* Add margin */
+}

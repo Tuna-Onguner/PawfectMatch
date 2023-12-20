@@ -1,0 +1,90 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar-row">
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+    <span class="spacer"></span>
+    <button mat-button class="logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-button class="change-password">
+      <mat-icon>vpn_key</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <button mat-button class="sidenav-button" [routerLink]="['/make-agreements']" aria-label="Make Agreements">
+      <mat-icon>description</mat-icon>
+      <span>Make Agreements</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/publish-schedule']" aria-label="Publish Schedule">
+      <mat-icon>event</mat-icon>
+      <span>Publish Schedule</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/scheduling-request']" aria-label="Scheduling Requests">
+      <mat-icon>assignment</mat-icon>
+      <span>Scheduling Requests</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/upload-exam-results']" aria-label="Upload Exam Results">
+      <mat-icon>file_upload</mat-icon>
+      <span>Upload Exam Results</span>
+    </button>
+  </mat-sidenav>
+</mat-sidenav-container>
+
+<div class="main-content">
+  <mat-card class="day-card">
+    <mat-card-header>
+      <mat-card-title>Publish Schedules</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="horizontal-sections">
+      <!-- This Week Section -->
+      <div class="horizontal-section">
+        <h2>This Week</h2>
+        <label for="beginDate1">Begin Date:</label>
+        <input type="date" id="beginDate1" name="beginDate1">
+
+        <label for="endDate1">End Date:</label>
+        <input type="date" id="endDate1" name="endDate1">
+
+        <label for="slotNumber1">Slot Number of Days:</label>
+        <input type="number" id="slotNumber1" name="slotNumber1" min="1" max="12">
+
+        <label for="visibility1">Visibility:</label>
+        <select id="visibility1" name="visibility1">
+          <option value="visible">Visible</option>
+          <option value="invisible">Invisible</option>
+        </select>
+
+        <!-- Publish Button for This Week Section -->
+        <button mat-button class="publish-button" (click)="publishThisWeekSchedule()">Publish</button>
+      </div>
+
+      <!-- Next Week Section -->
+      <div class="horizontal-section">
+        <h2>Next Week</h2>
+        <label for="beginDate2">Begin Date:</label>
+        <input type="date" id="beginDate2" name="beginDate2">
+
+        <label for="endDate2">End Date:</label>
+        <input type="date" id="endDate2" name="endDate2">
+
+        <label for="slotNumber2">Slot Number of Days:</label>
+        <input type="number" id="slotNumber2" name="slotNumber2" min="1" max="12">
+
+        <label for="visibility2">Visibility:</label>
+        <select id="visibility2" name="visibility2">
+          <option value="visible">Visible</option>
+          <option value="invisible">Invisible</option>
+        </select>
+
+        <!-- Publish Button for Next Week Section -->
+        <button mat-button class="publish-button" (click)="publishNextWeekSchedule()">Publish</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<router-outlet></router-outlet>

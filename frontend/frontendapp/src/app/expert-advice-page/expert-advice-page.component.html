@@ -1,0 +1,67 @@
+<div class="mat-elevation-z8">
+  <h1> Previous Advices </h1>
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Adopter Name Column -->
+    <ng-container matColumnDef="adopterName">
+      <th mat-header-cell *matHeaderCellDef> Adopter Name </th>
+      <td mat-cell *matCellDef="let counsel"> {{counsel.adopterName}} </td>
+    </ng-container>
+
+    <!-- Expert Name Column -->
+    <ng-container matColumnDef="expertName">
+      <th mat-header-cell *matHeaderCellDef> Expert Name </th>
+      <td mat-cell *matCellDef="let counsel"> {{counsel.expertName}} </td>
+    </ng-container>
+
+    <!-- Expertise Field Column -->
+    <ng-container matColumnDef="expertiseField">
+      <th mat-header-cell *matHeaderCellDef> Expertise Field </th>
+      <td mat-cell *matCellDef="let counsel"> {{counsel.expertiseFieldName}} </td>
+    </ng-container>
+
+    <!-- Response Date Column -->
+    <ng-container matColumnDef="responseDate">
+      <th mat-header-cell *matHeaderCellDef> Response Date </th>
+      <td mat-cell *matCellDef="let counsel"> {{counsel.expertResponseDate}} </td>
+    </ng-container>
+
+    <!-- Advice Date Column -->
+    <ng-container matColumnDef="adviceDate">
+      <th mat-header-cell *matHeaderCellDef> Advice Date </th>
+      <td mat-cell *matCellDef="let counsel"> {{counsel.adviceDate}} </td>
+    </ng-container>
+
+    <!-- Details Button Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let counsel">
+        <button mat-button color="primary" (click)="openDetailsDialog(counsel)">Details</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+
+<div class="form-container">
+  <p class="title"> Ask For Expert Advice</p>
+  <form [formGroup]="askExpertForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-select placeholder="Expert Name" formControlName="expertName">
+        <mat-option *ngFor="let name of expertNames" [value]="name">{{name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Expertise Field" formControlName="expertiseField">
+        <mat-option *ngFor="let field of expertiseFields" [value]="field">{{field}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Question" formControlName="question"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Consult</button>
+  </form>
+</div>

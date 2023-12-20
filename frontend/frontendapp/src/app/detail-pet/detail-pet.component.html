@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data.petName }}</h2>
+<mat-dialog-content>
+  <img [src]="data.petImage" alt="{{ data.petName }}" class="dialog-image">
+  <p><strong>Breed:</strong> {{ data.petBreedName }}</p>
+  <p><strong>Color:</strong> {{ data.petColor }}</p>
+  <p><strong>Age:</strong> {{ data.petAge }}</p>
+  <!-- Adjusting property names based on the Pet interface -->
+  <p><strong>Weight:</strong> {{ data.petWeight }}</p>
+  <p><strong>Height:</strong> {{ data.petHeight }}</p>
+  <p><strong>Description:</strong> {{ data.petDescription }}</p>
+  <p><strong>Type:</strong> {{ data.petSize }}</p>
+
+  <p><strong>Organization:</strong> {{ data.aoName }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="'close'">Close</button>
+</mat-dialog-actions>

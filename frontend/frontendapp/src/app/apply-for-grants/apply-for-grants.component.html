@@ -1,0 +1,88 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar-row">
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+    <span class="spacer"></span>
+    <button mat-button class="logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-button class="change-password">
+      <mat-icon>vpn_key</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <button mat-button class="sidenav-button" [routerLink]="['/home-organization']" aria-label="Home">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/add-pet']" aria-label="Add Pet">
+      <mat-icon>add</mat-icon>
+      <span>Add Pet</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/adoption-applications']" aria-label="Adoption Applications">
+      <mat-icon>pets</mat-icon>
+      <span>Adoption Applications</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/apply-for-grants']" aria-label="Apply for Grants">
+      <mat-icon>monetization_on</mat-icon>
+      <span>Apply for Grants</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/find-veterinarians']" aria-label="Find Veterinarians">
+      <mat-icon>local_hospital</mat-icon>
+      <span>Find Veterinarians</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/receive-donations']" aria-label="Receive Donations">
+      <mat-icon>receipt</mat-icon>
+      <span>Receive Donations</span>
+    </button>
+    <button mat-button class="sidenav-button" [routerLink]="['/request-oversee']" aria-label="Request Oversee">
+      <mat-icon>playlist_add_check</mat-icon>
+      <span>Request Oversee</span>
+    </button>
+  </mat-sidenav>
+
+  <div class="vertical-container">
+    <div class="grant-applications">
+      <h2>Previous Grant Applications</h2>
+      <mat-card *ngFor="let application of grantApplications">
+        <mat-card-header>
+          <mat-card-title>{{ application.aoId }}</mat-card-title>
+          <mat-card-subtitle>{{ application.gappStatus }}</mat-card-subtitle>
+          <button mat-icon-button (click)="showApplicationDetails(application)">
+            <mat-icon>info</mat-icon>
+          </button>
+        </mat-card-header>
+        <!-- Add additional fields based on your GranteeApp interface -->
+        <mat-card-content>
+          <p>Amount: {{ application.gappAmount }}</p>
+          <p>Date: {{ application.gappDate | date }}</p>
+          <!-- Add more fields as needed -->
+        </mat-card-content>
+      </mat-card>
+    </div>
+    
+    <div class="apply-grant">
+      <h2>Apply for a Grant</h2>
+      <form (submit)="applyForGrant()">
+        <!-- ... (other form fields) ... -->
+        <div class="form-group">
+          <label for="gappDecidedAmount">Amount Needed:</label>
+          <input type="number" id="gappDecidedAmount" [(ngModel)]="amountNeeded" name="amountNeeded" required>
+        </div>
+    
+        <div class="form-group">
+          <label for="file">Attach File:</label>
+          <input type="file" id="file" (change)="handleFileInput($event)" name="file" required>
+        </div>
+    
+        <button type="submit" mat-raised-button color="primary">Apply</button>
+      </form>
+    </div>    
+  </div>
+
+</mat-sidenav-container>
+
+<router-outlet></router-outlet>

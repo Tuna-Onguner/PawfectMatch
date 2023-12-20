@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Agreement Details</h1>
+<div mat-dialog-content>
+  <p><strong>Organization:</strong> {{ data.aoId }}</p>
+  <p><strong>Veterinarian:</strong> {{ data.vetId }}</p>
+  <p><strong>Agreement Date:</strong> {{ formatDate(data.agreqDate) }}</p>
+  <p><strong>Pet Breed:</strong> {{ data.requesterId }}</p>
+  <!-- Assuming `data.file` is a Blob or File object, you might want to display some information about the file, not the entire object -->
+  <p *ngIf="data.file !== null"><strong>File:</strong> {{ data.file.name }}</p>
+  <!-- Adjust based on the actual structure of your `data.file` property -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">Close</button>
+</div>

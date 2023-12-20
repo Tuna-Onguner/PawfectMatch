@@ -1,0 +1,23 @@
+/* detail-adoption-application.component.css */
+
+h2 {
+    color: #673ab7; /* Purple color for the title */
+    margin-bottom: 15px;
+  }
+  
+  p {
+    margin: 8px 0;
+  }
+  
+  mat-dialog-content {
+    max-width: 400px; /* Adjust the maximum width of the content */
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  /* Add additional styles as needed */
+  
