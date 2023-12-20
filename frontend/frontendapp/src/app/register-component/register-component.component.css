@@ -45,8 +45,14 @@ button.mat-raised-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin: 10px;
 }
 
 button:hover {
   background-color: #1a237e; /* Darker indigo color for hover effect */
 }
+
+.b1 {
+  margin: 10px;
+}
+

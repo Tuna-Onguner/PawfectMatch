@@ -10,6 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-upload-exam-results',
@@ -24,6 +25,7 @@ import {MatCardModule} from "@angular/material/card";
     RouterOutlet,
     CommonModule,
     MatCardModule,
+    MatInputModule,
   ],
   templateUrl: './publish-schedules.component.html',
   styleUrl: './publish-schedules.component.css'

@@ -1,1 +1,29 @@
-<p>login-view works!</p>
+<p>
+  <mat-toolbar color = "primary" >
+    <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+    <span>PawfectMatch</span>
+  </mat-toolbar>
+</p>
+<div class="form-container">
+  <h1>Login to Our Community</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+    </div>
+    <div class="b1">
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </div>
+    <div class="b1">
+      <button mat-raised-button color="warn" routerLink="/register">Register</button>
+    </div>
+  </form>
+</div>

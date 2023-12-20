@@ -52,6 +52,10 @@ button {
   cursor: pointer;
 }
 
+.b1 {
+  margin: 10px;
+}
 button:hover {
   background-color: #1a237e; /* Darker indigo color for hover effect */
 }
+
