@@ -1,0 +1,12 @@
+<!-- Assuming your OverseeingReq interface properties -->
+<h2 mat-dialog-title>{{ data.aoName }} Details</h2>
+<div mat-dialog-content>
+  <p><strong>Adoption Request ID:</strong> {{ data.aoId }}</p>
+  <p><strong>Adopter ID:</strong> {{ data.adopterId }}</p>
+  <p><strong>Status:</strong> {{ data.oreqStatus }}</p>
+  <p><strong>Motivation:</strong> {{ data.omotivationText }}</p>
+  <p><strong>Request Result:</strong> {{ data.oreqResult || 'N/A' }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

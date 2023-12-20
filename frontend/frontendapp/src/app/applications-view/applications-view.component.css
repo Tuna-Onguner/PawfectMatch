@@ -1,0 +1,46 @@
+.form-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 250px;
+  margin-top: 100px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  border: #3f51b5 1px solid;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+  color : #3f51b5;
+}
+
+mat-form-field {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.input-file {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: #3f51b5;
+}
+
+.tables {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  margin-left: 250px;
+}
+
+.mat-elevation-z8 {
+  margin-left: 20px;
+  margin-right: 40px;
+  width: 100%;
+}
+
+

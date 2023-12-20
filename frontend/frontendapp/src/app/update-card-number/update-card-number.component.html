@@ -1,0 +1,22 @@
+<form [formGroup]="form">
+  <h1>Update Payment Method</h1>
+  <mat-form-field>
+    <mat-label>Card Number</mat-label>
+    <input matInput formControlName="cardNumber">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CVV</mat-label>
+    <input matInput formControlName="cvv">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Expiration Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-button type="submit" [disabled]="form.invalid">Update</button>
+</form>

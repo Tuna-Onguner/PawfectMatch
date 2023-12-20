@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Reservation Details</h1>
+<div mat-dialog-content>
+  <p><strong>Reservation ID:</strong> {{ reservation.petId }}</p>
+  <p><strong>Adopter ID:</strong> {{ reservation.adopterId }}</p>
+  <p><strong>Reservation Status:</strong> {{ reservation.rvStatus }}</p>
+  <p><strong>Explanation ID:</strong> {{ reservation.exId }}</p>
+  <p><strong>Reasoning:</strong> {{ reservation.reasoning }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="closeDialog()">Close</button>
+</div>

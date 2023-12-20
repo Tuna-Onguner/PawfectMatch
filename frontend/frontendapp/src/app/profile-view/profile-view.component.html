@@ -1,0 +1,37 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>User Name</mat-label>
+    <input matInput formControlName="userName">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="phoneNumber">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Card Number</mat-label>
+    <input matInput formControlName="cardNumber">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CVV</mat-label>
+    <input matInput formControlName="cvv">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Expiration Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-button type="submit" color="primary" [disabled]="form.invalid">Update</button>
+</form>
+

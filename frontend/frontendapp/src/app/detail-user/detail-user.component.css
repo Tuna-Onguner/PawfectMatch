@@ -1,0 +1,28 @@
+/* details-dialog.component.css */
+
+.mat-dialog-container {
+    max-width: 800px; /* Adjust the maximum width as needed */
+  }
+  
+  h1 {
+    color: #3f51b5; /* Use your primary color */
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  mat-dialog-content {
+    padding: 10px;
+  }
+  
+  mat-dialog-actions {
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  button {
+    margin-left: 8px;
+  }
+  

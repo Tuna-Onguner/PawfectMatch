@@ -1,0 +1,65 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="toolbar-row">
+      <img src="assets/images/logo_transparent.png" alt="logo" height="70px" width="70px">
+      <span>PawfectMatch</span>
+      <span class="spacer"></span>
+      <button mat-button class="logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+      <button mat-button class="change-password">
+        <mat-icon>vpn_key</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+      <button mat-button class="sidenav-button" [routerLink]="['/make-agreements']" aria-label="Make Agreements">
+        <mat-icon>description</mat-icon>
+        <span>Make Agreements</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/publish-schedule']" aria-label="Publish Schedule">
+        <mat-icon>event</mat-icon>
+        <span>Publish Schedule</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/scheduling-request']" aria-label="Scheduling Requests">
+        <mat-icon>assignment</mat-icon>
+        <span>Scheduling Requests</span>
+      </button>
+      <button mat-button class="sidenav-button" [routerLink]="['/upload-exam-results']" aria-label="Upload Exam Results">
+        <mat-icon>file_upload</mat-icon>
+        <span>Upload Exam Results</span>
+      </button>
+    </mat-sidenav>
+
+    <div class="main-content">
+      <div class="list-view">
+        <h2>Appointments List</h2>
+        <mat-card *ngFor="let appointment of appointments" class="mat-card-item" (click)="showDetails(appointment)">
+          <mat-card-header>
+            <div mat-card-avatar class="avatar"></div>
+            <mat-card-title-group>
+              <mat-card-title>
+                <span>{{ appointment.rvDate | date:'mediumDate' }}</span>
+                <button mat-icon-button (click)="showDetails(appointment)">
+                  <mat-icon>info</mat-icon>
+                </button>
+                <!-- Conditional buttons based on appointment status -->
+                <button mat-icon-button class="action-button apply-button" *ngIf="appointment.rvStatus === 'Pending'" (click)="applyAppointment(appointment)">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button class="action-button reject-button" *ngIf="appointment.rvStatus === 'Pending'" (click)="rejectAppointment(appointment)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-card-title>
+              <mat-card-subtitle>Status: {{ appointment.rvStatus }}</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </div>
+  </mat-sidenav-container>
+  <router-outlet>
+
+  </router-outlet>
+

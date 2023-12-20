@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Agreement Details</h1>
+<div mat-dialog-content>
+  <p><strong>Organization:</strong> {{ data.aoId }}</p>
+  <p><strong>Veterinarian:</strong> {{ data.vetId }}</p>
+  <p><strong>Pet Breed:</strong> {{ data.requesterId }}</p>
+  <p><strong>Agreement Status:</strong> {{ data.aqreqStatus }}</p>
+  <p><strong>Agreement Text:</strong> {{ data.agMotivationText }}</p>
+  <p><strong>Agreement Date:</strong> {{ data.agreqDate} }</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">Close</button>
+</div>

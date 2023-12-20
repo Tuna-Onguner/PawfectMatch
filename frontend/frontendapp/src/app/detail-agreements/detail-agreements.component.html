@@ -1,0 +1,10 @@
+<!-- details-dialog.component.html-->
+<h1 mat-dialog-title>Agreement Details</h1>
+<div mat-dialog-content>
+  <p><strong>Agreement ID:</strong> {{ agreement.aoId }}</p>
+  <p><strong>Status:</strong> {{ agreement.aqreqStatus }}</p>
+  <p><strong>Agreement Text:</strong> {{ agreement.agMotivationText }}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="primary" (click)="closeDialog()">Close</button>
+</div>
