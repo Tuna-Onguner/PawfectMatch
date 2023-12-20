@@ -1,11 +1,3 @@
-:root {
-  --primary-color: #007BFF;
-  --secondary-color: #10da13;
-  --background-color: #ccdbf3;
-  --form-background-color: #ffffff;
-  --text-color: #000;
-  --shadow-color: #000;
-}
 
 h1 {
   color: #3f51b5; /* Indigo color from the Indigo/Pink theme */
@@ -45,7 +37,6 @@ button.mat-raised-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 10px;
 }
 
 button:hover {
@@ -55,4 +46,3 @@ button:hover {
 .b1 {
   margin: 10px;
 }
-

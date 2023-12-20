@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GranteeApp } from '../../../__models/application_models';
 import { CurrencyPipe } from '@angular/common';
 
+
 @Component({
   selector: 'app-detail-grantee-applications',
   standalone: true,

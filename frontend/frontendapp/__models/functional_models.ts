@@ -59,12 +59,12 @@ export interface Counsels {
   adopterName: string;
   expertId: number;
   expertName: string;
-  adviceDate: Date;
+  adviceDate: Date| null;
   expertiseFieldId: number;
   expertiseFieldName: string;
   adopterProblem: string;
   expertResponse: string;
-  expertResponseDate: Date;
+  expertResponseDate: Date| null;
   adviceStatus: string;
 }
 
@@ -72,7 +72,7 @@ export interface Schedule {
   scheduleId: number;
   vetId: number;
   isRestricted: boolean;
-  scheduleBeginningDate: Date;
+  scheduleBeginningDate: Date| null;
   scheduleEndDate: Date;
 }
 
@@ -88,7 +88,7 @@ export interface Slot {
 export interface Donation {
   donationId: number;
   adopterId: number;
-  donationDate: Date;
+  donationDate: Date| null;
   donationAmount: number;
   donationStatus: string;
   donatedTo: string;
@@ -97,8 +97,10 @@ export interface Donation {
 export interface DonationReception {
   donationId: number;
   adopterId: number;
+  aoName: string;
+  adopterName: string;
   donationStatus: string;
-  receptionDate: Date;
+  receptionDate: Date| null;
   receivedAmount: number;
   adminId: number;
 }
@@ -115,7 +117,7 @@ export interface Reservation {
   adopterId: number;
   rvDate: Date;
   rvStatus: string;
-  rvResponseDate: Date | null;
+  rvResponseDate: Date;
   exId: number | null;
   reasoning: string;
   slots: Slot[];

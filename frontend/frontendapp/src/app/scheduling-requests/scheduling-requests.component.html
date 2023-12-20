@@ -31,7 +31,7 @@
         <span>Upload Exam Results</span>
       </button>
     </mat-sidenav>
-  
+
     <div class="main-content">
       <div class="list-view">
         <h2>Appointments List</h2>
@@ -40,26 +40,26 @@
             <div mat-card-avatar class="avatar"></div>
             <mat-card-title-group>
               <mat-card-title>
-                <span>{{ appointment.appointmentDate | date:'mediumDate' }}</span>
+                <span>{{ appointment.rvDate | date:'mediumDate' }}</span>
                 <button mat-icon-button (click)="showDetails(appointment)">
                   <mat-icon>info</mat-icon>
                 </button>
                 <!-- Conditional buttons based on appointment status -->
-                <button mat-icon-button class="action-button apply-button" *ngIf="appointment.appointmentStatus === 'Pending'" (click)="applyAppointment(appointment)">
+                <button mat-icon-button class="action-button apply-button" *ngIf="appointment.rvStatus === 'Pending'" (click)="applyAppointment(appointment)">
                   <mat-icon>check</mat-icon>
                 </button>
-                <button mat-icon-button class="action-button reject-button" *ngIf="appointment.appointmentStatus === 'Pending'" (click)="rejectAppointment(appointment)">
+                <button mat-icon-button class="action-button reject-button" *ngIf="appointment.rvStatus === 'Pending'" (click)="rejectAppointment(appointment)">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-card-title>
-              <mat-card-subtitle>Status: {{ appointment.appointmentStatus }}</mat-card-subtitle>
+              <mat-card-subtitle>Status: {{ appointment.rvStatus }}</mat-card-subtitle>
             </mat-card-title-group>
           </mat-card-header>
-        </mat-card>        
+        </mat-card>
       </div>
     </div>
   </mat-sidenav-container>
   <router-outlet>
-  
+
   </router-outlet>
-  
+

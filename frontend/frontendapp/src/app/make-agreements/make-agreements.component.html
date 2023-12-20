@@ -40,18 +40,18 @@
           <div mat-card-avatar class="avatar"></div>
           <mat-card-title-group>
             <mat-card-title>
-              <span>{{ agreement.organizationName }}</span>
+              <span>{{ agreement.aoId }}</span>
               <button mat-icon-button (click)="showDetails(agreement)">
                 <mat-icon>info</mat-icon>
               </button>
-              <button mat-icon-button class="action-button apply-button" *ngIf="agreement.agreementStatus === 'Pending'" (click)="applyAgreement(agreement)">
+              <button mat-icon-button class="action-button apply-button" *ngIf="agreement.aqreqStatus === 'Pending'" (click)="applyAgreement(agreement)">
                 <mat-icon>check</mat-icon>
               </button>
-              <button mat-icon-button class="action-button reject-button" *ngIf="agreement.agreementStatus === 'Pending'" (click)="rejectAgreement(agreement)">
+              <button mat-icon-button class="action-button reject-button" *ngIf="agreement.aqreqStatus === 'Pending'" (click)="rejectAgreement(agreement)">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-card-title>
-            <mat-card-subtitle>Status: {{ agreement.agreementStatus }}</mat-card-subtitle>
+            <mat-card-subtitle>Status: {{ agreement.aqreqStatus }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
       </mat-card>

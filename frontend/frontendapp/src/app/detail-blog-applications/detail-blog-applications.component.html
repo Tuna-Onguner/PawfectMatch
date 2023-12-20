@@ -1,14 +1,10 @@
-
-<h1 mat-dialog-title>Blogger Applications Details</h1>
+<h1 mat-dialog-title>Blogger Application Details</h1>
 <div mat-dialog-content>
-  <p><strong>Application ID:</strong> {{ application.id }}</p>
-  <p><strong>Title:</strong> {{ application.title }}</p>
-  <p><strong>Type:</strong> {{ application.type }}</p>
-  <p><strong>User ID:</strong> {{ application.userID }}</p>
-  <p><strong>Status:</strong> {{ application.status }}</p>
-  <p><strong>Motivation:</strong> {{ application.motivation }}</p>
-  <p><strong>User Email:</strong> {{ application.userEmail }}</p>
-  <p><strong>User Name:</strong> {{ application.userName }}</p>
-  <p><strong>User Phone Number:</strong> {{ application.userPhoneNumber }}</p>
+  <p><strong>Application ID:</strong> {{ application.adopterId }}</p>
+  <p><strong>Title:</strong> {{ application.blogFieldName }}</p>
+  <p><strong>Type:</strong> {{ application.blogFieldId }}</p>
+  <p><strong>User ID:</strong> {{ application.adopterId }}</p>
+  <p><strong>Status:</strong> {{ application.bappStatus }}</p>
+  <p><strong>Motivation:</strong> {{ application.bmotivationText }}</p>
   <button mat-button color="primary" (click)="closeDialog()">Close</button>
 </div>

@@ -1,12 +1,9 @@
 <!-- Assuming your OverseeingReq interface properties -->
-<h2 mat-dialog-title>{{ data.name }} Details</h2>
+<h2 mat-dialog-title>{{ data.aoName }} Details</h2>
 <div mat-dialog-content>
-  <img [src]="data.image" alt="{{ data.name }}" height="200px" width="200px">
   <p><strong>Adoption Request ID:</strong> {{ data.aoId }}</p>
   <p><strong>Adopter ID:</strong> {{ data.adopterId }}</p>
-  <p><strong>Request Date:</strong> {{ data.oreqDate | date }}</p>
   <p><strong>Status:</strong> {{ data.oreqStatus }}</p>
-  <p><strong>Response Date:</strong> {{ data.oreqResponseDate | date }}</p>
   <p><strong>Motivation:</strong> {{ data.omotivationText }}</p>
   <p><strong>Request Result:</strong> {{ data.oreqResult || 'N/A' }}</p>
 </div>

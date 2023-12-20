@@ -3,9 +3,9 @@ import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import * as faker from "faker";
 import {MatButtonModule} from "@angular/material/button";
+import {OverseeingReq} from "../../../__models/application_models";
 
-class Oversight {
-}
+
 
 @Component({
   selector: 'app-overseeing-page',
@@ -20,7 +20,7 @@ class Oversight {
 })
 export class OverseeingPageComponent {
   displayedColumns: string[] = ['organizationName', 'motivationScript', 'status', 'actions'];
-  dataSource: MatTableDataSource<Oversight> = new MatTableDataSource<Oversight>();
+  dataSource: MatTableDataSource<OverseeingReq> = new MatTableDataSource<OverseeingReq>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -31,15 +31,21 @@ export class OverseeingPageComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-  getOversights(): Oversight[] {
-    const oversights: Oversight[] = [];
+  getOversights(): OverseeingReq[] {
+    const oversights: OverseeingReq[] = [];
 
     for (let i = 0; i < 30; i++) {
-      oversights.push(<Oversight>{
-        organizationName: faker.company.companyName(),
-        motivationScript: faker.lorem.paragraph(10),
-        status: faker.random.arrayElement(['Accepted', 'Rejected', 'Pending'])
-      });
+        oversights.push(<OverseeingReq> {
+          aoId: faker.datatype.number({ min: 1, max: 100 }),
+          aoName: faker.company.companyName(),
+          adopterId: faker.datatype.number({ min: 1, max: 100 }),
+          oreqDate: faker.date.past(),
+          oreqStatus: faker.random.word(),
+          oreqResponseDate: faker.date.past(),
+          omotivationText: faker.lorem.paragraph(),
+          oreqResult: faker.random.word(),
+        }
+      );
     }
 
     return oversights;

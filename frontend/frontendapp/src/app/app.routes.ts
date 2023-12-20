@@ -45,11 +45,13 @@ import {GranteeApplicationsComponent} from "./grantee-applications/grantee-appli
 import {DetailGranteeApplicationsComponent} from "./detail-grantee-applications/detail-grantee-applications.component";
 import {TransferringDonationsComponent} from "./transferring-donations/transferring-donations.component";
 import {DetailTransferComponent} from "./detail-transfer/detail-transfer.component";
+import {LoginViewComponent} from "./login-view/login-view.component";
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponentComponent},
   {path: 'register-organization', component: RegisterOrganizationComponent},
-  {path: '', redirectTo: '/register', pathMatch: 'full'},
+  {path: 'login', component: LoginViewComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'main-adopter-page',
     component: MainAdopterPageComponent,
     children: [

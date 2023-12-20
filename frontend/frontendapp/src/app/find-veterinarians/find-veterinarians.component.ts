@@ -13,6 +13,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 @Component({
   selector: 'app-find-veterinarians',
@@ -30,6 +33,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     FormsModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   templateUrl: './find-veterinarians.component.html',
   styleUrls: ['./find-veterinarians.component.css']
