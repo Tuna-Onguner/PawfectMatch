@@ -68,10 +68,10 @@
       <h2>Apply for a Grant</h2>
       <form (submit)="applyForGrant()">
         <!-- ... (other form fields) ... -->
-        <div class="form-group">
+        <mat-form-field class="form-group">
           <label for="gappDecidedAmount">Amount Needed:</label>
-          <input type="number" id="gappDecidedAmount" [(ngModel)]="amountNeeded" name="amountNeeded" required>
-        </div>
+          <input matInput type="number" id="gappDecidedAmount" [(ngModel)]="amountNeeded" name="amountNeeded" required>
+        </mat-form-field>
     
         <div class="form-group">
           <label for="file">Attach File:</label>
