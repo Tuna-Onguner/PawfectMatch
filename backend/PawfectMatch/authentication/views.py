@@ -6,6 +6,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from authentication.models.Backends import MyBackend
+from roles.utils import get_role
+import pdb
 
 from .serializers import UserSerializer
 
@@ -39,21 +42,17 @@ class LoginView(APIView):
                 {"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
-        # ToDo Check if this is the correct way to get values.
-        user = User(
-            user_id=row[0],
-            user_name=row[1],
-            phone_number=row[2],
-            email=row[3],
-            password=row[4],
-        )
+        # Authenticate the user
+        user = MyBackend.authenticate(request=request, email=email, password=password)
+        pdb.set_trace()
+
         if user is not None:
-            ## Generate JWT token
-            refresh = CustomToken.for_user(user)
+            # Login the user
+            MyBackend.login(request, user)
             return Response(
                 {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
+                    "user_id": user.user_id,
+                    "role": get_role(user.user_id),
                 },
                 status=status.HTTP_200_OK,
             )
@@ -65,22 +64,8 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-        refresh = request.data.get("refresh")
-        # If the refresh token is null, return an appropriate error message
-        # If the refresh token is not null, blacklist the refresh token
-        # If the refresh token is not null, return a success message
-        if refresh is None:
-            return Response(
-                {"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        try:
-            token = RefreshToken(refresh)
-            token.blacklist()
-            return Response({}, status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            print(f"Exception: {e}")
-            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+        MyBackend.logout(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RegisterView(APIView):

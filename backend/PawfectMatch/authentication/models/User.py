@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+from .Manager import UserManager
 
 
 # Create your models here.
@@ -9,12 +10,16 @@ class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=50)
+    last_login = None
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_name', 'phone_number']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["user_name", "phone_number"]
+
+    # Specify the manager class
+    objects = UserManager()
 
     class Meta:
-        db_table = 'User'
+        db_table = "User"
         managed = False
 
     def get_user_id(self):
