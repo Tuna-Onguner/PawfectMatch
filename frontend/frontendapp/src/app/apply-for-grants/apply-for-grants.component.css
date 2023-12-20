@@ -88,4 +88,22 @@ root {
 
 .vertical-container {
   display: flex;
+
+}
+.grant-applications {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.apply-grant {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
 }

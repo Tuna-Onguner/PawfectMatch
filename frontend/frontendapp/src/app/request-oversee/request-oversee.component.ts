@@ -18,6 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, Validators } from '@angular/forms';
 import {ReactiveFormsModule} from "@angular/forms";
 import faker from "faker";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-request-oversee',
@@ -34,7 +36,9 @@ import faker from "faker";
       MatListModule,
       MatCardModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
     ],
   templateUrl: './request-oversee.component.html',
   styleUrls: ['./request-oversee.component.css']

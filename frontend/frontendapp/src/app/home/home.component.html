@@ -43,22 +43,33 @@
       <span>Request Oversee</span>
     </button>
   </mat-sidenav>
-
   <div class="pet-grid">
-    <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
-      <mat-grid-tile *ngFor="let pet of petExamples" [colspan]="1" [rowspan]="1">
-        <mat-card>
-          <img mat-card-image [src]="pet.petImage" alt="{{ pet.petName }}">
-          <mat-card-content>
-            <h3>{{ pet.petName }}</h3>
-            <p>Breed: {{ pet.petBreedName }}</p>
-            <p>Organization: {{ pet.aoName }}</p>
-            <mat-card (click)="openPetDialog(pet)">View Details</mat-card>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
+    <mat-grid-list cols="4" rowHeight="1:1" gutterSize="16px">
+        <mat-grid-tile *ngFor="let pet of petExamples" [colspan]="1" [rowspan]="1">
+            <mat-card>
+                <img mat-card-image [src]="pet.petImage" alt="{{ pet.petName }}">
+                <mat-card-content>
+                    <div>
+                        <label>Pet Name:</label>
+                        <span>{{ pet.petName }}</span>
+                    </div>
+                    <div>
+                        <label>Breed:</label>
+                        <span>{{ pet.petBreedName }}</span>
+                    </div>
+                    <div>
+                        <label>Organization:</label>
+                        <span>{{ pet.aoName }}</span>
+                    </div>
+                    <div>
+                        <button mat-button (click)="openPetDialog(pet)">View Details</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
     </mat-grid-list>
-  </div>
+</div>
+
 </mat-sidenav-container>
 
 <router-outlet></router-outlet>

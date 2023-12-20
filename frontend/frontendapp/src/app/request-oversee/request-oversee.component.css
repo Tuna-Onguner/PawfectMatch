@@ -87,6 +87,21 @@ root {
   height: 100%;
 }
 
+
+.previous-oversee {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
 .apply-oversee {
-  margin: 16px; /* Adjust the margin as needed */
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
 }

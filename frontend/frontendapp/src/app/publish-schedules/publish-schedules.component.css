@@ -64,6 +64,23 @@ root {
   margin-bottom: 10px; /* Adjust the spacing between items */
 }
 
+.this {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.next {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 40px); /* Adjust the width and margins as needed */
+  background-color: var(--background-color);
+  padding: 20px;
+}
 
 
   

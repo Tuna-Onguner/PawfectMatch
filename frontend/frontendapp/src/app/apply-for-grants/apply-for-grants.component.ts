@@ -15,6 +15,8 @@ import {MatCardModule} from "@angular/material/card";
 import { FormsModule } from '@angular/forms';
 import { GranteeApp } from '../../../__models/application_models';
 import { DetailGranteeApplicationsComponent } from '../detail-grantee-applications/detail-grantee-applications.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-apply-for-grants',
   standalone: true,
@@ -30,6 +32,8 @@ import { DetailGranteeApplicationsComponent } from '../detail-grantee-applicatio
     MatListModule,
     MatCardModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './apply-for-grants.component.html',
   styleUrl: './apply-for-grants.component.css'
