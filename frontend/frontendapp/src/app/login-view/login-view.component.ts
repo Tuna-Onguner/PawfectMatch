@@ -34,8 +34,8 @@ export class LoginViewComponent {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ["USERNAME", Validators.required],
-      password: ["PASSWORD", Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
