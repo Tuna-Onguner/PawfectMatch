@@ -3,6 +3,7 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import pdb
 
 from ..serializers import ExaminationSerializer
 
@@ -10,20 +11,15 @@ from ..serializers import ExaminationSerializer
 class ExaminationsView(APIView):
     def get(self, request):
         ##If the user is a vet, get all the examinations of the vet using raw SQL
-        if request.data["is_vet"]:
-            cursor = connection.cursor()
-            cursor.execute(
-                "SELECT * FROM Examination WHERE vet_id = %s", [request.data["vet_id"]]
-            )
-            examinations = dictfetchall(cursor)
-            return Response(examinations, status=status.HTTP_200_OK)
-
         ##If the user is an adopter, get all the examinations of the adopter using raw SQL
         cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM Examination WHERE adopter_id = %s",
-            [request.data["adopter_id"]],
-        )
+        cursor.execute('''
+                        SELECT ex.ex_id, ex.ex_description, ex.ex_file, p.pet_id, p.pet_name
+                        FROM Examination ex
+                        JOIN Reservation r ON ex.reservation_id = r.reservation_id
+                        JOIN Pet p ON r.pet_id = p.pet_id
+                        WHERE p.adopter_id = %s
+                       ''', (2,))
         examinations = dictfetchall(cursor)
         return Response(examinations, status=status.HTTP_200_OK)
 

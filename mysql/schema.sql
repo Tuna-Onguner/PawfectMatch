@@ -267,3 +267,16 @@ VALUES (1, 'Adoption Organization', '123 Main St', 'USA', 'New York', 'NY');
 
 INSERT INTO Adopter (adopter_id, card_number)
 VALUES (2, '1234567890123456');
+
+
+INSERT INTO Veterinarian (vet_id, vet_name, vet_street, vet_city, vet_state, vet_country)
+VALUES (, 'Veterinarian', '123 Main St', 'New York', 'NY', 'USA'),
+         ('Veterinarian 2', '123 Main St', 'New York', 'NY', 'USA');
+
+INSERT INTO Examination (ex_id, ex_description, ex_file, reservation_id)
+VALUES (1, 'Examination Description', NULL, 1),
+         (2, 'Examination Description 2', NULL, 2);
+
+INSERT INTO Reservation (reservation_id, adopter_id, pet_id, rv_date, reasoning, rv_status, rv_response_date)
+VALUES (1, 2, 1, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),
+         (2, 2, 2, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL);
