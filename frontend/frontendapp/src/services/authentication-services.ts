@@ -11,7 +11,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
   login(username: string, password: string): Observable<any> {
     //Print out the username and password to the console
-    return this.http.post<HttpResponse<any>>(`${this.url}login/`, { email: username, password: password }, { observe: 'response'});
+    return this.http.post<HttpResponse<any>>(`${this.url}login/`, { email: username, password: password, user_id: localStorage.getItem("user_id") }, { observe: 'response'});
   }
   logout(): Observable<any> {
     localStorage.removeItem('userId');
