@@ -22,9 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure--r&ix=xe82ztn%4&834l%6#vsy=+o8=!z5=bd)8m*8n6-(2&io"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -40,7 +39,8 @@ INSTALLED_APPS = [
     "main",
     "authentication",
     "adoption",
-    "applications",
+    # "applications",
+    "corsheaders",
     "roles",
     "donations",
 ]
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # CORS Middleware
 ]
 
 ROOT_URLCONF = "PawfectMatch.urls"
@@ -74,6 +75,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "PawfectMatch.wsgi.application"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -116,6 +121,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
