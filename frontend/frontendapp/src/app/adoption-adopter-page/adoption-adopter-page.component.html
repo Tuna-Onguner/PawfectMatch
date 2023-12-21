@@ -1,5 +1,5 @@
 <mat-grid-list cols="4" rowHeight="1:1">
-  <mat-grid-tile *ngFor="let pet of pets.slice((pageIndex) * pageSize, (pageIndex + 1) * pageSize)">
+  <mat-grid-tile *ngFor="let pet of pets ">
     <div class="tile-container">
       <div class="upper-tile">
         <img [src]="'assets/images/' + pet.petImage" alt="{{pet.petName}}" class="pet-image">

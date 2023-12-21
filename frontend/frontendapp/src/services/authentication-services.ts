@@ -14,7 +14,9 @@ export class AuthenticationService {
     return this.http.post<HttpResponse<any>>(`${this.url}login/`, { email: username, password: password }, { observe: 'response'});
   }
   logout(): Observable<any> {
-    return this.http.post<HttpResponse<any>>(`${this.url}logout/`, {},{ observe: 'response'});
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    return this.http.post<any>(`${this.url}logout/`, {});
   }
 
   adopterRegister(username: string, password: string, email: string, phone: string): Observable<any> {

@@ -53,13 +53,13 @@ export class LoginViewComponent {
       // Handle the successful response
       const data = response.body;
       if (data.role === 'admin') {
-        this.router.navigate(['/admin-page']);
-      } else if (data.role === 'user') {
-        this.router.navigate(['/user-page']);
-      } else if (data.role === 'adopter') {
-        this.router.navigate(['/main-adopter-page']);
+        this.router.navigate(['/user-administration']).then(r => console.log(r));
+      } else if (data.role === 'adopter' || data.role === 'blogger' || data.role === 'expert') {
+        this.router.navigate(['/main-adopter-page']).then(r => console.log(r));
       } else if (data.role === 'adoptionorganization') {
-        this.router.navigate(['/adoption-adopter-page']);
+        this.router.navigate(['/home-organization']);
+      } else if (data.role === 'veterinarian') {
+        this.router.navigate(['/make-agreements']);
       }
     } else {
       // Handle other status codes

@@ -7,6 +7,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
 import {BlogDialogComponent} from "../blog-dialog/blog-dialog.component";
 import {AdoptDialogComponent} from "../adopt-dialog/adopt-dialog.component";
+import { PetServices } from '../../services/pet-services';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-adoption-adopter-page',
@@ -19,65 +22,43 @@ import {AdoptDialogComponent} from "../adopt-dialog/adopt-dialog.component";
     MatButtonModule
   ],
   templateUrl: './adoption-adopter-page.component.html',
-  styleUrl: './adoption-adopter-page.component.css'
+  styleUrl: './adoption-adopter-page.component.css',
+  providers: [PetServices]
+
 })
 export class AdoptionAdopterPageComponent {
   pets: Pet[] = []; // Replace with actual data
-  pageIndex: number =0;
+  pageIndex: number = 0;
   pageSize: number = 8;
 
-  constructor(private dialog: MatDialog) { }
-
-// ...
-
+  constructor(private dialog: MatDialog, private petServices: PetServices, private router: Router) { }
+  
   openDialog(pet: Pet): void {
   this.dialog.open(AdoptDialogComponent, {
     data: { pet: pet}
   });
-}
+  }
 
   ngOnInit(): void {
-    // Fetch the data of the pets and assign it to this.pets
-    this.pets = this.generateRandomPets(4);
+    this.petServices.getPets().subscribe(petsData => {
+      this.pets = petsData.body.map((pet: any) => ({
+        petId: pet.pet_id,
+        petName: pet.pet_name,
+        petSize: pet.pet_size,
+        petImage: pet.pet_image,
+        petColor: pet.pet_color,
+        isAdopted: pet.is_adopted === 1,
+        adopterId: pet.adopter_id,
+        aoId: pet.ao_id,
+        petBreedId: pet.pet_breed_id
+      }));
+    }, error => {
+      console.error('Error:', error);
+    });
   }
 
   pageChanged(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
   }
-
-  // Implement the logic for the filtering options and the paginator here
-  generateRandomPets(numPets: number): Pet[] {
-  const pets: Pet[] = [];
-  const petSizes = ['Small', 'Medium', 'Large'];
-  const petColors = ['Black', 'White', 'Brown', 'Gray', 'Mixed'];
-  const petStatus = [true, false];
-
-  for (let i = 0; i < numPets; i++) {
-    const pet: {
-      petName: string;
-      adopterId: number;
-      petId: number;
-      aoId: number;
-      isAdopted: boolean;
-      petColor: string;
-      petBreedId: number;
-      petSize: string;
-      petImage: string
-    } = {
-      petId: Math.floor(Math.random() * 1000),
-      petName: 'Pet ' + Math.floor(Math.random() * 1000),
-      petSize: petSizes[Math.floor(Math.random() * petSizes.length)],
-      petImage: 'pet' + (Math.floor(Math.random() * 3) + 1) + '.JPG',
-      petColor: petColors[Math.floor(Math.random() * petColors.length)],
-      isAdopted: petStatus[Math.floor(Math.random() * petStatus.length)],
-      adopterId: Math.floor(Math.random() * 100),
-      aoId: Math.floor(Math.random() * 10),
-      petBreedId: Math.floor(Math.random() * 50),
-    };
-    pets.push(<Pet>pet);
-  }
-
-  return pets;
-}
 }

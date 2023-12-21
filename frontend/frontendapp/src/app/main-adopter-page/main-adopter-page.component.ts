@@ -9,6 +9,7 @@ import {RegisterPetDialogComponent} from "../register-pet-dialog/register-pet-di
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../../services/authentication-services";
 
 @Component({
   selector: 'app-main-adopter-page',
@@ -22,13 +23,21 @@ import {Router} from "@angular/router";
     MatSidenavModule,
     RouterOutlet
   ],
+  providers: [AuthenticationService],
   templateUrl: './main-adopter-page.component.html',
   styleUrl: './main-adopter-page.component.css'
 })
 export class MainAdopterPageComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.router.navigateByUrl('/main-adopter-page/adopter-adoption-page');
   }
+
+  logout() {
+  this.authService.logout().subscribe(() => {
+    // Navigate to login page after successful logout
+    this.router.navigate(['/login']);
+  });
+}
 }
