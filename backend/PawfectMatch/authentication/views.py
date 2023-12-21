@@ -17,7 +17,6 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
-
         # Initialize a connection cursor with DictCursor
         cursor = connection.cursor()
 
@@ -25,6 +24,7 @@ class LoginView(APIView):
         cursor.execute(
             "SELECT * FROM User WHERE email = %s AND password = %s", [email, password]
         )
+        
         row = cursor.fetchone()
         if row is None:
             return Response(

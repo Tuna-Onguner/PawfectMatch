@@ -48,6 +48,7 @@ export class LoginViewComponent {
     const password = passwordControl ? passwordControl.value : null;
     this.authService.login(username, password).subscribe({
     next: response => {
+      console.log(response);
       if (response.status === 200) {
       // Handle the successful response
       const data = response.body;

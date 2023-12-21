@@ -3,6 +3,7 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import pdb
 
 """
 Request Handlers for Adopter related requests
@@ -31,7 +32,7 @@ class AdopterView(APIView):
     @staticmethod
     def post(request) -> Response:
         if "user_name" not in request.data or "phone_number" not in request.data or "email" not in request.data or \
-                "password" not in request.data or "card_number" not in request.data:
+                "password" not in request.data:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         with connection.cursor() as cursor:
@@ -46,16 +47,15 @@ class AdopterView(APIView):
                         request.data["password"],
                     ]
                 )
-
+     
                 cursor.execute("SELECT user_id FROM User WHERE email = %s", [request.data["email"]])
                 user_id = dictfetchone(cursor)["user_id"]
 
                 cursor.execute(
-                    "INSERT INTO Adopter (adopter_id, card_number)"
-                    "VALUES (%s, %s)",
+                    "INSERT INTO Adopter (adopter_id)"
+                    "VALUES (%s)",
                     [
                         user_id,
-                        request.data["card_number"],
                     ]
                 )
             except Exception:  # NOQA

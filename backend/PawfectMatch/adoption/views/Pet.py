@@ -18,7 +18,6 @@ class PetsView(APIView):
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Pet")
 
-        pdb.set_trace()
         pets = dictfetchall(cursor)
         return Response(pets, status=status.HTTP_200_OK)
 
