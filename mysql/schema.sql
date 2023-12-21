@@ -267,3 +267,4 @@ VALUES (1, 'Adoption Organization', '123 Main St', 'USA', 'New York', 'NY');
 
 INSERT INTO Adopter (adopter_id, card_number)
 VALUES (2, '1234567890123456');
+
