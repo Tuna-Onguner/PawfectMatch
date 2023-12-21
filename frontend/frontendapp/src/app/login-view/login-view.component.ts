@@ -48,15 +48,18 @@ export class LoginViewComponent {
     const password = passwordControl ? passwordControl.value : null;
     this.authService.login(username, password).subscribe({
     next: response => {
+      console.log(response);
       if (response.status === 200) {
       // Handle the successful response
       const data = response.body;
       if (data.role === 'admin') {
-        this.router.navigate(['/admin-page']).then(r => console.log(r));
+        this.router.navigate(['/admin-page']);
       } else if (data.role === 'user') {
-        this.router.navigate(['/user-page']).then(r => console.log(r));
-      } else {
-        this.router.navigate(['/default-page']);
+        this.router.navigate(['/user-page']);
+      } else if (data.role === 'adopter') {
+        this.router.navigate(['/main-adopter-page']);
+      } else if (data.role === 'adoptionorganization') {
+        this.router.navigate(['/adoption-adopter-page']);
       }
     } else {
       // Handle other status codes
