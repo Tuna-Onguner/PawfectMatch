@@ -1,25 +1,14 @@
 # Create your views here.
-from authentication.models.User import User
 from django.db import connection
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 from authentication.models.Backends import MyBackend
 from roles.utils import get_role
 import pdb
 
 from .serializers import UserSerializer
-
-
-## Create a custom token class that inherits from the simplejwt's token class
-class CustomToken(RefreshToken):
-    @classmethod
-    def for_user(cls, user):
-        token = super().for_user(user)
-        token["user_id"] = user.user_id
-        return token
 
 
 class LoginView(APIView):
@@ -44,7 +33,6 @@ class LoginView(APIView):
 
         # Authenticate the user
         user = MyBackend.authenticate(request=request, email=email, password=password)
-        pdb.set_trace()
 
         if user is not None:
             # Login the user
