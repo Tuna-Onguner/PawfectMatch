@@ -3,6 +3,7 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import pdb
 
 """
 Request Handlers for Adoption Organization related requests
@@ -18,8 +19,10 @@ class AdoptionOrganizationView(APIView):
     @staticmethod
     def get(request) -> Response:  # NOQA
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM AdoptionOrganization "
-                           "JOIN User ON User.user_id = AdoptionOrganization.ao_id")
+            cursor.execute(
+                "SELECT * FROM AdoptionOrganization "
+                "JOIN User ON User.user_id = AdoptionOrganization.ao_id"
+            )
 
             organizations = dictfetchall(cursor)
 
@@ -30,9 +33,17 @@ class AdoptionOrganizationView(APIView):
 
     @staticmethod
     def post(request) -> Response:
-        if "user_name" not in request.data or "phone_number" not in request.data or "email" not in request.data or \
-                "password" not in request.data or "ao_name" not in request.data or "ao_street" not in request.data or \
-                "ao_city" not in request.data or "ao_state" not in request.data or "ao_country" not in request.data:
+        pdb.set_trace()
+        if (
+            "user_name" not in request.data
+            or "phone_number" not in request.data
+            or "email" not in request.data
+            or "password" not in request.data
+            or "ao_street" not in request.data
+            or "ao_city" not in request.data
+            or "ao_state" not in request.data
+            or "ao_country" not in request.data
+        ):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         with connection.cursor() as cursor:
@@ -45,10 +56,12 @@ class AdoptionOrganizationView(APIView):
                         request.data["phone_number"],
                         request.data["email"],
                         request.data["password"],
-                    ]
+                    ],
                 )
 
-                cursor.execute("SELECT user_id FROM User WHERE email = %s", [request.data["email"]])
+                cursor.execute(
+                    "SELECT user_id FROM User WHERE email = %s", [request.data["email"]]
+                )
                 user_id = dictfetchone(cursor)["user_id"]
 
                 cursor.execute(
@@ -56,12 +69,12 @@ class AdoptionOrganizationView(APIView):
                     "VALUES (%s, %s, %s, %s, %s, %s)",
                     [
                         user_id,
-                        request.data["ao_name"],
+                        request.data["user_name"],
                         request.data["ao_street"],
                         request.data["ao_city"],
                         request.data["ao_state"],
                         request.data["ao_country"],
-                    ]
+                    ],
                 )
             except Exception:  # NOQA
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -77,9 +90,7 @@ class AdoptionOrganizationDetailView(APIView):
                 "SELECT * FROM AdoptionOrganization "
                 "JOIN User ON User.user_id = AdoptionOrganization.ao_id "
                 "WHERE ao_id = %s",
-                [
-                    _id
-                ]
+                [_id],
             )
 
             try:
@@ -97,8 +108,12 @@ class AdoptionOrganizationDetailView(APIView):
         update_ao_ = [f"{field} = %s" for field in fields_ao_ if field in request.data]
         update_usr = [f"{field} = %s" for field in fields_usr if field in request.data]
 
-        values_ao_ = [request.data[field] for field in fields_ao_ if field in request.data]
-        values_usr = [request.data[field] for field in fields_usr if field in request.data]
+        values_ao_ = [
+            request.data[field] for field in fields_ao_ if field in request.data
+        ]
+        values_usr = [
+            request.data[field] for field in fields_usr if field in request.data
+        ]
 
         if len(update_ao_) == 0 and len(update_usr) == 0:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -111,7 +126,7 @@ class AdoptionOrganizationDetailView(APIView):
                         [
                             *values_ao_,
                             _id,
-                        ]
+                        ],
                     )
                 if len(update_usr) != 0:
                     cursor.execute(
@@ -119,7 +134,7 @@ class AdoptionOrganizationDetailView(APIView):
                         [
                             *values_usr,
                             _id,
-                        ]
+                        ],
                     )
             except Exception:  # NOQA
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -130,7 +145,9 @@ class AdoptionOrganizationDetailView(APIView):
     def delete(request, _id) -> Response:  # NOQA
         with connection.cursor() as cursor:
             try:
-                cursor.execute("DELETE FROM AdoptionOrganization WHERE ao_id = %s", [_id])
+                cursor.execute(
+                    "DELETE FROM AdoptionOrganization WHERE ao_id = %s", [_id]
+                )
             except Exception:  # NOQA
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
