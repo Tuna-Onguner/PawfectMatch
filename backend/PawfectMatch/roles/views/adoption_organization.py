@@ -3,7 +3,6 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import pdb
 
 """
 Request Handlers for Adoption Organization related requests
@@ -33,7 +32,6 @@ class AdoptionOrganizationView(APIView):
 
     @staticmethod
     def post(request) -> Response:
-        pdb.set_trace()
         if (
             "user_name" not in request.data
             or "phone_number" not in request.data
