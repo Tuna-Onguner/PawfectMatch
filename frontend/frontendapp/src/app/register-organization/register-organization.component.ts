@@ -35,7 +35,7 @@ export class RegisterOrganizationComponent {
       'state': new FormControl(null),
       'city': new FormControl(null, Validators.required),
       'street': new FormControl(null, Validators.required),
-
+      'user_type': new FormControl(null, Validators.required),
     });
   }
 

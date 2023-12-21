@@ -13,6 +13,8 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.url}login/`, { email: username, password: password });
   }
   logout(): Observable<any> {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
     return this.http.post<any>(`${this.url}logout/`, {});
   }
 }
