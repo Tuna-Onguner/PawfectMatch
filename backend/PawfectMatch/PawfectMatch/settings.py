@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "main",
     "authentication",
     "adoption",
-    # "applications",
+    "applications",
     "corsheaders",
     "roles",
     "donations",
