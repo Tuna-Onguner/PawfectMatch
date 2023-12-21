@@ -10,6 +10,18 @@ import pdb
 
 from .serializers import UserSerializer
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+class CustomToken(RefreshToken):
+    @classmethod
+    def for_user(cls, user):
+        token = cls()
+        token["user_id"] = user.get_user_id()  # Use your custom method to get user_id
+        token["role"] = get_role(user.get_user_id())
+        # Add other claims as needed
+        return token
+
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -35,12 +47,13 @@ class LoginView(APIView):
         user = MyBackend.authenticate(request=request, email=email, password=password)
         if user is not None:
             # Login the user
-            MyBackend.login(request, user)
-            pdb.set_trace()
+            MyBackend.login(request=request, user=user)
+            # Generate a token for the user
+            token = CustomToken.for_user(user=user)
             return Response(
                 {
-                    "user_id": user.user_id,
-                    "role": get_role(user.user_id),
+                    "access_token": str(token.access_token),
+                    "refresh_token": str(token),
                 },
                 status=status.HTTP_200_OK,
             )

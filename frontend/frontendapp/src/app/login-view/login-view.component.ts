@@ -52,13 +52,29 @@ export class LoginViewComponent {
       if (response.status === 200) {
       // Handle the successful response
       const data = response.body;
-      if (data.role === 'admin') {
+      //Decode the JWT token and store the user ID and role in local storage
+      const token = data.access_token;
+      //Also store the token in local storage
+      localStorage.setItem('token', token)
+      console.log(token);
+      const tokenParts = token.split(/\./);
+      const tokenDecoded = JSON.parse(window.atob(tokenParts[1]));
+      const role = tokenDecoded.role;
+      const userId = tokenDecoded.user_id;
+
+      //Store the user ID and role in local storage
+      localStorage.setItem('userId', userId);
+      localStorage.setItem('role', role);
+
+      
+
+      if (role === 'admin') {
         this.router.navigate(['/user-administration']).then(r => console.log(r));
-      } else if (data.role === 'adopter' || data.role === 'blogger' || data.role === 'expert') {
+      } else if (role === 'adopter' || role === 'blogger' || role === 'expert') {
         this.router.navigate(['/main-adopter-page']).then(r => console.log(r));
-      } else if (data.role === 'adoptionorganization') {
+      } else if (role === 'adoptionorganization') {
         this.router.navigate(['/home-organization']);
-      } else if (data.role === 'veterinarian') {
+      } else if (role === 'veterinarian') {
         this.router.navigate(['/make-agreements']);
       }
     } else {

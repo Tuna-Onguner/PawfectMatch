@@ -4,16 +4,20 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import pdb
+import jwt
+from django.conf import settings
+from rest_framework.permissions import AllowAny
+from roles.utils import check_jwt_role
 
 
 class DonationView(APIView):
+    permission_classes = [AllowAny]
+
     @staticmethod
     def get(request) -> Response:  # noqa
         with connection.cursor() as cursor:
-            ##Get the user_id from session
-            user_id = request.session.get("user_id")
-            role = request.session.get("role")
-
+            ##Check the JWT token's payload to see if the user is an adoption organization or donor
+            user_id, role = check_jwt_role(request, request.headers["Authorization"])
             if role == "adoptionorganization":
                 cursor.execute("SELECT * FROM Donation WHERE ao_id = %s", (user_id,))
             else:

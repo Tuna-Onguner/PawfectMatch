@@ -9,6 +9,10 @@ export class DonationServices {
 
     constructor(private http: HttpClient) { }
     getDonations(): Observable<any> {
-        return this.http.get<HttpResponse<any>>(`${this.url}donations/`, { observe: 'response'});
+        //Send the JWT token in the 'Authorization' header
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.get<HttpResponse<any>>(`${this.url}donations/`, {headers, observe: 'response' });
     }
 }
