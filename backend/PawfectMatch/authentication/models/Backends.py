@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.http.request import HttpRequest
 from django.db import connection
 from .User import User
+from roles.utils import get_role
 import pdb
 
 
@@ -28,6 +29,9 @@ class MyBackend(BaseBackend):
     @staticmethod
     def login(request: HttpRequest, user: AbstractBaseUser) -> None:
         request.session["user_id"] = user.user_id
+        request.session["role"] = get_role(user.user_id)
+        request.session.save()
+        return user
 
     @staticmethod
     def logout(request: HttpRequest) -> None:

@@ -3,25 +3,31 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import pdb
 
 
 class DonationView(APIView):
     @staticmethod
     def get(request) -> Response:  # noqa
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM Donation")
+            ##Get the user_id from session
+            user_id = request.session.get("user_id")
+            role = request.session.get("role")
+
+            if role == "adoptionorganization":
+                cursor.execute("SELECT * FROM Donation WHERE ao_id = %s", (user_id,))
+            else:
+                cursor.execute("SELECT * FROM Donation WHERE donor_id = %s", (user_id,))
+
             donations = dictfetchall(cursor)
 
             if len(donations) == 0:
                 return Response(
                     data={"message": "No donations found"},
-                    status=status.HTTP_404_NOT_FOUND
+                    status=status.HTTP_404_NOT_FOUND,
                 )
 
-            return Response(
-                data=donations,
-                status=status.HTTP_200_OK
-            )
+            return Response(data=donations, status=status.HTTP_200_OK)
 
     @staticmethod
     def post(request) -> Response:
@@ -62,19 +68,14 @@ class DonationView(APIView):
 
                 donation = dictfetchone(cursor)
 
-                return Response(
-                    data=donation,
-                    status=status.HTTP_201_CREATED
-                )
+                return Response(data=donation, status=status.HTTP_201_CREATED)
 
 
 class DonationDetailView(APIView):
     @staticmethod
     def get(request, _id) -> Response:  # noqa
         with connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM Donation WHERE donation_id = %s", (_id,)
-            )
+            cursor.execute("SELECT * FROM Donation WHERE donation_id = %s", (_id,))
 
             donation = dictfetchone(cursor)
 
@@ -84,10 +85,7 @@ class DonationDetailView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            return Response(
-                data=donation,
-                status=status.HTTP_200_OK
-            )
+            return Response(data=donation, status=status.HTTP_200_OK)
 
     @staticmethod
     def put(request, _id) -> Response:
@@ -110,23 +108,16 @@ class DonationDetailView(APIView):
                 ),
             )
 
-            cursor.execute(
-                "SELECT * FROM Donation WHERE donation_id = %s", (_id,)
-            )
+            cursor.execute("SELECT * FROM Donation WHERE donation_id = %s", (_id,))
 
             donation = dictfetchone(cursor)
 
-            return Response(
-                data=donation,
-                status=status.HTTP_200_OK
-            )
+            return Response(data=donation, status=status.HTTP_200_OK)
 
     @staticmethod
     def delete(request, _id) -> Response:  # noqa
         with connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM Donation WHERE donation_id = %s", (_id,)
-            )
+            cursor.execute("SELECT * FROM Donation WHERE donation_id = %s", (_id,))
 
             donation = dictfetchone(cursor)
 
@@ -136,9 +127,7 @@ class DonationDetailView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            cursor.execute(
-                "DELETE FROM Donation WHERE donation_id = %s", (_id,)
-            )
+            cursor.execute("DELETE FROM Donation WHERE donation_id = %s", (_id,))
 
             return Response(
                 data={"message": "Donation deleted successfully"},
