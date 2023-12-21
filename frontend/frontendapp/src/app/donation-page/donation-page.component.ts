@@ -9,6 +9,8 @@ import {MatTableModule} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {UpdateCardNumberComponent} from "../update-card-number/update-card-number.component";
 import {DonationDialogComponent} from "../donation-dialog/donation-dialog.component";
+import { DonationServices } from '../../services/donation-services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donation-page',
@@ -21,16 +23,29 @@ import {DonationDialogComponent} from "../donation-dialog/donation-dialog.compon
     MatButtonModule,
     MatTableModule
   ],
+  providers: [DonationServices],
   templateUrl: './donation-page.component.html',
   styleUrl: './donation-page.component.css'
 })
 export class DonationPageComponent {
   donations: Donation[] = [];
   displayedColumns: string[] = ['donationId', 'donationAmount', 'donationDate', 'donationStatus'];
-
-  constructor(public dialog: MatDialog) { }
+  
+  constructor(public dialog: MatDialog, private donationServices: DonationServices, private rooter: Router) { }
   ngOnInit() {
-    this.generateRandomDonations();
+    this.donationServices.getDonations().subscribe(
+      (data) => {
+        this.donations = data.body.map((donation : any) => ({
+            donationId: donation.donation_id,
+            donationAmount: donation.amount,
+            donationDate: donation.ddate,
+            donationStatus: "Completed"
+          }));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   generateRandomDonations() {

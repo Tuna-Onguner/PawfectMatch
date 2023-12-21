@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 # @return JSON response with status code
 class PetsView(APIView):
     def get(self, request):
+        pdb.set_trace()
         ## Initialize a buffered cursor
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Pet")

@@ -24,7 +24,7 @@ class LoginView(APIView):
         cursor.execute(
             "SELECT * FROM User WHERE email = %s AND password = %s", [email, password]
         )
-        
+
         row = cursor.fetchone()
         if row is None:
             return Response(
@@ -33,10 +33,10 @@ class LoginView(APIView):
 
         # Authenticate the user
         user = MyBackend.authenticate(request=request, email=email, password=password)
-
         if user is not None:
             # Login the user
             MyBackend.login(request, user)
+            pdb.set_trace()
             return Response(
                 {
                     "user_id": user.user_id,
