@@ -12,7 +12,6 @@ class MyBackend(BaseBackend):
     @staticmethod
     def authenticate(request: HttpRequest, email: str, password: str) -> Any:
         cursor = connection.cursor()
-        pdb.set_trace()
 
         # SQL CODE TO CHECK IF USER EXISTS
         cursor.execute(
