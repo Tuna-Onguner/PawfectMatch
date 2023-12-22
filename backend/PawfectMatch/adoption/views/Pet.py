@@ -14,7 +14,8 @@ from rest_framework.views import APIView
 # @return JSON response with status code
 class PetsView(APIView):
     def get(self, request):
-        pdb.set_trace()
+        ##Chek the JWT token's payload to see if the user is an adoption organization or adopter
+
         ## Initialize a buffered cursor
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Pet")

@@ -1,7 +1,16 @@
 <button mat-raised-button color= "primary" class="donate" (click)="openDonationDialog()">Donate</button>
 <button mat-raised-button color= "primary" (click)="openUpdateCardDialog()">Update Card Information</button>
 
+
 <div class="donations-list">
+  <!-- Display Statistics -->
+  <div class="statistics">
+    <p>Total Donated: {{ statistics.total_donated }}</p>
+    <p>Average Donated: {{ statistics.avg_donated }}</p>
+    <p>Maximum Donated: {{ statistics.max_donated }}</p>
+    <p>Minimum Donated: {{ statistics.min_donated }}</p>
+  </div>
+
   <table mat-table [dataSource]="donations" class="mat-elevation-z8">
     <!-- Donation ID Column -->
     <ng-container matColumnDef="donationId">
