@@ -361,19 +361,6 @@ SELECT *
 FROM Pet p
 WHERE p.adopter_id IS NULL;
 
-DELIMITER //
-CREATE TRIGGER before_pet_insert
-BEFORE INSERT ON Pet
-FOR EACH ROW
-BEGIN
-    IF NEW.adopter_id IS NULL THEN
-        INSERT INTO AvailableForAdoption (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
-        VALUES (NEW.pet_name, NEW.pet_size, NEW.pet_image, NEW.pet_color, NEW.is_adopted, NEW.adopter_id, NEW.ao_id, NEW.pet_breed_id);
-    END IF;
-END;
-//
-DELIMITER ;
-
 -- TESTING VALUES
 
 INSERT INTO Breed (breed_name, intelligence, playfulness)
@@ -411,16 +398,16 @@ VALUES (8, '123 Main St', 'New York', 'NY', 'USA'),
             (11, '123 Main St', 'New York', 'NY', 'USA');
 
 INSERT INTO Pet (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
-VALUES ('PussyCato', 1.5, NULL, 'Black', TRUE, 2, 1, 1),
+VALUES ('Catoo', 1.5, NULL, 'Black', TRUE, 2, 1, 1),
         ('Dogo', 2.5, NULL, 'Black', TRUE, 2, 1, 1),
-        ('PussyCato 2', 1.5, NULL, 'Black', TRUE, 3, 1, 1),
+        ('Catoo 2', 1.5, NULL, 'Black', TRUE, 3, 1, 1),
         ('Dogo 2', 2.5, NULL, 'Black', TRUE, 3, 1, 1);
 
 INSERT INTO Pet (pet_id, pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
-VALUES (50,'PussyCato 1', 1.5, NULL, 'Black', FALSE, 2, 1, 1),
-        (51,'Dogo 1', 2.5, NULL, 'Black', FALSE, 2, 1, 1),
-        (52,'PussyCato 3', 1.5, NULL, 'Black', FALSE, 3, 1, 1),
-        (53,'Dogo 3', 2.5, NULL, 'Black', FALSE, 3, 1, 1);
+VALUES (50,'Catoo 1', 1.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (51,'Dogo 1', 2.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (52,'Catoo 3', 1.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (53,'Dogo 3', 2.5, NULL, 'Black', FALSE, NULL, 1, 1);
 
 INSERT INTO Reservation (reservation_id, adopter_id, pet_id, rv_date, reasoning, rv_status, rv_response_date)
 VALUES (1, 2, 1, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),

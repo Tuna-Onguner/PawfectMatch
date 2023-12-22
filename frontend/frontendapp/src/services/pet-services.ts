@@ -12,7 +12,7 @@ export class PetServices {
         const token = localStorage.getItem('token');
         //How to check if the token is null?
         const headers = { 'Authorization': `Bearer ${token}` };
-        return this.http.get<HttpResponse<any>>(`${this.url}pets/`, { headers, observe: 'response'});
+        return this.http.get<HttpResponse<any>>(`${this.url}available_pets/`, { headers, observe: 'response'});
     }
 
     getOwnedPets(): Observable<any> {
