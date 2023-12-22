@@ -15,7 +15,6 @@ from rest_framework.response import Response
 @api_view(["POST", "GET"])
 def adoption_applications(request):
     # Get the user id from the JWT token from the request's parameters
-    pdb.set_trace()
 
     if request.method == "POST":
         ##Add the current date to the request data
@@ -23,7 +22,6 @@ def adoption_applications(request):
         serializer = AdoptionApplicationSerializer(data=request.data)
         try:
             # Check if the serializer is valid
-            pdb.set_trace()
             if not serializer.is_valid():
                 return Response(
                     {"detail": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST

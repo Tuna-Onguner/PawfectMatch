@@ -13,6 +13,9 @@ import {
   ValidationErrors, ValidatorFn, Validators
 } from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { PetServices } from '../../services/pet-services'
+import { Router } from '@angular/router';
+import { error } from 'console';
 
 @Component({
   selector: 'app-adopt-dialog',
@@ -25,11 +28,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     ReactiveFormsModule
   ],
   templateUrl: './adopt-dialog.component.html',
-  styleUrl: './adopt-dialog.component.css'
+  styleUrl: './adopt-dialog.component.css',
+  providers: [PetServices]
 })
 export class AdoptDialogComponent {
   form: FormGroup;
-  constructor(private snackBar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<AdoptDialogComponent>) {
+  constructor(private snackBar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<AdoptDialogComponent>, private petServices: PetServices, private router: Router) {
     this.form = new FormGroup({});
   }
 
@@ -57,6 +61,13 @@ export class AdoptDialogComponent {
 
   onSubmit() {
   if (this.form.valid) {
+    this.petServices.adoptPet(this.data.pet.petId, this.form.value.motivationScript, this.form.value.motivationFile).subscribe(adoptData => {
+      console.log(adoptData);
+      this.dialogRef.close();
+    }, error => {
+      console.log(error);
+    }
+    );
     this.snackBar.open('Application Complete: Your application has been successfully submitted.', 'Close', {
       duration: 3000,
     });

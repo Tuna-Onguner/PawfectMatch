@@ -357,11 +357,22 @@ GROUP BY ao.ao_name
 HAVING count(*) > 0;
 
 CREATE VIEW AvailableForAdoption AS
-SELECT p.pet_id, b.breed_name, p.pet_name, p.pet_size, p.pet_image, p.pet_color, p.pet_breed_id, ao.ao_id, ao.ao_city, ao.ao_state, ao.ao_country, ao.ao_street
+SELECT *
 FROM Pet p
-JOIN AdoptionOrganization ao ON ao.ao_id = p.ao_id
-JOIN Breed b ON b.breed_id = p.pet_breed_id
 WHERE p.adopter_id IS NULL;
+
+DELIMITER //
+CREATE TRIGGER before_pet_insert
+BEFORE INSERT ON Pet
+FOR EACH ROW
+BEGIN
+    IF NEW.adopter_id IS NULL THEN
+        INSERT INTO AvailableForAdoption (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
+        VALUES (NEW.pet_name, NEW.pet_size, NEW.pet_image, NEW.pet_color, NEW.is_adopted, NEW.adopter_id, NEW.ao_id, NEW.pet_breed_id);
+    END IF;
+END;
+//
+DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER update_donator_count

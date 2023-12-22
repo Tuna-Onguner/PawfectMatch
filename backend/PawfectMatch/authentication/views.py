@@ -41,7 +41,6 @@ class LoginView(APIView):
                 {"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
         # Authenticate the user
-        pdb.set_trace()
         user = MyBackend.authenticate(request=request, email=email, password=password)
         if user is not None:
             # Login the user

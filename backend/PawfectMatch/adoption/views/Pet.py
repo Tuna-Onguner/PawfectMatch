@@ -18,13 +18,32 @@ from roles.utils import check_jwt_role
 # @param request GET and POST request with Pet Serializer
 # @param JWT token
 # @return JSON response with status code
+class AvailablePetsView(APIView):
+    def get(self, request):
+        ##Chek the JWT token's payload to see if the user is an adoption organization or adopter
+
+        ## Initialize a buffered cursor
+        cursor = connection.cursor()
+        cursor.execute('''
+                       SELECT p.pet_id, b.breed_name, p.pet_name, p.pet_size, p.pet_image, p.pet_color, p.pet_breed_id, ao.ao_id, ao.ao_city, ao.ao_state, ao.ao_country, ao.ao_street
+                       FROM AvailableForAdoption p
+                       JOIN AdoptionOrganization ao ON ao.ao_id = p.ao_id
+                       JOIN Breed b ON b.breed_id = p.pet_breed_id
+                       ''')
+
+        pets = dictfetchall(cursor)
+        pdb.set_trace()
+        
+        return Response(pets, status=status.HTTP_200_OK)
+
+
 class PetsView(APIView):
     def get(self, request):
         ##Chek the JWT token's payload to see if the user is an adoption organization or adopter
 
         ## Initialize a buffered cursor
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Pet WHERE is_adopted = 0")
+        cursor.execute("SELECT * FROM Pet WHERE is_adopted = FALSE")
 
         pets = dictfetchall(cursor)
         return Response(pets, status=status.HTTP_200_OK)
