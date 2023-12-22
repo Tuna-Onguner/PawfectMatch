@@ -245,12 +245,108 @@ CREATE TABLE IF NOT EXISTS Donation
     FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization (ao_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS Blog (
+    blog_id          INT NOT NULL AUTO_INCREMENT,
+    blogger_id       INT NOT NULL,
+    blog_image       BLOB DEFAULT NULL,
+    blog_content     TEXT,
+    blog_title       VARCHAR(50),
+    blog_field_id    INT NOT NULL,
+    is_restricted    BOOLEAN DEFAULT TRUE,
+    published_date   DATE DEFAULT NULL,
+    PRIMARY KEY (blog_id, blogger_id),
+    FOREIGN KEY (blogger_id) REFERENCES Blogger(blogger_id) ON DELETE CASCADE,
+    FOREIGN KEY (blog_field_id) REFERENCES BlogField(blog_field_id) ON DELETE RESTRICT
+);
+
+ 
+CREATE TABLE IF NOT EXISTS Counsels (
+    adopter_id               INT NOT NULL,
+    expert_id                INT NOT NULL,
+    advice_date              DATETIME DEFAULT CURRENT_TIMESTAMP,
+    expertise_field_id       INT NOT NULL,
+    adopter_problem          TEXT,
+    expert_response          TEXT,
+    expert_response_date     DATETIME DEFAULT NULL,
+    advice_status            VARCHAR(8) DEFAULT 'PENDING', -- Corrected single quotes
+    PRIMARY KEY (adopter_id, expert_id, advice_date),
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    FOREIGN KEY (expert_id) REFERENCES Expert(expert_id) ON DELETE CASCADE,
+    FOREIGN KEY (expertise_field_id) REFERENCES ExpertiseField(expertise_field_id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS AdoptionApp (
+    adopter_id                    INT NOT NULL,
+    adoption_org_id               INT NOT NULL,
+    bapp_date                     DATETIME DEFAULT CURRENT_TIMESTAMP,
+    pet_id                        INT NOT NULL,
+    bapp_file                     BLOB DEFAULT NULL,
+    bapp_status                   VARCHAR(8) DEFAULT 'PENDING',
+    bapp_response_date            DATETIME DEFAULT NULL,
+    amotivation_text              TEXT,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (pet_id) REFERENCES Pet(pet_id) ON DELETE CASCADE,
+    PRIMARY KEY (adopter_id, adoption_org_id, bapp_date),
+    CHECK (LENGTH(bapp_file) <= 3 * 1024 * 1024)
+);
+
 CREATE TABLE IF NOT EXISTS Admin
 (
     admin_id INT NOT NULL,
     PRIMARY KEY (admin_id),
     FOREIGN KEY (admin_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS BloggerApp (
+    adopter_id               INT NOT NULL,
+    blog_field_id            INT NOT NULL,
+    bapp_date                DATETIME DEFAULT CURRENT_TIMESTAMP,
+    bapp_file                BLOB DEFAULT NULL,
+    bapp_status              VARCHAR(8) DEFAULT 'PENDING', -- Corrected single quotes and added comma
+    bapp_response_date       DATETIME DEFAULT NULL,
+    bmotivation_text         TEXT,
+    badmin_id                INT DEFAULT NULL,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    FOREIGN KEY (blog_field_id) REFERENCES BlogField(blog_field_id) ON DELETE RESTRICT,
+    FOREIGN KEY (badmin_id) REFERENCES Admin(admin_id),
+    PRIMARY KEY (adopter_id, blog_field_id, bapp_date), -- Corrected column names
+    CHECK (LENGTH(bapp_file) <= 3 * 1024 * 1024)
+);
+
+CREATE TABLE IF NOT EXISTS ExpertApp(
+    adopter_id                             INT NOT NULL,
+    expertise_field_id                  INT NOT NULL,
+    eapp_date                             DATETIME DEFAULT CURRENT_TIMESTAMP,
+    eapp_file                                BLOB DEFAULT NULL,
+    eapp_status                          VARCHAR(8) DEFAULT 'PENDING',
+    eapp_response_date            DATETIME DEFAULT NULL,
+    emotivation_text                    TEXT,
+    eadmin_id			   INT DEFAULT NULL,
+    FOREIGN KEY (adopter_id) REFERENCES Adopter(adopter_id) ON DELETE CASCADE,
+    FOREIGN KEY (expertise_field_id) REFERENCES ExpertiseField(expertise_field_id)
+    ON DELETE RESTRICT,
+    FOREIGN KEY (eadmin_id) REFERENCES Admin(admin_id),
+    PRIMARY KEY (adopter_id, eapp_date),
+    CHECK (LENGTH(eapp_file) <= 3 * 1024 * 1024)
+);     
+
+CREATE TABLE IF NOT EXISTS GranteeApp(
+    ao_id                                     INT NOT NULL,
+    gapp_amount                        INT NOT NULL,
+    gapp_date                             DATETIME DEFAULT CURRENT_TIMESTAMP,
+    gapp_file                               BLOB DEFAULT NULL,
+    gapp_status                          VARCHAR(8) DEFAULT 'PENDING',
+    gapp_response_date            DATETIME DEFAULT NULL,
+    gmotivation_text                   TEXT NOT NULL,
+    gapp_decided_amount         INT DEFAULT NULL,
+    gadmin_id			   INT DEFAULT NULL,
+    FOREIGN KEY (ao_id) REFERENCES AdoptionOrganization(ao_id) ON DELETE CASCADE,
+    FOREIGN KEY (gadmin_id) REFERENCES Admin(admin_id),
+    PRIMARY KEY (ao_id),
+    CHECK (LENGTH(gapp_file) <= 3 * 1024 * 1024)
+);      
+
 
 CREATE VIEW DonationSummary AS
 SELECT ao.ao_name, COUNT(d.donation_id) AS donation_count,
@@ -348,3 +444,6 @@ VALUES (1, 'Examination Description', NULL, 1),
         (2, 'Examination Description 2', NULL, 2),
         (3, 'Examination Description 3', NULL, 3),
         (4, 'Examination Description 4', NULL, 4);
+
+INSERT INTO Blogger (blogger_id, blog_name)
+VALUES (5, 'Blog Name 4');
