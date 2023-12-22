@@ -116,12 +116,12 @@ class BlogView(APIView):
 
 class BlogsView(APIView):
     def get(self, request):
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
         cursor = connection.cursor()
-        cursor.execute("""
+        cursor.execute('''
             SELECT *
             FROM Blog b
-            JOIN User u ON b.blogger_id = u.user_id
-        """)
+            ''')
         blogs = dictfetchall(cursor)
         return Response(blogs)
 
