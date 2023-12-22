@@ -43,7 +43,24 @@
         <span>Request Oversee</span>
       </button>
     </mat-sidenav>
-    <!-- ... rest of your code ... -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h1>Contribute by Donating</h1>
+      <mat-form-field>
+      <mat-label>Amount (₺)</mat-label>
+      <input matInput type="number" min="100" max="10000" formControlName="amount">
+      </mat-form-field>
+      <!-- Get the organization names and organization ids -->
+      <mat-form-field>
+        <mat-label>Organization</mat-label>
+          <mat-select formControlName="organization">
+            <mat-option *ngFor="let organization of organizations" [value]="organization.id">
+            {{ organization.name }}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+    
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Donate</button>
+    </form>
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
