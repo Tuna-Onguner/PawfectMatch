@@ -425,10 +425,16 @@ VALUES (8, '123 Main St', 'New York', 'NY', 'USA'),
             (11, '123 Main St', 'New York', 'NY', 'USA');
 
 INSERT INTO Pet (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
-VALUES ('PussyCato', 1.5, NULL, 'Black', TRUE, 2, 1, 1),
+VALUES ('Catoo', 1.5, NULL, 'Black', TRUE, 2, 1, 1),
         ('Dogo', 2.5, NULL, 'Black', TRUE, 2, 1, 1),
-        ('PussyCato 2', 1.5, NULL, 'Black', TRUE, 3, 1, 1),
+        ('Catoo 2', 1.5, NULL, 'Black', TRUE, 3, 1, 1),
         ('Dogo 2', 2.5, NULL, 'Black', TRUE, 3, 1, 1);
+
+INSERT INTO Pet (pet_id, pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
+VALUES (50,'Catoo 1', 1.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (51,'Dogo 1', 2.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (52,'Catoo 3', 1.5, NULL, 'Black', FALSE, NULL, 1, 1),
+        (53,'Dogo 3', 2.5, NULL, 'Black', FALSE, NULL, 1, 1);
 
 INSERT INTO Reservation (reservation_id, adopter_id, pet_id, rv_date, reasoning, rv_status, rv_response_date)
 VALUES (1, 2, 1, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),
@@ -444,3 +450,9 @@ VALUES (1, 'Examination Description', NULL, 1),
 
 INSERT INTO Blogger (blogger_id, blog_name)
 VALUES (5, 'Blog Name 4');
+
+INSERT INTO BlogField (blog_field_name)
+VALUES ("Potato Fields"), ("Cucumber Fields");
+
+INSERT INTO Blog (blogger_id, blog_content, blog_title, blog_field_id, is_restricted)
+VALUES (5, "potatopotato", "POTATO TITLE", 1, FALSE), (5, "cucumbercucumber", "CUCUMBER TITLE", 2, FALSE);
