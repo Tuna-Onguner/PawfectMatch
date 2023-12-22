@@ -25,7 +25,9 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Pet Breed" formControlName="petBreed">
-          <mat-option *ngFor="let breed of petBreeds" [value]="breed">{{breed}}</mat-option>
+          <mat-option *ngFor="let breed of petBreeds" [value]="breed.breedId">
+            {{ breed.breedName }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

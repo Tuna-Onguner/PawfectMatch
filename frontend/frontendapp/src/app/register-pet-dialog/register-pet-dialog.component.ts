@@ -16,6 +16,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSliderModule} from "@angular/material/slider";
 import {PageEvent} from "@angular/material/paginator";
+import {BreedServices} from "../../services/breed-services";
+import { PetServices } from '../../services/pet-services';
 
 @Component({
   selector: 'app-register-pet-dialog',
@@ -39,7 +41,8 @@ import {PageEvent} from "@angular/material/paginator";
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RegisterPetDialogComponent),
     multi: true,
-  }
+  },
+    BreedServices, PetServices
   ]
 })
 export class RegisterPetDialogComponent implements ControlValueAccessor{
@@ -47,13 +50,30 @@ export class RegisterPetDialogComponent implements ControlValueAccessor{
   petForm: FormGroup;
   petSizes = ['Large', 'Medium', 'Small'];
   petTypes = ['Dog', 'Cat', 'Other'];
-  petBreeds = ['Breed1', 'Breed2', 'Breed3']; // Replace with actual breeds
+  petBreeds: any;
   breedForm: FormGroup;
   selectedFile: File | undefined;
-  constructor() {
+  breedId: number = 0;
+  constructor(private breedServices: BreedServices, private petServices: PetServices) {
     this.petForm = new FormGroup({});
     this.breedForm = new FormGroup({});
+    this.petBreeds = [];
+    this.getPetBreeds();
+  }
 
+  getPetBreeds(): void {
+    this.breedServices.getBreeds().subscribe(
+      (data) => {
+        console.log(data.body)
+        this.petBreeds = data.body.map((breed : any) => ({
+            breedName: breed.breed_name,
+            breedId: breed.breed_id,
+          }));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   // other properties...
@@ -83,10 +103,44 @@ export class RegisterPetDialogComponent implements ControlValueAccessor{
   onSubmit(): void {
     if (this.petForm.valid) {
       alert('Form Submitted!');
-      console.log(this.petForm.value);
-      // proceed with form submission
+      //Check if there is a data on newBreedName
+      if(this.petForm.value.newBreed !== ''){
+        //Create new breed
+        this.breedServices.createBreed(this.petForm.value.newBreed, this.petForm.value.intelligence, this.petForm.value.playfulness).subscribe(
+          (data) => {
+            this.breedId = data.body[0].breed_id;
+            return this.createPet();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+      else{
+        //Get the breed id from the form
+        this.breedId = this.petForm.value.petBreed;
+        this.createPet().catch((error) => {
+          console.log(error);
+        });
+      }
+
+      
     }
 }
+createPet(): Promise<any> {
+  //Create pet
+  return this.petServices.createPet(this.petForm.value.petName, this.petForm.value.petType, this.petForm.value.petSize, this.petForm.value.petColor, this.breedId, this.selectedFile).toPromise()
+  .then((data) => {
+    if(data.status == 201){
+      alert('Pet created successfully!');
+      //clear form
+      this.petForm.reset();
+    }
+  }
+  );
+}
+
+
 getAges(): number[] {
   return Array.from({length: 20}, (_, i) => i + 1);
 }

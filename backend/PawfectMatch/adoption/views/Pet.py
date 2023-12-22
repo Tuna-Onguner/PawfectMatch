@@ -13,6 +13,7 @@ from django.conf import settings
 from rest_framework.permissions import AllowAny
 from roles.utils import check_jwt_role
 
+
 ## Function that gets all pets and can create a pet
 # @param request GET and POST request with Pet Serializer
 # @param JWT token
@@ -30,13 +31,13 @@ class PetsView(APIView):
 
     # TODO Handle different pet creation cat and dog and other
     def post(self, request):
+        ## JWT token
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
+
         cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM AdoptionOrganization WHERE ao_id = %s",
-            [request.data["adoption_organization_id"]],
-        )
-        pet_type = request.data["type"]
-        request.data.pop("type")
+        ##Check if the user is an adoption organization
+        pet_type = request.data["pet_type"]
+        request.data.pop("pet_type")
 
         is_valid_type = False
 
@@ -48,12 +49,6 @@ class PetsView(APIView):
         elif pet_type.lower() == "cat" or pet_type.lower() == "dog":
             is_valid_type = True
 
-        row = cursor.fetchone()
-        if row is None:
-            return Response(
-                {"detail": "Organization not found"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
         # Check if the breed exists
         cursor.execute(
             "SELECT * FROM Breed WHERE breed_id = %s", [request.data["breed_id"]]
@@ -64,31 +59,37 @@ class PetsView(APIView):
                 {"detail": "Breed does not exist"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        serializer = PetSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {"detail": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
         if not is_valid_type:
             return Response(
                 {"detail": "Invalid pet type"}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        ## Add the pet to the database using raw SQL
-        cursor.execute(
-            "INSERT INTO Pet (pet_name, pet_size, pet_image, pet_color, is_adopted, ao_id, pet_breed_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            [
-                request.data["pet_name"],
-                request.data["pet_size"],
-                request.data["pet_image"],
-                request.data["pet_color"],
-                request.data["is_adopted"],
-                request.data["adoption_organization_id"],
-                request.data["breed_id"],
-            ],
-        )
-
+        ##If the user is an adoption organization then add the ao_id to the pet
+        if role == "adoptionorganization":
+            ## Add the pet to the database using raw SQL
+            cursor.execute(
+                "INSERT INTO Pet (pet_name, pet_size, pet_color, is_adopted, ao_id, pet_breed_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                [
+                    request.data["pet_name"],
+                    request.data["pet_size"],
+                    request.data["pet_color"],
+                    False,
+                    user_id,
+                    request.data["breed_id"],
+                ],
+            )
+        else:
+            ##If the user is an adopter then add the adopter_id to the pet
+            cursor.execute(
+                "INSERT INTO Pet (pet_name, pet_size, pet_color, is_adopted, adopter_id, pet_breed_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                [
+                    request.data["pet_name"],
+                    request.data["pet_size"],
+                    request.data["pet_color"],
+                    True,
+                    user_id,
+                    request.data["breed_id"],
+                ],
+            )
         ## now return the pet
         cursor.execute(
             "SELECT * FROM Pet WHERE pet_name = %s", [request.data["pet_name"]]
@@ -121,26 +122,31 @@ class PetsView(APIView):
 
         return Response(pet[-1], status=status.HTTP_201_CREATED)
 
+
 class PetsOwnedView(APIView):
     def get(self, request):
         user_id, role = check_jwt_role(request, request.headers["Authorization"])
         ## Initialize a buffered cursor
         if role == "adopter":
             cursor = connection.cursor()
-            cursor.execute('''
+            cursor.execute(
+                """
                         SELECT *
                         FROM Pet p
                         WHERE p.adopter_id = %s
-                        ''', [user_id])
+                        """,
+                [user_id],
+            )
 
         pets = dictfetchall(cursor)
         return Response(pets, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, pk):
         ## Initialize a buffered cursor
         cursor = connection.cursor()
         cursor.execute("DELETE FROM Pet WHERE pet_id = %s", [pk])
         return Response({"status": "success"}, status=status.HTTP_200_OK)
+
 
 ## Function that gets, deletes or updates a single pet
 # @param request GET, DELETE or PUT request with Pet Serializer
