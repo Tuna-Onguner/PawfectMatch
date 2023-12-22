@@ -17,7 +17,9 @@ import {Pet} from "../../../__models/functional_models"
 import {DetailPetComponent} from "../detail-pet/detail-pet.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-
+import { AuthenticationService } from '../../services/authentication-services';
+import {Router} from '@angular/router';
+import {PetServices} from "../../services/pet-services";
 
 @Component({
   selector: 'app-home',
@@ -37,13 +39,14 @@ import {MatInputModule} from "@angular/material/input";
     MatFormFieldModule,
     MatInputModule,
   ],
+  providers: [AuthenticationService, PetServices],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   petExamples: Pet[] = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private authService: AuthenticationService, private router: Router, private petServices: PetServices) {}
 
   openPetDialog(pet: Pet): void {
     this.dialog.open(DetailPetComponent, {
@@ -53,27 +56,36 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.generatePetExamples();
+    this.getOwnedPets();
   }
 
-  generatePetExamples() {
-    for (let i = 1; i <= 6; i++) {
-      const pet: Pet = {
-        petId: i,
-        petName: `Pet${i}`,
-        petSize: 'Medium', // You can customize this based on your sizes
-        petImage: `path/to/image${i}.jpg`, // You should have images with corresponding names
-        petColor: 'Brown', // You can customize this based on your colors
-        isAdopted: false,
-        adopterId: i, // Initially set to null as the pet is not adopted
-        aoId: i,
-        aoName: `Org${i}`,
-        petBreedName: `Breed${i}`,
-        petAge: Math.floor(Math.random() * 5) + 1, // Random age between 1 and 5
-        petBreedId: i,
-      };
+  logout() {
+    this.authService.logout().subscribe(() => {
+      // Navigate to login page after successful logout
+      this.router.navigate(['/login']);
+    });
+  }
 
-      this.petExamples.push(pet);
-    }
+  getOwnedPets() {
+    this.petServices.getOwnedPets().subscribe(
+      (data) => {
+        //Now map the data
+        this.petExamples = data.body.map((pet: any) => ({
+        petId: pet.pet_id,
+        petName: pet.pet_name,
+        petSize: pet.pet_size,
+        petImage: pet.pet_image,
+        petColor: pet.pet_color,
+        isAdopted: pet.is_adopted === 1,
+        adopterId: pet.adopter_id,
+        aoId: pet.ao_id,
+        petBreedId: pet.pet_breed_id
+        }));
+
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }
