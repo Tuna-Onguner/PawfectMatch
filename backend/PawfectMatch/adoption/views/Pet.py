@@ -146,13 +146,23 @@ class PetsOwnedView(APIView):
     def get(self, request):
         user_id, role = check_jwt_role(request, request.headers["Authorization"])
         ## Initialize a buffered cursor
+        cursor = connection.cursor()
         if role == "adopter":
-            cursor = connection.cursor()
             cursor.execute(
                 """
                         SELECT *
                         FROM Pet p
                         WHERE p.adopter_id = %s
+                        """,
+                [user_id],
+            )
+
+        elif role == "adoptionorganization":
+            cursor.execute(
+                """
+                        SELECT *
+                        FROM Pet p
+                        WHERE p.ao_id = %s
                         """,
                 [user_id],
             )

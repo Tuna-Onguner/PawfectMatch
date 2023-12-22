@@ -6,6 +6,7 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from roles.utils import check_jwt_role
 
 
 ## Create an adoption application for a pet using REST API
@@ -15,10 +16,9 @@ from rest_framework.response import Response
 @api_view(["POST", "GET"])
 def adoption_applications(request):
     # Get the user id from the JWT token from the request's parameters
-
+    user_id, role = check_jwt_role(request)
     if request.method == "POST":
         ##Add the current date to the request data
-
         serializer = AdoptionApplicationSerializer(data=request.data)
         try:
             # Check if the serializer is valid
@@ -84,38 +84,18 @@ def adoption_applications(request):
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == "GET":
         # Check if the user is an adoption organization
+
         cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM adoption_organization WHERE user_id = %s", [user_id]
-        )
-        row = cursor.fetchone()
 
         # Then return all the adoption applications for the adoption organization
-        if row is not None:
+        if role == "adoptionorganization":
             cursor.execute(
-                "SELECT * FROM adoption_application WHERE pet_id IN (SELECT pet_id FROM pet WHERE adoption_organization_id = %s)",
-                [row[0]],
+                "SELECT * FROM AdoptionApp WHERE pet_id IN (SELECT pet_id FROM Pet WHERE ao_id = %s)",
+                [user_id],
             )
-            applications = dictfetchall(cursor)
-            return Response(applications, status=status.HTTP_200_OK)
 
-        # Check if the user is an adopter
-        cursor.execute("SELECT * FROM adopter WHERE user_id = %s", [user_id])
-        row = cursor.fetchone()
-
-        # Then return all the adoption applications for the adopter
-        if row is not None:
-            cursor.execute(
-                "SELECT * FROM adoption_application WHERE adopter_id = %s", [row[0]]
-            )
-            applications = dictfetchall(cursor)
-
-            return Response(applications, status=status.HTTP_200_OK)
-        else:
-            return Response(
-                {"detail": "User is not an adopter or adoption organization"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        applications = dictfetchall(cursor)
+        return Response(applications, status=status.HTTP_200_OK)
 
 
 ## Get, delete or update a single adoption application using REST API
