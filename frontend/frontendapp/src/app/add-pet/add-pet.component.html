@@ -43,7 +43,65 @@
         <span>Request Oversee</span>
       </button>
     </mat-sidenav>
-    <!-- ... rest of your code ... -->
+    <div class="form-container">
+      <p class="title"> Register Your Pet</p>
+    <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+      <div class="form-sections">
+        <div class="left-section">
+          <mat-form-field>
+            <input matInput placeholder="Pet Name" formControlName="petName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Pet Size" formControlName="petSize">
+              <mat-option *ngFor="let size of petSizes" [value]="size">{{size}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Pet Color" formControlName="petColor">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Pet Age</mat-label>
+            <input matInput type="number" min="0" max="20" formControlName="petAge">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Pet Type" formControlName="petType">
+              <mat-option *ngFor="let type of petTypes" [value]="type">{{type}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Pet Breed" formControlName="petBreed">
+              <mat-option *ngFor="let breed of petBreeds" [value]="breed.breedId">
+                {{ breed.breedName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="right-section">
+          <p class="breed-instruction">If your pet breed does not exist, create it:</p>
+          <mat-form-field>
+            <input matInput placeholder="New Breed Name" formControlName="newBreed">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Playfulness</mat-label>
+            <input matInput type="number" min="1" max="10" formControlName="playfulness">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Intelligence</mat-label>
+            <input matInput type="number" min="1" max="10" formControlName="intelligence">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="bottom-section">
+      <div class="file-input">
+        <mat-label>Pet Image</mat-label>
+        <input type="file" placeholder="Pet Image" formControlName="petImage">
+      </div>
+      <!-- add  a submit button >-->
+      <button mat-raised-button color="primary" type="submit">Register My Pet</button>
+    </div>
+    </form>
+    </div>
+    
   </mat-sidenav-container>
   <router-outlet></router-outlet>
   
