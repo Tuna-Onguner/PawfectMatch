@@ -14,7 +14,7 @@ import { MatListModule } from '@angular/material/list'; // Add this line for Mat
 import {MatCardModule} from "@angular/material/card";
 import { AdoptionApp } from "../../../__models/application_models" // Replace with the correct path
 import { DetailAdoptionApplicationComponent } from '../detail-adoption-application/detail-adoption-application.component'; // Import the detail component
-
+import { AdoptionApplicationServices } from '../../services/adoption-application-services';
 @Component({
   selector: 'app-adoption-applications',
   standalone: true,
@@ -30,18 +30,20 @@ import { DetailAdoptionApplicationComponent } from '../detail-adoption-applicati
     MatListModule,
     MatCardModule,
   ],
+  providers: [AdoptionApplicationServices],
   templateUrl: './adoption-applications.component.html',
   styleUrl: './adoption-applications.component.css'
 })
 export class AdoptionApplicationsComponent implements OnInit {
   adoptionApplications: AdoptionApp[] = [];
 
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private adoptionApplicationServices: AdoptionApplicationServices) {}
 
   ngOnInit() {
     // In a real application, you would fetch adoption applications data from a service
     // For now, we'll mock some data for demonstration purposes
-    this.adoptionApplications = this.getMockAdoptionApplications();
+    this.adoptionApplications = this.getApplications();
+    
   }
 
   showDetails(application: AdoptionApp) {
@@ -52,49 +54,50 @@ export class AdoptionApplicationsComponent implements OnInit {
 
   acceptApplication(application: AdoptionApp) {
     application.aapp_status = 'Accepted';
+    
   }
 
   rejectApplication(application: AdoptionApp) {
     application.aapp_status = 'Rejected';
   }
 
-  private getMockAdoptionApplications(): AdoptionApp[] {
-    // Mock data for demonstration purposes
-    return [
-      {
-        adopter_id: 101,
-        ao_id: 1,
-        aapp_date: new Date('2023-01-15'),
-        pet_id: 1,
-        petName: 'Fluffy',
-        aapp_file: '',
-        aapp_status: 'Pending',
-        aapp_response_date: null,
-        amotivation_text: 'We have a loving home for Fluffy!',
+  private getApplications(): AdoptionApp[] {
+    //Fetch applications from the backend
+    this.adoptionApplicationServices.getApplications().subscribe(
+      (data) => {
+        /*
+          Here is the data coming from backend
+          [
+            {
+                "adopter_id": 2,
+                "aapp_date": "2023-12-22T10:55:26",
+                "pet_id": 1,
+                "aapp_file": null,
+                "aapp_status": "PENDING",
+                "aapp_response_date": null,
+                "amotivation_text": null
+            }
+        ]
+        */
+        //Assign the data by mapping to an array
+        this.adoptionApplications = data.body.map((item: any) => {
+          return {
+            adopter_id: item.adopter_id,
+            ao_id: item.ao_id,
+            aapp_date: item.aapp_date,
+            pet_id: item.pet_id,
+            petName: item.pet_name,
+            aapp_file: item.aapp_file,
+            aapp_status: item.aapp_status,
+            aapp_response_date: item.aapp_response_date,
+            amotivation_text: item.amotivation_text,
+          };
+        });
       },
-      {
-        adopter_id: 102,
-        ao_id: 2,
-        aapp_date: new Date('2023-02-20'),
-        pet_id: 2,
-        petName: 'Buddy',
-        aapp_file: '',
-        aapp_status: 'Approved',
-        aapp_response_date: new Date('2023-02-25'),
-        amotivation_text: 'Our family is excited to welcome Buddy!',
-      },
-      {
-        adopter_id: 103,
-        ao_id: 1,
-        aapp_date: new Date('2023-03-10'),
-        pet_id: 3,
-        petName: 'Max',
-        aapp_file: '',
-        aapp_status: 'Pending',
-        aapp_response_date: null,
-        amotivation_text: 'Max will be a great addition to our home!',
-      },
-      // Add more mock adoption applications as needed
-    ];
+      (err) => {
+        console.log(err);
+      }
+    );
+    return [];
   }
 }

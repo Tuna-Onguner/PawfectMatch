@@ -9,6 +9,18 @@ export class AdoptionApplicationServices {
 
     constructor(private http: HttpClient) { }
     getApplications(): Observable<any> {
-        return this.http.get<HttpResponse<any>>(`${this.url}adoptions/`, { observe: 'response'});
+        const token = localStorage.getItem('token');
+        console.log("Trying to get the adoption applications")
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.get<HttpResponse<any>>(`${this.url}adoptions/`, { headers, observe: 'response'});
     }
+
+    updateApplicationStatus(application: any): Observable<any> {
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.put<HttpResponse<any>>(`${this.url}adoptions/${application.ao_id}/`, application, { headers, observe: 'response'});
+    }
+    
 }

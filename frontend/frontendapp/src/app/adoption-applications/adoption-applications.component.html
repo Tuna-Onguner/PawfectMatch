@@ -60,10 +60,10 @@
                 <mat-icon>info</mat-icon>
               </button>
               <!-- Add buttons or actions as needed -->
-              <button mat-button color="primary" (click)="acceptApplication(application)" *ngIf="application.aapp_status === 'Pending'">
+              <button mat-button color="primary" (click)="acceptApplication(application)" *ngIf="application.aapp_status === 'PENDING'">
                 Accept Application
               </button>
-              <button mat-button color="warn" (click)="rejectApplication(application)" *ngIf="application.aapp_status === 'Pending'">
+              <button mat-button color="warn" (click)="rejectApplication(application)" *ngIf="application.aapp_status === 'PENDING'">
                 Reject Application
               </button>
             </mat-card-title>
