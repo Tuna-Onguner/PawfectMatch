@@ -1,4 +1,4 @@
-from .AdoptionApplication import adoption_applications, adoption_application
+from .AdoptionApplication import AdoptionApplicationView
 from .AgreementRequest import AgreementRequests, AgreementReq
 from .Breed import BreedsView, BreedView
 from .Examination import ExaminationsView, ExaminationView
