@@ -361,15 +361,29 @@ SELECT *
 FROM Pet p
 WHERE p.adopter_id IS NULL;
 
+-- Create a Trigger to update the total_donation_received column in AdoptionOrganization table
+-- whenever a new donation is made
 DELIMITER //
-CREATE TRIGGER before_pet_insert
-BEFORE INSERT ON Pet
+CREATE TRIGGER update_donation_count
+AFTER INSERT ON Donation
 FOR EACH ROW
 BEGIN
-    IF NEW.adopter_id IS NULL THEN
-        INSERT INTO AvailableForAdoption (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
-        VALUES (NEW.pet_name, NEW.pet_size, NEW.pet_image, NEW.pet_color, NEW.is_adopted, NEW.adopter_id, NEW.ao_id, NEW.pet_breed_id);
-    END IF;
+    UPDATE AdoptionOrganization
+    SET total_donation_received = total_donation_received + NEW.amount
+    WHERE AdoptionOrganization.ao_id = NEW.ao_id;
+END;
+
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER update_donator_count
+AFTER INSERT ON Donation
+FOR EACH ROW
+BEGIN
+    UPDATE AdoptionOrganization
+    SET total_donators = (SELECT COUNT(DISTINCT donor_id) FROM Donation WHERE ao_id = NEW.ao_id)
+    WHERE ao_id = NEW.ao_id;
 END;
 //
 DELIMITER ;
