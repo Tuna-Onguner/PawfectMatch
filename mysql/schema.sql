@@ -374,34 +374,6 @@ END;
 //
 DELIMITER ;
 
-DELIMITER //
-CREATE TRIGGER update_donator_count
-AFTER INSERT ON Donation
-FOR EACH ROW
-BEGIN
-    IF NEW.ao_id IS NOT NULL THEN
-        UPDATE AdoptionOrganization
-        SET donator_count = donator_count + 1
-        WHERE ao_id = NEW.ao_id;
-    END IF;
-END;
-//
-DELIMITER ;
-
-DELIMITER //
-CREATE TRIGGER update_total_donations
-AFTER INSERT ON Donation
-FOR EACH ROW
-BEGIN
-    IF NEW.ao_id IS NOT NULL THEN
-        UPDATE AdoptionOrganization
-        SET total_donations = total_donations + NEW.amount
-        WHERE ao_id = NEW.ao_id;
-    END IF;
-END;
-//
-DELIMITER ;
-
 -- TODO: Remove below later
 
 INSERT INTO Breed (breed_name, intelligence, playfulness)

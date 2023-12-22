@@ -35,9 +35,10 @@ export class PetServices {
         return this.http.post<HttpResponse<any>>(`${this.url}pets/`, { pet_name: pet_name, pet_type: pet_type, pet_size: pet_size, pet_color: pet_color, breed_id: pet_breed, pet_image: pet_image }, { headers, observe: 'response'});
     }
 
-    adoptPet(adopter_id: number, aapp_date:  string, pet_id: number, aapp_file?: File): Observable<any> {
+    adoptPet(adopter_id: number, pet_id: number, aapp_file?: File): Observable<any> {
         const token = localStorage.getItem('token');
         const headers = { 'Authorization': `Bearer ${token}` };
-        return this.http.post<HttpResponse<any>>(`${this.url}adoptions/`, { adopter_id: adopter_id, aapp_date: aapp_date, pet_id: pet_id, aapp_file: aapp_file}, { headers, observe: 'response'});
+        const aapp_date = new Date().toISOString();
+        return this.http.post<HttpResponse<any>>(`${this.url}adoptions/`, { adopter_id: adopter_id, aapp_date, pet_id: pet_id, aapp_file: aapp_file}, { headers, observe: 'response'});
     }
 }
