@@ -35,12 +35,14 @@ class DonationView(APIView):
 
     @staticmethod
     def post(request) -> Response:
-        donor_id = request.data.get("donor_id")
+        ##Check the JWT token's payload to see if the user is an adoption organization or donor
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
+
         ao_id = request.data.get("ao_id")
         amount = request.data.get("amount")
         currency = request.data.get("currency", "usd")  # Set 'usd' as default value
 
-        if not donor_id or not ao_id or not amount:
+        if not user_id or not ao_id or not amount:
             return Response(
                 data={"message": "Missing required fields"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -57,7 +59,7 @@ class DonationView(APIView):
                 cursor.execute(
                     "INSERT INTO Donation (donor_id, ao_id, amount, currency) VALUES (%s, %s, %s, %s)",
                     (
-                        donor_id,
+                        user_id,
                         ao_id,
                         amount,
                         currency,
@@ -137,3 +139,29 @@ class DonationDetailView(APIView):
                 data={"message": "Donation deleted successfully"},
                 status=status.HTTP_200_OK,
             )
+
+
+class DonationStatisticsView(APIView):
+    @staticmethod
+    def get(request) -> Response:  # noqa
+        with connection.cursor() as cursor:
+            # Get the user_id from the JWT token
+            user_id, role = check_jwt_role(request, request.headers["Authorization"])
+
+            ##If the user is Adopter get how much they donated, AVG, MAX, MIN
+            if role == "adopter":
+                cursor.execute(
+                    "SELECT SUM(amount) AS total_donated, AVG(amount) AS avg_donated, MAX(amount) AS max_donated, MIN(amount) AS min_donated FROM Donation WHERE donor_id = %s",
+                    (user_id,),
+                )
+                stats = dictfetchone(cursor)
+                return Response(data=stats, status=status.HTTP_200_OK)
+
+            ##If the user is Adoption Organization get how much they received, AVG, MAX, MIN
+            elif role == "adoptionorganization":
+                cursor.execute(
+                    "SELECT SUM(amount) AS total_received, AVG(amount) AS avg_received, MAX(amount) AS max_received, MIN(amount) AS min_received FROM Donation WHERE ao_id = %s",
+                    (user_id,),
+                )
+                stats = dictfetchone(cursor)
+                return Response(data=stats, status=status.HTTP_200_OK)

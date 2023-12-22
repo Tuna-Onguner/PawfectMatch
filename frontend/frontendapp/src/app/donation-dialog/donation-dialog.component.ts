@@ -7,6 +7,10 @@ import {MatSelectModule} from "@angular/material/select";
 import {NgForOf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
+import {AdoptionOrganizationServices} from "../../services/adoption-organization-services";
+import { DonationServices } from '../../services/donation-services';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-donation-dialog',
   standalone: true,
@@ -19,14 +23,16 @@ import {MatInputModule} from "@angular/material/input";
     MatButtonModule,
     MatInputModule
   ],
+  providers: [AdoptionOrganizationServices, DonationServices],
   templateUrl: './donation-dialog.component.html',
   styleUrl: './donation-dialog.component.css'
 })
 export class DonationDialogComponent {
   form: FormGroup;
-  organizations: string[] = [];
+  organizations: any = [];
 
-  constructor() {
+  constructor(private adoptionOrganizationServices: AdoptionOrganizationServices, private donationServices: DonationServices,
+              private router: Router) {
     this.form = new FormGroup({});
   }
 
@@ -36,12 +42,51 @@ export class DonationDialogComponent {
       organization: new FormControl('', Validators.required)
     });
 
-    this.generateOrganizations();
+    this.getOrganizations();
   }
 
-  generateOrganizations() {
-    for (let i = 0; i < 5; i++) {
-      this.organizations.push(faker.company.companyName());
+  onSubmit() {
+    if (this.form.valid) {
+      const amountControl = this.form.get('amount');
+      const organizationControl = this.form.get('organization');
+
+      const amount = amountControl ? amountControl.value : null;
+      const organization = organizationControl ? organizationControl.value : null;
+
+      console.log(organization)
+      this.donationServices.makeDonation(amount, organization).subscribe(
+        (data) => {
+          if (data.status === 201) {
+            alert("Donation successful!");
+            //Refresh the page
+            window.location.reload();    
+          }
+          else {
+            alert("Donation failed!");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
+
+  getOrganizations() {
+    //Get the list of organizations
+    this.adoptionOrganizationServices.getOrganizations().subscribe(
+      //Map the ao_name and ao_id to the organizations array
+      (data) => {
+        //Put all organiztions as arrays with name and id
+        this.organizations = data.body.map((organization : any) => ({
+          name: organization.ao_name,
+          id: organization.ao_id
+        }));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 }

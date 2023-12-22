@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
     MatLineModule,
     NgForOf,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
   ],
   providers: [DonationServices],
   templateUrl: './donation-page.component.html',
@@ -29,10 +29,17 @@ import { Router } from '@angular/router';
 })
 export class DonationPageComponent {
   donations: Donation[] = [];
+  statistics: any;
   displayedColumns: string[] = ['donationId', 'donationAmount', 'donationDate', 'donationStatus'];
   
   constructor(public dialog: MatDialog, private donationServices: DonationServices, private rooter: Router) { }
   ngOnInit() {
+    //Check the token
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if (token === null) {
+      this.rooter.navigateByUrl('/login');
+    }
     this.donationServices.getDonations().subscribe(
       (data) => {
         this.donations = data.body.map((donation : any) => ({
@@ -46,19 +53,15 @@ export class DonationPageComponent {
         console.log(error);
       }
     );
-  }
+    this.donationServices.getDonationStatistics().subscribe(
+      (data) => {
+        this.statistics = data.body;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 
-  generateRandomDonations() {
-    for (let i = 0; i < 5; i++) {
-      const donation = {
-        donationId: Math.floor(Math.random() * 10000), // Generate a random donation ID
-        donationAmount: Math.floor(Math.random() * 1000), // Generate a random donation amount
-        donationDate: new Date(), // Set the donation date to the current date
-        donationStatus: 'Completed' // Set the donation status to 'Completed'
-      };
-
-      this.donations.push(<Donation>donation);
-    }
   }
 
   openUpdateCardDialog() {

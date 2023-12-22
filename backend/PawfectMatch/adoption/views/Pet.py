@@ -19,6 +19,8 @@ from roles.utils import check_jwt_role
 # @return JSON response with status code
 class PetsView(APIView):
     def get(self, request):
+        ##Chek the JWT token's payload to see if the user is an adoption organization or adopter
+
         ## Initialize a buffered cursor
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Pet WHERE is_adopted = 0")

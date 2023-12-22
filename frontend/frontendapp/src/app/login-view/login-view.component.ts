@@ -56,7 +56,7 @@ export class LoginViewComponent {
       const token = data.access_token;
       //Also store the token in local storage
       localStorage.setItem('token', token)
-      console.log(token);
+      
       const tokenParts = token.split(/\./);
       const tokenDecoded = JSON.parse(window.atob(tokenParts[1]));
       const role = tokenDecoded.role;
