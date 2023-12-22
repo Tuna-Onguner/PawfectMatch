@@ -121,6 +121,9 @@ class BlogsView(APIView):
         cursor.execute('''
             SELECT *
             FROM Blog b
+            JOIN Blogger bl ON b.blogger_id = bl.blogger_id
+            JOIN User u
+            JOIN BlogField bf ON b.blog_field_id = bf.blog_field_id            
             ''')
         blogs = dictfetchall(cursor)
         return Response(blogs)
