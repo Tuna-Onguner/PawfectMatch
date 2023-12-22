@@ -4,22 +4,33 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import pdb
+import jwt
+from django.conf import settings
+from rest_framework.permissions import AllowAny
+from roles.utils import check_jwt_role
 
 from ..serializers import ExaminationSerializer
 
 
 class ExaminationsView(APIView):
     def get(self, request):
-        ##If the user is a vet, get all the examinations of the vet using raw SQL
-        ##If the user is an adopter, get all the examinations of the adopter using raw SQL
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
+        ##If the user is a vet get all the examinations of the vet using raw SQL
         cursor = connection.cursor()
-        cursor.execute('''
-                        SELECT ex.ex_id, ex.ex_description, ex.ex_file, p.pet_id, p.pet_name
-                        FROM Examination ex
-                        JOIN Reservation r ON ex.reservation_id = r.reservation_id
-                        JOIN Pet p ON r.pet_id = p.pet_id
-                        WHERE p.adopter_id = %s
-                       ''', (2,))
+        if (role == "veterinarian"):
+            cursor.execute('''
+                           SELECT * FROM Examination WHERE vet_id = %s
+                           ''', [user_id])
+
+        ##If the user is an adopter, get all the examinations of the adopter using raw SQL
+        if (role == "adopter"):
+            cursor.execute('''
+                            SELECT ex.ex_id, ex.ex_description, ex.ex_file, p.pet_id, p.pet_name
+                            FROM Examination ex
+                            JOIN Reservation r ON ex.reservation_id = r.reservation_id
+                            JOIN Pet p ON r.pet_id = p.pet_id
+                            WHERE p.adopter_id = %s
+                        ''', [user_id])
         examinations = dictfetchall(cursor)
         return Response(examinations, status=status.HTTP_200_OK)
 

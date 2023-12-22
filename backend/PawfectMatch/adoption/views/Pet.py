@@ -7,6 +7,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+import pdb
+import jwt
+from django.conf import settings
+from rest_framework.permissions import AllowAny
+from roles.utils import check_jwt_role
 
 ## Function that gets all pets and can create a pet
 # @param request GET and POST request with Pet Serializer
@@ -14,10 +19,9 @@ from rest_framework.views import APIView
 # @return JSON response with status code
 class PetsView(APIView):
     def get(self, request):
-        pdb.set_trace()
         ## Initialize a buffered cursor
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Pet")
+        cursor.execute("SELECT * FROM Pet WHERE is_adopted = 0")
 
         pets = dictfetchall(cursor)
         return Response(pets, status=status.HTTP_200_OK)
@@ -115,6 +119,26 @@ class PetsView(APIView):
 
         return Response(pet[-1], status=status.HTTP_201_CREATED)
 
+class PetsOwnedView(APIView):
+    def get(self, request):
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
+        ## Initialize a buffered cursor
+        if role == "adopter":
+            cursor = connection.cursor()
+            cursor.execute('''
+                        SELECT *
+                        FROM Pet p
+                        WHERE p.adopter_id = %s
+                        ''', [user_id])
+
+        pets = dictfetchall(cursor)
+        return Response(pets, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        ## Initialize a buffered cursor
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM Pet WHERE pet_id = %s", [pk])
+        return Response({"status": "success"}, status=status.HTTP_200_OK)
 
 ## Function that gets, deletes or updates a single pet
 # @param request GET, DELETE or PUT request with Pet Serializer
@@ -137,8 +161,8 @@ class PetView(APIView):
 
     ## Handle the delete request
     def delete(self, request, pk):
+        user_id, role = check_jwt_role(request, request.headers["Authorization"])
         can_delete = False
-        user_id = request.data["user_id"]
         ## Create a cursor with buffered results so that we can get the pet as a dictionary
         cursor = connection.cursor()
         ## Delete the pet from the database using raw SQL
@@ -158,13 +182,8 @@ class PetView(APIView):
             for attribute, value in row_dict.items():
                 print(f"{attribute}: {value}")
 
-        pdb.set_trace()
-
         ## Now create another execute to get the pet as a dictionary
         cursor.execute("SELECT * FROM Pet WHERE pet_id = %s", [pk])
-        pet2 = cursor.fetchone()
-
-        pdb.set_trace()
 
         pet = dictfetchall(cursor)
 

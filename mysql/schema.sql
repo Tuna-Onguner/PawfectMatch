@@ -252,6 +252,48 @@ CREATE TABLE IF NOT EXISTS Admin
     FOREIGN KEY (admin_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
 
+CREATE VIEW DonationSummary AS
+SELECT ao.ao_name, COUNT(d.donation_id) AS donation_count,
+SUM(amount) AS total_donations
+FROM AdoptionOrganization ao
+JOIN Donation d ON d.ao_id = ao.ao_id
+GROUP BY ao.ao_name
+HAVING count(*) > 0;
+
+CREATE VIEW AvailableForAdoption AS
+SELECT p.pet_id, b.breed_name, p.pet_name, p.pet_size, p.pet_image, p.pet_color, p.pet_breed_id, ao.ao_id, ao.ao_city, ao.ao_state, ao.ao_country, ao.ao_street
+FROM Pet p
+JOIN AdoptionOrganization ao ON ao.ao_id = p.ao_id
+JOIN Breed b ON b.breed_id = p.pet_breed_id
+WHERE p.adopter_id IS NULL;
+
+DELIMITER //
+CREATE TRIGGER update_donator_count
+AFTER INSERT ON Donation
+FOR EACH ROW
+BEGIN
+    IF NEW.ao_id IS NOT NULL THEN
+        UPDATE AdoptionOrganization
+        SET donator_count = donator_count + 1
+        WHERE ao_id = NEW.ao_id;
+    END IF;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER update_total_donations
+AFTER INSERT ON Donation
+FOR EACH ROW
+BEGIN
+    IF NEW.ao_id IS NOT NULL THEN
+        UPDATE AdoptionOrganization
+        SET total_donations = total_donations + NEW.amount
+        WHERE ao_id = NEW.ao_id;
+    END IF;
+END;
+//
+DELIMITER ;
 
 -- TODO: Remove below later
 
@@ -260,23 +302,49 @@ VALUES ('Affenpinscher', 3, 4);
 
 INSERT INTO User (user_name, phone_number, email, password)
 VALUES ('John Doe', '1234567890', 'email@com', 'password'),
-       ('Jane Doe', '123456782390', 'emai2l@com', 'password');
+       ('Jane Doe', '223456782390', 'emai2l@com', 'password'),
+       ('Potato Doe', '3234567890', 'email3@com', 'password'),
+       ('Potato Doe 2', '4234567890', 'email4@com', 'password'),
+       ('Potato Doe 3', '5234567890', 'email5@com', 'password'),
+       ('Potato Doe 4', '6234567890', 'email6@com', 'password'),
+       ('Potato Doe 5', '7234567890', 'email7@com', 'password'),
+       ('Potato Doe 6', '8234567890', 'email8@com', 'password'),
+       ('Potato Doe 7', '9234567890', 'email9@com', 'password'),
+       ('Potato Doe 8', '1034567890', 'email10@com', 'password'),
+       ('Potato Doe 9', '1134567890', 'email11@com', 'password');
+
 
 INSERT INTO AdoptionOrganization (ao_id, ao_name, ao_street, ao_country, ao_city, ao_state)
-VALUES (1, 'Adoption Organization', '123 Main St', 'USA', 'New York', 'NY');
+VALUES (1, 'Adoption Organization', '123 Main St', 'USA', 'New York', 'NY'),
+         (6, 'Adoption Organization 6', '123 Main St', 'USA', 'New York', 'NY'),
+         (7, 'Adoption Organization 7', '123 Main St', 'USA', 'New York', 'NY');
 
 INSERT INTO Adopter (adopter_id, card_number)
-VALUES (2, '1234567890123456');
+VALUES (2, '1234567890123456'),
+        (3, '2234567890123456'),
+        (4, '3234567890123456'),
+        (5, '4234567890123456');
 
+INSERT INTO Veterinarian (vet_id, vet_street, vet_city, vet_state, vet_country)
+VALUES (8, '123 Main St', 'New York', 'NY', 'USA'),
+         (9, '123 Main St', 'New York', 'NY', 'USA'),
+            (10, '123 Main St', 'New York', 'NY', 'USA'),
+            (11, '123 Main St', 'New York', 'NY', 'USA');
 
-INSERT INTO Veterinarian (vet_id, vet_name, vet_street, vet_city, vet_state, vet_country)
-VALUES (, 'Veterinarian', '123 Main St', 'New York', 'NY', 'USA'),
-         ('Veterinarian 2', '123 Main St', 'New York', 'NY', 'USA');
-
-INSERT INTO Examination (ex_id, ex_description, ex_file, reservation_id)
-VALUES (1, 'Examination Description', NULL, 1),
-         (2, 'Examination Description 2', NULL, 2);
+INSERT INTO Pet (pet_name, pet_size, pet_image, pet_color, is_adopted, adopter_id, ao_id, pet_breed_id)
+VALUES ('PussyCato', 1.5, NULL, 'Black', TRUE, 2, 1, 1),
+        ('Dogo', 2.5, NULL, 'Black', TRUE, 2, 1, 1),
+        ('PussyCato 2', 1.5, NULL, 'Black', TRUE, 3, 1, 1),
+        ('Dogo 2', 2.5, NULL, 'Black', TRUE, 3, 1, 1);
 
 INSERT INTO Reservation (reservation_id, adopter_id, pet_id, rv_date, reasoning, rv_status, rv_response_date)
 VALUES (1, 2, 1, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),
-         (2, 2, 2, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL);
+        (2, 2, 2, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),
+        (3, 2, 3, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL),
+        (4, 2, 4, '2021-01-01 00:00:00', 'Reasoning', 'PENDING', NULL);
+
+INSERT INTO Examination (ex_id, ex_description, ex_file, reservation_id)
+VALUES (1, 'Examination Description', NULL, 1),
+        (2, 'Examination Description 2', NULL, 2),
+        (3, 'Examination Description 3', NULL, 3),
+        (4, 'Examination Description 4', NULL, 4);

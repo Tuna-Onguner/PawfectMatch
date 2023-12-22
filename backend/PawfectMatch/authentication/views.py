@@ -31,25 +31,25 @@ class LoginView(APIView):
         password = request.data.get("password")
         # Initialize a connection cursor with DictCursor
         cursor = connection.cursor()
-
         # SQL CODE TO CHECK IF USER EXISTS
         cursor.execute(
             "SELECT * FROM User WHERE email = %s AND password = %s", [email, password]
         )
-
         row = cursor.fetchone()
         if row is None:
             return Response(
                 {"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
-
+        pdb.set_trace()
         # Authenticate the user
         user = MyBackend.authenticate(request=request, email=email, password=password)
         if user is not None:
             # Login the user
             MyBackend.login(request=request, user=user)
             # Generate a token for the user
+            pdb.set_trace()
             token = CustomToken.for_user(user=user)
+            pdb.set_trace()
             return Response(
                 {
                     "access_token": str(token.access_token),

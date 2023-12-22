@@ -9,6 +9,23 @@ export class PetServices {
 
     constructor(private http: HttpClient) { }
     getPets(): Observable<any> {
-        return this.http.get<HttpResponse<any>>(`${this.url}pets/`, { observe: 'response'});
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.get<HttpResponse<any>>(`${this.url}pets/`, { headers, observe: 'response'});
+    }
+
+    getOwnedPets(): Observable<any> {
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.get<HttpResponse<any>>(`${this.url}pets_owned/`, { headers, observe: 'response'});
+    }   
+
+    deletePets(petId: number): Observable<any> {
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.delete<HttpResponse<any>>(`${this.url}pets/${petId}/`, { headers, observe: 'response'});
     }
 }

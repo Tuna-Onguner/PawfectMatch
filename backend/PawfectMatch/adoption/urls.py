@@ -8,6 +8,7 @@ urlpatterns = [
     path("adoptions/", views.adoption_applications, name="adoption_applications"),
     path("<int:application_id>/", views.adoption_application, name="adoption_application"),
     path("pets/", views.PetsView.as_view(), name="pets"),
+    path("pets_owned/", views.PetsOwnedView.as_view(), name="pets_owned"),
     path("breeds/", views.BreedsView.as_view(), name="breeds"),
     path("pets/<int:pk>/", views.PetView.as_view(), name="pet"),
     path("breeds/<int:pk>/", views.BreedView.as_view(), name="breed"),

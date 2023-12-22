@@ -9,6 +9,9 @@ export class ExaminationServices {
 
     constructor(private http: HttpClient) { }
     getExaminations(): Observable<any> {
-        return this.http.get<HttpResponse<any>>(`${this.url}examinations/`, { observe: 'response'});
+        const token = localStorage.getItem('token');
+        //How to check if the token is null?
+        const headers = { 'Authorization': `Bearer ${token}` };
+        return this.http.get<HttpResponse<any>>(`${this.url}examinations/`, { headers, observe: 'response'});
     }
 }
