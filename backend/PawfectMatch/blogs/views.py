@@ -3,10 +3,15 @@ from django.db import connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+import pdb
+import jwt
+from django.conf import settings
+from rest_framework.permissions import AllowAny
+from roles.utils import check_jwt_role
 
 class CounselsView(APIView):
     def get(self, request, user_id):
+        
         user_id = request.data.get('user_id')
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Adopter WHERE user_id = %s", [user_id])
@@ -114,8 +119,8 @@ class BlogsView(APIView):
         cursor = connection.cursor()
         cursor.execute("""
             SELECT *
-            FROM
-                Blog b
+            FROM Blog b
+            JOIN User u ON b.blogger_id = u.user_id
         """)
         blogs = dictfetchall(cursor)
         return Response(blogs)

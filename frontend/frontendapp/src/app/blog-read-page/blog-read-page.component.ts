@@ -11,6 +11,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {BlogDialogComponent} from "../blog-dialog/blog-dialog.component";
+import {BlogServices} from "../../services/blog-services";
+import {Router } from '@angular/router';
 @Component({
   selector: 'app-blog-read-page',
   standalone: true,
@@ -25,7 +27,8 @@ import {BlogDialogComponent} from "../blog-dialog/blog-dialog.component";
     MatPaginatorModule
   ],
   templateUrl: './blog-read-page.component.html',
-  styleUrl: './blog-read-page.component.css'
+  styleUrl: './blog-read-page.component.css',
+  providers: [BlogServices]
 })
 export class BlogReadPageComponent {
   blogs: Blog[] = [];
@@ -33,17 +36,29 @@ export class BlogReadPageComponent {
   pageIndex: number =0;
   pageSize: number = 4;
 
-  constructor(private dialog: MatDialog) { }
-
-// ...
+  constructor(private dialog: MatDialog, private blogServices: BlogServices, private router: Router) { }
 
   openDialog(blog: Blog): void {
-  this.dialog.open(BlogDialogComponent, {
-    data: { blog: blog }
-  });
-}
+    this.dialog.open(BlogDialogComponent, {
+      data: { blog: blog }
+    });
+  }
+  
   ngOnInit() {
-    this.blogs = this.generateRandomBlogs(4); // Generate 10 random blogs
+    this.blogServices.getBlogs().subscribe(blogData => {
+      this.blogs = blogData.body.map((blog: any) => ({
+        blogTitle: blog.blog_title,
+        blogFieldName: blog.blog_field_name,
+        publishedDate: blog.published_date,
+        blogImage: blog.blog_image,
+        blogContent: blog.blog_content,
+        blogId: blog.blog_id,
+        bloggerName: blog.user_name,
+        isRestricted: blog.is_restricted,
+      }));
+    }, error => {
+      console.error('Error:', error);
+    });
   }
 
   pageChanged(event: PageEvent): void {
